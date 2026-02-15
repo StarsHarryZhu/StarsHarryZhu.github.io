@@ -78,7 +78,7 @@ const projects = ref([
     name: 'Self Intro Web',
     picture: project3Image,
     intro: 'As what you see now',
-    url: 'https://github.com/StarsHarryZhu',
+    url: 'https://github.com/StarsHarryZhu/StarsHarryZhu.github.io',
   },
   {
     name: 'VEX Control Libs',
