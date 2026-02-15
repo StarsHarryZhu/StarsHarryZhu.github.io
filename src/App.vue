@@ -59,7 +59,7 @@ const imageAltText = '#texttexttext#'
 const profile = reactive({
   title: 'starfield',
   subtitle: 'Harry Zhu',
-  bios: ['Im currently a CSE student of Stony Brook University. I have learned multiple progamming languages including c++, python, swift and java, and Im sure to learn other languages if it is required.'],
+  bios: ['Im a freshman mainly working with C++ and Java, and I also have some basic experience with front-end development. I enjoy experimenting with code, especially when its related to games, and I like learning things at my own pace while building small projects. My long-term goal is to become a game designer, combining programming with creativity as I continue to explore what I enjoy most.'],
 })
 
 const skills = ref([
