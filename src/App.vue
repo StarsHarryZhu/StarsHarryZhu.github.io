@@ -75,23 +75,23 @@ const skills = ref([
 
 const projects = ref([
   {
-    name: '#texttexttext#',
-    picture: project1Image,
-    intro: '#texttexttext#',
+    name: 'Self Intro Web',
+    picture: project3Image,
+    intro: 'As what you see now',
     url: 'https://github.com/StarsHarryZhu',
   },
-  // {
-  //   name: '#texttexttext#',
-  //   picture: project2Image,
-  //   intro: '#texttexttext#',
-  //   url: 'https://github.com/StarsHarryZhu',
-  // },
-  // {
-  //   name: '#texttexttext#',
-  //   picture: project3Image,
-  //   intro: '#texttexttext#',
-  //   url: 'https://github.com/StarsHarryZhu',
-  // },
+  {
+    name: 'VEX Control Libs',
+    picture: project1Image,
+    intro: 'no respotory records yet',
+    url: 'https://github.com/StarsHarryZhu',
+  },
+  {
+    name: 'Echoes',
+    picture: project2Image,
+    intro: 'Did not publish yet',
+    url: 'https://github.com/StarsHarryZhu',
+  },
 ])
 
 const contacts = ref([

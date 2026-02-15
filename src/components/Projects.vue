@@ -8,8 +8,6 @@
         <a
           class="project-link"
           :href="item.url"
-          target="_blank"
-          rel="noreferrer noopener"
           :aria-label="item.linkText || `View ${item.name}`"
         >
           {{ item.linkText || 'View Project' }}
