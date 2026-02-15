@@ -35,7 +35,7 @@ defineProps({
 <style scoped>
 .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.9rem;
 }
 
@@ -98,5 +98,17 @@ defineProps({
 .project-link:hover {
   transform: translateY(-2px);
   filter: brightness(1.12);
+}
+
+@media (max-width: 960px) {
+  .projects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .projects {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
 }
 </style>

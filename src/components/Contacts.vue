@@ -1,5 +1,5 @@
 <template>
-  <section class="contacts">
+  <section class="contacts" :style="{ '--cols': String(columns) }">
     <a
       v-for="(item, index) in items"
       :key="`contact-${index}`"
@@ -16,7 +16,9 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   items: {
     type: Array,
     required: true,
@@ -26,12 +28,17 @@ defineProps({
     required: true,
   },
 })
+
+const columns = computed(() => {
+  const count = Array.isArray(props.items) ? props.items.length : 0
+  return Math.min(Math.max(count, 1), 6)
+})
 </script>
 
 <style scoped>
 .contacts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
   gap: 0.7rem;
 }
 

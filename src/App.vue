@@ -59,7 +59,7 @@ const imageAltText = '#texttexttext#'
 const profile = reactive({
   title: 'starfield',
   subtitle: 'Harry Zhu',
-  bios: ['Im currently a CSE student of Stony Brook University. I have learned multiple progamming languages including c++， python, swift and java, and Im sure to learn other languages if it is required.'],
+  bios: ['Im currently a CSE student of Stony Brook University. I have learned multiple progamming languages including c++, python, swift and java, and Im sure to learn other languages if it is required.'],
 })
 
 const skills = ref([
@@ -70,7 +70,7 @@ const skills = ref([
   { name: 'HTML/CSS/JS' },
   { name: 'Vue3' },
   { name: 'STM HAL lib' },
-  { name: '#texttexttext#' },
+  // { name: '#texttexttext#' },
 ])
 
 const projects = ref([
@@ -80,18 +80,18 @@ const projects = ref([
     intro: '#texttexttext#',
     url: 'https://github.com/StarsHarryZhu',
   },
-  {
-    name: '#texttexttext#',
-    picture: project2Image,
-    intro: '#texttexttext#',
-    url: 'https://github.com/StarsHarryZhu',
-  },
-  {
-    name: '#texttexttext#',
-    picture: project3Image,
-    intro: '#texttexttext#',
-    url: 'https://github.com/StarsHarryZhu',
-  },
+  // {
+  //   name: '#texttexttext#',
+  //   picture: project2Image,
+  //   intro: '#texttexttext#',
+  //   url: 'https://github.com/StarsHarryZhu',
+  // },
+  // {
+  //   name: '#texttexttext#',
+  //   picture: project3Image,
+  //   intro: '#texttexttext#',
+  //   url: 'https://github.com/StarsHarryZhu',
+  // },
 ])
 
 const contacts = ref([
