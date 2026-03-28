@@ -12,7 +12,7 @@
         :subtitle="profile.subtitle"
       />
 
-      <Intro class="block" style="--delay: 170ms" :bios="profile.bios" />
+      <Intro class="block intro-block" style="--delay: 170ms" :bios="profile.bios" />
 
       <Skills class="block" style="--delay: 240ms" :items="skills" />
 
@@ -20,7 +20,6 @@
         class="block"
         style="--delay: 310ms"
         :items="projects"
-        :alt-text="imageAltText"
       />
 
       <Contacts
@@ -40,10 +39,8 @@ import { onMounted, reactive, ref } from 'vue'
 
 import avatarImage from '@/assets/pig.jpg'
 import bgImage from '@/assets/placeholders/bg.jpg'
+import gmailIcon from '@/assets/Gmail.png'
 import githubIconWhite from '@/assets/GitHub_Invertocat_White.svg'
-import project1Image from '@/assets/placeholders/project1.jpg'
-import project2Image from '@/assets/placeholders/project2.jpg'
-import project3Image from '@/assets/placeholders/project3.jpg'
 
 import Bg from '@/components/Bg.vue'
 import Contacts from '@/components/Contacts.vue'
@@ -59,7 +56,7 @@ const imageAltText = '#texttexttext#'
 const profile = reactive({
   title: 'starfield',
   subtitle: 'Harry Zhu',
-  bios: ['Im a freshman mainly working with C++ and Java, and I also have some basic experience with front-end development. I enjoy experimenting with code, especially when its related to games, and I like learning things at my own pace while building small projects. My long-term goal is to become a game designer, combining programming with creativity as I continue to explore what I enjoy most.'],
+  bios: ['Nobody. Interest in games && systems && soc hardwares.'],
 })
 
 const skills = ref([
@@ -76,19 +73,16 @@ const skills = ref([
 const projects = ref([
   {
     name: 'Self Intro Web',
-    picture: project3Image,
     intro: 'As what you see now',
     url: 'https://github.com/StarsHarryZhu/StarsHarryZhu.github.io',
   },
   {
     name: 'VEX Control Libs',
-    picture: project1Image,
     intro: 'no respotory records yet',
     url: 'https://github.com/StarsHarryZhu',
   },
   {
     name: 'Echoes',
-    picture: project2Image,
     intro: 'Did not publish yet',
     url: 'https://github.com/StarsHarryZhu',
   },
@@ -96,11 +90,20 @@ const projects = ref([
 
 const contacts = ref([
   {
+    type: 'copy',
+    name: 'Email',
+    icon: gmailIcon,
+    copyValue: 'starfield.zhu@gmail.com',
+    copySuccessText: 'Email copied successfully.',
+  },
+  {
+    type: 'link',
     name: 'Linkedin',
     icon: 'https://static.licdn.com/aero-v1/sc/h/akt4ae504epesldzj74dzred8',
     url: 'https://www.linkedin.com/in/huanyi-zhu-518703385/',
   },
   {
+    type: 'link',
     name: 'Github',
     icon: githubIconWhite,
     url: 'https://github.com/StarsHarryZhu',
@@ -164,7 +167,6 @@ onMounted(() => {
   --font-body: "Consolas", monospace;
   --shadow-main: 0 30px 80px rgba(2, 7, 17, 0.67);
   position: relative;
-  height: 100dvh;
   min-height: 100dvh;
   padding: var(--shell-pad);
   display: grid;
@@ -179,20 +181,23 @@ onMounted(() => {
   position: relative;
   z-index: 2;
   width: min(1100px, 100%);
-  height: min(920px, calc(100dvh - (var(--shell-pad) * 2) - 4px));
-  max-height: calc(100dvh - (var(--shell-pad) * 2) - 4px);
+  min-height: calc(100dvh - (var(--shell-pad) * 2) - 4px);
   padding: clamp(1.2rem, 2.8vw, 2.4rem);
   border-radius: 28px;
   border: 1px solid var(--card-border);
   background: linear-gradient(145deg, rgba(10, 19, 33, 0.92), var(--card-bg));
   backdrop-filter: blur(10px);
   box-shadow: var(--shadow-main);
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: clamp(0.9rem, 2vw, 1.4rem);
-  overflow-y: auto;
   opacity: 0;
   transform: translateY(22px) scale(0.988);
   transition: opacity 0.58s ease, transform 0.58s ease;
+}
+
+.intro-block {
+  margin-bottom: auto;
 }
 
 .home-card.is-ready {
@@ -214,8 +219,7 @@ onMounted(() => {
 
 @media (max-width: 960px) {
   .home-card {
-    height: calc(100dvh - (var(--shell-pad) * 2) - 4px);
-    max-height: calc(100dvh - (var(--shell-pad) * 2) - 4px);
+    min-height: calc(100dvh - (var(--shell-pad) * 2) - 4px);
   }
 }
 

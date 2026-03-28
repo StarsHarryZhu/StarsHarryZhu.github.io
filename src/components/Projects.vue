@@ -1,19 +1,17 @@
 <template>
   <section class="projects">
-    <article v-for="(item, index) in items" :key="`project-${index}`" class="project-card">
-      <img :src="item.picture" :alt="altText" class="project-cover" width="960" height="540" />
+    <a
+      v-for="(item, index) in items"
+      :key="`project-${index}`"
+      class="project-card"
+      :href="item.url"
+      :aria-label="item.linkText || `View ${item.name}`"
+    >
       <div class="project-body">
         <h2>{{ item.name }}</h2>
         <p>{{ item.intro }}</p>
-        <a
-          class="project-link"
-          :href="item.url"
-          :aria-label="item.linkText || `View ${item.name}`"
-        >
-          {{ item.linkText || 'View Project' }}
-        </a>
       </div>
-    </article>
+    </a>
   </section>
 </template>
 
@@ -21,10 +19,6 @@
 defineProps({
   items: {
     type: Array,
-    required: true,
-  },
-  altText: {
-    type: String,
     required: true,
   },
 })
@@ -38,64 +32,46 @@ defineProps({
 }
 
 .project-card {
+  display: block;
   border-radius: 16px;
-  overflow: hidden;
   border: 1px solid rgba(129, 179, 219, 0.3);
   background: rgba(10, 18, 30, 0.7);
+  text-decoration: none;
+  color: inherit;
   transition: transform 0.22s ease, border-color 0.22s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(178, 222, 255, 0.6);
-}
-
-.project-cover {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  min-height: 120px;
-  max-height: 240px;
-  object-fit: cover;
-  object-position: center;
+  min-height: 160px;
 }
 
 .project-body {
-  padding: 0.75rem;
+  height: 100%;
+  padding: 0.62rem;
   display: grid;
-  gap: 0.5rem;
+  gap: 0.42rem;
+  align-content: start;
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(178, 222, 255, 0.6);
+}
+
+.project-card:focus-visible {
+  outline: 2px solid rgba(181, 223, 255, 0.85);
+  outline-offset: 2px;
+  border-color: rgba(198, 233, 255, 0.8);
 }
 
 .project-body h2 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .project-body p {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.88rem;
-  line-height: 1.5;
-}
-
-.project-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2rem;
-  border-radius: 10px;
-  border: 1px solid rgba(137, 190, 243, 0.42);
-  background: var(--link-bg);
-  color: #d8ecff;
-  text-decoration: none;
-  font-size: 0.86rem;
-  transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-.project-link:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.12);
+  font-size: 0.8rem;
+  line-height: 1.34;
 }
 
 @media (max-width: 960px) {

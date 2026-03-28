@@ -19,6 +19,8 @@ defineProps({
 .skills {
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-auto-rows: 45px;
+  align-self: start;
   gap: 0.56rem;
 }
 
@@ -27,7 +29,8 @@ defineProps({
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 2rem;
+  height: 100%;
+  min-height: 100%;
   padding: 0.4rem 0.72rem;
   border-radius: 999px;
   border: 1px solid var(--chip-border);
