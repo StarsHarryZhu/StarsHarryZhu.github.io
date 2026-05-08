@@ -5,6 +5,8 @@
       :key="`project-${index}`"
       class="project-card"
       :href="item.url"
+      target="_blank"
+      rel="noreferrer noopener"
       :aria-label="item.linkText || `View ${item.name}`"
     >
       <div class="project-body">

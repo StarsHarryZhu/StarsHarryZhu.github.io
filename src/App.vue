@@ -82,9 +82,9 @@ const projects = ref([
     url: 'https://github.com/StarsHarryZhu',
   },
   {
-    name: 'Echoes',
-    intro: 'Did not publish yet',
-    url: 'https://github.com/StarsHarryZhu',
+    name: 'Digit OCR',
+    intro: 'A Digit OCR by using MLP model and CNN model(not implemented yet).',
+    url: 'https://github.com/StarsHarryZhu/Digit_OCR',
   },
 ])
 
