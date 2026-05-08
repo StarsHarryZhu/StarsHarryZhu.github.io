@@ -1,17 +1,14 @@
 <template>
-  <footer class="footer">
+  <footer class="footer" role="contentinfo">
     <p class="footer-side footer-left">{{ items[0] || '' }}</p>
-    <p class="footer-dot">·</p>
+    <p class="footer-dot" aria-hidden="true">·</p>
     <p class="footer-side footer-right">{{ items[1] || '' }}</p>
   </footer>
 </template>
 
 <script setup>
 defineProps({
-  items: {
-    type: Array,
-    required: true,
-  },
+  items: { type: Array, required: true },
 })
 </script>
 
@@ -25,7 +22,7 @@ defineProps({
 
 .footer-side {
   margin: 0;
-  color: rgba(187, 205, 227, 0.85);
+  color: rgba(187, 205, 227, 0.75);
   font-size: 0.82rem;
   min-width: 0;
   white-space: nowrap;
@@ -33,17 +30,12 @@ defineProps({
   text-overflow: ellipsis;
 }
 
-.footer-left {
-  text-align: right;
-}
-
-.footer-right {
-  text-align: left;
-}
+.footer-left { text-align: right; }
+.footer-right { text-align: left; }
 
 .footer-dot {
   margin: 0;
-  color: rgba(201, 219, 242, 0.95);
+  color: rgba(201, 219, 242, 0.85);
   font-size: 0.92rem;
   line-height: 1;
   text-align: center;

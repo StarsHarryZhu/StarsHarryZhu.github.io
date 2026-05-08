@@ -7,10 +7,7 @@
 
 <script setup>
 defineProps({
-  bios: {
-    type: Array,
-    required: true,
-  },
+  bios: { type: Array, required: true },
 })
 </script>
 
@@ -18,12 +15,15 @@ defineProps({
 .intro {
   display: grid;
   gap: 0.56rem;
+  padding-left: clamp(0.6rem, 1.6vw, 1rem);
+  border-left: 2px solid rgba(100, 160, 220, 0.25);
 }
 
 .intro p {
   margin: 0;
   color: var(--text-muted);
   line-height: 1.72;
+  font-size: clamp(0.88rem, 1.4vw, 0.96rem);
 }
 
 .intro-spacer {

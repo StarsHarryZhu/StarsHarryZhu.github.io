@@ -1,22 +1,19 @@
 <template>
   <div class="contacts-wrap">
-    <section class="contacts" :style="{ '--cols': String(columns) }">
+    <section class="contacts" :style="{ '--cols': String(columns) }" aria-label="Contact links">
       <component
-        :is="item.type === 'copy' ? 'button' : 'a'"
-        v-for="(item, index) in items"
+        :is="item.tag"
+        v-for="(item, index) in resolvedItems"
         :key="`contact-${index}`"
         class="contact-btn"
-        :type="item.type === 'copy' ? 'button' : undefined"
-        :href="item.type !== 'copy' ? item.url : undefined"
-        :target="item.type !== 'copy' ? '_blank' : undefined"
-        :rel="item.type !== 'copy' ? 'noreferrer noopener' : undefined"
-        :aria-label="item.ariaLabel || item.name || altText"
-        @click="item.type === 'copy' ? copyText(item.copyValue, item.copySuccessText) : undefined"
+        v-bind="item.tagProps"
+        :aria-label="item.name"
+        @click="item.onClick"
       >
         <img
           v-if="item.icon"
           :src="item.icon"
-          :alt="altText"
+          alt=""
           class="contact-icon"
           width="96"
           height="96"
@@ -28,8 +25,8 @@
 
     <Teleport to="body">
       <Transition name="copy-modal">
-        <div v-if="isModalOpen" class="copy-modal-layer" aria-hidden="true">
-          <div class="copy-modal-card" role="status" aria-live="polite">
+        <div v-if="isModalOpen" class="copy-modal-layer" role="status" aria-live="polite">
+          <div class="copy-modal-card">
             {{ modalText }}
           </div>
         </div>
@@ -42,20 +39,36 @@
 import { computed, onBeforeUnmount, ref } from 'vue'
 
 const props = defineProps({
-  items: {
-    type: Array,
-    required: true,
-  },
-  altText: {
-    type: String,
-    required: true,
-  },
+  items: { type: Array, required: true },
 })
 
 const columns = computed(() => {
   const count = Array.isArray(props.items) ? props.items.length : 0
   return Math.min(Math.max(count, 1), 6)
 })
+
+const resolvedItems = computed(() =>
+  props.items.map((item) => {
+    if (item.type === 'copy') {
+      return {
+        ...item,
+        tag: 'button',
+        tagProps: { type: 'button' },
+        onClick: () => copyText(item.copyValue, item.copySuccessText),
+      }
+    }
+    return {
+      ...item,
+      tag: 'a',
+      tagProps: {
+        href: item.url,
+        target: '_blank',
+        rel: 'noreferrer noopener',
+      },
+      onClick: undefined,
+    }
+  }),
+)
 
 const modalText = ref('')
 const isModalOpen = ref(false)
@@ -75,12 +88,11 @@ const showModal = (text) => {
   modalTimer = setTimeout(() => {
     isModalOpen.value = false
     modalTimer = null
-  }, 500)
+  }, 800)
 }
 
 const copyText = async (value, successText = 'Email copied successfully.') => {
   if (!value) return
-
   try {
     if (navigator?.clipboard?.writeText) {
       await navigator.clipboard.writeText(value)
@@ -133,12 +145,18 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 0.54rem;
   padding: 0.3rem 0.56rem;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .contact-btn:hover {
   transform: translateY(-2px);
   border-color: rgba(176, 224, 255, 0.62);
+  box-shadow: 0 4px 18px rgba(80, 160, 230, 0.16);
+}
+
+.contact-btn:focus-visible {
+  outline: 2px solid rgba(181, 223, 255, 0.85);
+  outline-offset: 2px;
 }
 
 .contact-icon {
@@ -162,7 +180,7 @@ onBeforeUnmount(() => {
   line-height: 1;
 }
 
-.contact-btn span {
+.contact-btn span:last-child {
   font-size: 0.8rem;
 }
 
@@ -189,6 +207,7 @@ onBeforeUnmount(() => {
   font-size: 0.84rem;
   line-height: 1.35;
   box-shadow: 0 14px 32px rgba(1, 7, 17, 0.42);
+  backdrop-filter: blur(8px);
 }
 
 .copy-modal-enter-active,

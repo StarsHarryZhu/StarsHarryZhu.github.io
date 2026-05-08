@@ -1,26 +1,27 @@
 <template>
-  <section class="skills">
-    <span v-for="(skill, index) in items" :key="`skill-${index}`" class="skill-chip">
-      {{ skill.name }}
-    </span>
+  <section class="skills" aria-label="Skills">
+    <ul class="skills-list">
+      <li v-for="(skill, index) in items" :key="`skill-${index}`" class="skill-chip">
+        {{ skill.name }}
+      </li>
+    </ul>
   </section>
 </template>
 
 <script setup>
 defineProps({
-  items: {
-    type: Array,
-    required: true,
-  },
+  items: { type: Array, required: true },
 })
 </script>
 
 <style scoped>
-.skills {
+.skills-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   grid-auto-rows: 45px;
-  align-self: start;
   gap: 0.56rem;
 }
 
@@ -39,24 +40,26 @@ defineProps({
   font-size: 0.86rem;
   line-height: 1;
   cursor: default;
-  transition: transform 0.2s ease, filter 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .skill-chip:hover {
   transform: translateY(-2px);
   filter: brightness(1.12);
   border-color: rgba(178, 222, 255, 0.6);
+  box-shadow: 0 4px 16px rgba(100, 170, 230, 0.18);
+}
+
+.skill-chip:focus-visible {
+  outline: 2px solid rgba(181, 223, 255, 0.85);
+  outline-offset: 2px;
 }
 
 @media (max-width: 960px) {
-  .skills {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+  .skills-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 @media (max-width: 640px) {
-  .skills {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  .skills-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 </style>
