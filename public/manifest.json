@@ -1,0 +1,16 @@
+{
+  "name": "starfield — Harry Zhu",
+  "short_name": "starfield",
+  "description": "Harry Zhu — personal portfolio. Interests in games, systems, and SOC hardwares.",
+  "start_url": "./",
+  "display": "standalone",
+  "theme_color": "#010314",
+  "background_color": "#010314",
+  "icons": [
+    {
+      "src": "./assets/pig-BXq6MHxK.jpg",
+      "sizes": "104x104",
+      "type": "image/jpeg"
+    }
+  ]
+}

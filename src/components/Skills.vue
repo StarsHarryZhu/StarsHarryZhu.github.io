@@ -1,6 +1,21 @@
 <template>
-  <section class="skills" aria-label="Skills">
-    <ul class="skills-list">
+  <section aria-label="Skills">
+    <template v-if="categories">
+      <div v-for="(category, ci) in categories" :key="`cat-${ci}`" class="skill-group">
+        <h3 v-if="category.name" class="skill-group-label">{{ category.name }}</h3>
+        <ul class="skills-list">
+          <li
+            v-for="(skill, si) in category.skills"
+            :key="`skill-${ci}-${si}`"
+            class="skill-chip"
+          >
+            <span v-if="skill.icon" class="skill-icon" aria-hidden="true">{{ skill.icon }}</span>
+            {{ skill.name }}
+          </li>
+        </ul>
+      </div>
+    </template>
+    <ul v-else class="skills-list">
       <li v-for="(skill, index) in items" :key="`skill-${index}`" class="skill-chip">
         {{ skill.name }}
       </li>
@@ -10,11 +25,29 @@
 
 <script setup>
 defineProps({
-  items: { type: Array, required: true },
+  items: { type: Array, default: () => [] },
+  categories: { type: Array, default: null },
 })
 </script>
 
 <style scoped>
+.skill-group {
+  margin-bottom: var(--space-4);
+}
+
+.skill-group:last-child {
+  margin-bottom: 0;
+}
+
+.skill-group-label {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
 .skills-list {
   list-style: none;
   margin: 0;
@@ -29,29 +62,38 @@ defineProps({
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.32rem;
   width: 100%;
   height: 100%;
-  min-height: 100%;
   padding: 0.4rem 0.72rem;
-  border-radius: 999px;
-  border: 1px solid var(--chip-border);
-  background: var(--chip-bg);
-  color: #d7e7ff;
-  font-size: 0.86rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border);
+  background: var(--color-accent-cyan-dim);
+  color: var(--color-nebula-200);
+  font-size: var(--text-sm);
   line-height: 1;
   cursor: default;
-  transition: transform 0.2s ease, filter 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    background-color var(--transition-base);
+}
+
+.skill-icon {
+  font-size: 1em;
+  line-height: 1;
 }
 
 .skill-chip:hover {
   transform: translateY(-2px);
-  filter: brightness(1.12);
-  border-color: rgba(178, 222, 255, 0.6);
-  box-shadow: 0 4px 16px rgba(100, 170, 230, 0.18);
+  border-color: var(--color-accent-cyan);
+  background: rgba(78, 240, 208, 0.12);
+  box-shadow: var(--shadow-glow-cyan);
 }
 
 .skill-chip:focus-visible {
-  outline: 2px solid rgba(181, 223, 255, 0.85);
+  outline: 2px solid var(--color-accent-cyan);
   outline-offset: 2px;
 }
 

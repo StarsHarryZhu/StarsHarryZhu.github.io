@@ -7,7 +7,7 @@
         :key="`contact-${index}`"
         class="contact-btn"
         v-bind="item.tagProps"
-        :aria-label="item.name"
+        :aria-label="item.ariaLabel || item.name"
         @click="item.onClick"
       >
         <img
@@ -36,11 +36,14 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref } from 'vue'
+import { computed } from 'vue'
+import { useCopyToast } from '@/composables/useCopyToast'
 
 const props = defineProps({
   items: { type: Array, required: true },
 })
+
+const { isModalOpen, modalText, copyText } = useCopyToast()
 
 const columns = computed(() => {
   const count = Array.isArray(props.items) ? props.items.length : 0
@@ -54,6 +57,7 @@ const resolvedItems = computed(() =>
         ...item,
         tag: 'button',
         tagProps: { type: 'button' },
+        ariaLabel: `Copy ${item.name} address to clipboard`,
         onClick: () => copyText(item.copyValue, item.copySuccessText),
       }
     }
@@ -65,57 +69,11 @@ const resolvedItems = computed(() =>
         target: '_blank',
         rel: 'noreferrer noopener',
       },
+      ariaLabel: `Visit ${item.name} profile`,
       onClick: undefined,
     }
   }),
 )
-
-const modalText = ref('')
-const isModalOpen = ref(false)
-let modalTimer = null
-
-const clearModalTimer = () => {
-  if (modalTimer !== null) {
-    clearTimeout(modalTimer)
-    modalTimer = null
-  }
-}
-
-const showModal = (text) => {
-  modalText.value = text
-  isModalOpen.value = true
-  clearModalTimer()
-  modalTimer = setTimeout(() => {
-    isModalOpen.value = false
-    modalTimer = null
-  }, 800)
-}
-
-const copyText = async (value, successText = 'Email copied successfully.') => {
-  if (!value) return
-  try {
-    if (navigator?.clipboard?.writeText) {
-      await navigator.clipboard.writeText(value)
-    } else {
-      const textArea = document.createElement('textarea')
-      textArea.value = value
-      textArea.setAttribute('readonly', '')
-      textArea.style.position = 'absolute'
-      textArea.style.left = '-9999px'
-      document.body.appendChild(textArea)
-      textArea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textArea)
-    }
-    showModal(successText)
-  } catch {
-    showModal('Unable to copy email.')
-  }
-}
-
-onBeforeUnmount(() => {
-  clearModalTimer()
-})
 </script>
 
 <style scoped>
@@ -132,30 +90,36 @@ onBeforeUnmount(() => {
 
 .contact-btn {
   width: 100%;
-  min-height: 2.24rem;
-  border-radius: 12px;
-  border: 1px solid rgba(140, 199, 248, 0.32);
-  background: rgba(14, 25, 40, 0.78);
-  color: #e3efff;
+  min-height: 2.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--color-text-primary);
   font: inherit;
+  font-size: var(--text-sm);
   appearance: none;
   cursor: pointer;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 0.54rem;
-  padding: 0.3rem 0.56rem;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  padding: 0.4rem 0.64rem;
+  transition:
+    transform var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    background-color var(--transition-base);
 }
 
 .contact-btn:hover {
   transform: translateY(-2px);
-  border-color: rgba(176, 224, 255, 0.62);
-  box-shadow: 0 4px 18px rgba(80, 160, 230, 0.16);
+  border-color: var(--glass-border-hover);
+  background: var(--glass-bg-hover);
+  box-shadow: var(--shadow-glow-blue);
 }
 
 .contact-btn:focus-visible {
-  outline: 2px solid rgba(181, 223, 255, 0.85);
+  outline: 2px solid var(--color-accent-cyan);
   outline-offset: 2px;
 }
 
@@ -163,7 +127,7 @@ onBeforeUnmount(() => {
   width: 1.48rem;
   height: 1.48rem;
   display: block;
-  border-radius: 7px;
+  border-radius: var(--radius-sm);
   flex-shrink: 0;
   object-fit: cover;
   object-position: center;
@@ -171,18 +135,16 @@ onBeforeUnmount(() => {
 
 .contact-icon-fallback {
   display: inline-flex;
-  border: 1px solid rgba(137, 190, 243, 0.5);
-  background: rgba(52, 120, 189, 0.2);
-  color: #d8ecff;
+  border: 1px solid var(--glass-border);
+  background: var(--color-accent-cyan-dim);
+  color: var(--color-accent-cyan);
   justify-content: center;
   align-items: center;
   font-size: 0.8rem;
   line-height: 1;
 }
 
-.contact-btn span:last-child {
-  font-size: 0.8rem;
-}
+/* ===== Toast ===== */
 
 .copy-modal-layer {
   position: fixed;
@@ -196,34 +158,35 @@ onBeforeUnmount(() => {
 }
 
 .copy-modal-card {
-  min-width: min(460px, calc(100vw - 2rem));
+  min-width: min(360px, calc(100vw - 2rem));
   max-width: calc(100vw - 2rem);
   padding: 0.58rem 0.9rem;
-  border-radius: 12px;
-  border: 1px solid rgba(162, 211, 252, 0.5);
-  background: rgba(6, 16, 31, 0.95);
-  color: #d7ebff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-accent-cyan);
+  background: var(--color-void-900);
+  color: var(--color-text-primary);
   text-align: center;
-  font-size: 0.84rem;
+  font-size: var(--text-sm);
   line-height: 1.35;
-  box-shadow: 0 14px 32px rgba(1, 7, 17, 0.42);
-  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-glow-cyan), 0 14px 32px rgba(1, 7, 17, 0.5);
+  backdrop-filter: blur(12px);
 }
 
-.copy-modal-enter-active,
+.copy-modal-enter-active {
+  transition: opacity 0.18s ease, transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 .copy-modal-leave-active {
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transition: opacity 0.18s ease, transform 0.2s ease;
 }
 
-.copy-modal-enter-from,
+.copy-modal-enter-from {
+  opacity: 0;
+  transform: translateY(18px) scale(0.92);
+}
+
 .copy-modal-leave-to {
   opacity: 0;
-  transform: translateY(22px);
-}
-
-.copy-modal-enter-to,
-.copy-modal-leave-from {
-  opacity: 1;
-  transform: translateY(0);
+  transform: translateY(8px);
 }
 </style>
