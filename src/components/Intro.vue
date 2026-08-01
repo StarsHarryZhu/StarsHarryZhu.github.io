@@ -2,7 +2,6 @@
   <section class="intro" aria-label="About">
     <h2 v-if="title" class="intro-title">{{ title }}</h2>
     <p v-for="(bio, index) in bios" :key="`bio-${index}`">{{ bio }}</p>
-    <div class="intro-spacer" aria-hidden="true"></div>
   </section>
 </template>
 
@@ -17,6 +16,7 @@ defineProps({
 .intro {
   display: grid;
   gap: 0.56rem;
+  padding-bottom: var(--space-3);
   padding-left: clamp(0.6rem, 1.6vw, 1rem);
   border-left: 2px solid transparent;
   border-image: linear-gradient(
@@ -43,7 +43,4 @@ defineProps({
   font-size: clamp(0.88rem, 1.4vw, 0.96rem);
 }
 
-.intro-spacer {
-  height: clamp(2rem, 7vw, 4rem);
-}
 </style>

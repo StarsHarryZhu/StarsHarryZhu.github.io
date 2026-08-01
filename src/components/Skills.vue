@@ -53,7 +53,7 @@ defineProps({
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   grid-auto-rows: 45px;
   gap: 0.56rem;
 }
@@ -95,10 +95,6 @@ defineProps({
 .skill-chip:focus-visible {
   outline: 2px solid var(--color-accent-cyan);
   outline-offset: 2px;
-}
-
-@media (max-width: 960px) {
-  .skills-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 @media (max-width: 640px) {

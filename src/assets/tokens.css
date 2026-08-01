@@ -92,5 +92,5 @@
 
   /* ===== Layout ===== */
   --shell-pad: clamp(0.45rem, 1.4vw, 1.15rem);
-  --content-width: 80%;
+  --content-width: min(1120px, 100%);
 }

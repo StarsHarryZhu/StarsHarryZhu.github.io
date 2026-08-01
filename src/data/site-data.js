@@ -3,60 +3,60 @@ import gmailIcon from '@/assets/Gmail.png'
 import githubIconWhite from '@/assets/GitHub_Invertocat_White.svg'
 
 export const profile = {
-  title: 'starfield',
-  subtitle: 'Harry Zhu',
+  title: 'Starfield',
+  subtitle: 'Computer Vision · Robotics · Systems',
   bios: [
-    'Nobody. Interest in games && systems && soc hardwares.',
+    'Computer Science student at Stony Brook University, building practical computer-vision and robotics systems.',
+    'Recently deployed a vision-guided robotic-grasping pipeline with YOLO, TensorRT, and Intel RealSense.',
   ],
 }
 
-export const skills = [
-  { name: 'C/C++' },
-  { name: 'Python' },
-  { name: 'Java' },
-  { name: 'Swift/SwiftUI' },
-  { name: 'HTML/CSS/JS' },
-  { name: 'Vue3' },
-  { name: 'STM HAL lib' },
-]
-
 export const skillCategories = [
   {
-    name: 'Languages',
+    name: 'Core Languages',
     skills: [
-      { name: 'C/C++', icon: '⚙' },
-      { name: 'Python', icon: '🐍' },
-      { name: 'Java', icon: '☕' },
-      { name: 'Swift/SwiftUI', icon: '🦅' },
+      { name: 'C/C++' },
+      { name: 'Python' },
+      { name: 'Java' },
+      { name: 'Swift/SwiftUI' },
     ],
   },
   {
-    name: 'Web & Frameworks',
+    name: 'Computer Vision & Robotics',
     skills: [
-      { name: 'HTML/CSS/JS', icon: '🌐' },
-      { name: 'Vue 3', icon: '💚' },
+      { name: 'YOLO' },
+      { name: 'TensorRT' },
+      { name: 'Intel RealSense' },
+      { name: 'Kalman Filtering' },
     ],
   },
   {
-    name: 'Hardware & Systems',
+    name: 'Web & Tooling',
     skills: [
-      { name: 'STM32 HAL', icon: '🔧' },
+      { name: 'HTML/CSS/JS' },
+      { name: 'Vue 3' },
+      { name: 'Git' },
+      { name: 'CMake' },
     ],
   },
 ]
 
 export const projects = [
   {
-    name: 'Self Intro Web',
-    intro: 'As what you see now — built with Vue 3, Vite, and CSS-only starfield.',
+    name: 'Echoes',
+    intro: 'An iOS emotion-journaling app that captures front-camera photos and records inferred emotions with a fine-tuned MobileNetV2 model.',
+    tags: ['Swift', 'SwiftUI', 'MobileNetV2'],
+  },
+  {
+    name: 'Personal Website',
+    intro: 'This personal portfolio, built with Vue 3, Vite, and a CSS-only starfield interface.',
     url: 'https://github.com/StarsHarryZhu/StarsHarryZhu.github.io',
     tags: ['Vue 3', 'Vite', 'CSS'],
   },
   {
     name: 'VEX Control Libs',
-    intro: 'VEX robotics control libraries. No repository records yet.',
-    url: 'https://github.com/StarsHarryZhu',
-    tags: ['C++', 'Robotics'],
+    intro: 'Reusable C++11 control libraries for VEX robots, including PID control, button debouncing, and distance calculation.',
+    tags: ['C++11', 'STL', 'Robotics'],
   },
   {
     name: 'Digit OCR',
@@ -90,34 +90,54 @@ export const contacts = [
 
 export const timeline = [
   {
-    year: 'Present',
-    title: 'University Student',
-    subtitle: 'Computer Science & Electronic Engineering',
-    description: 'Focusing on software and game design, also learning some Ml, hardware and systems knowledge.',
-    tags: ['C', 'Python', 'STM32'],
+    period: 'May 2026 — Jul 2026',
+    title: 'Computer Vision Intern',
+    subtitle: 'Ningbo University · Computer Vision Team',
+    location: 'Ningbo, Zhejiang',
+    highlights: [
+      'Trained YOLO26l and YOLOv8n object-detection models for bird nests, bird-repellent devices, and beakers.',
+      'Optimized inference on an NVIDIA RTX 2080 Ti through a .pt → .onnx → TensorRT deployment pipeline.',
+      'Integrated an Intel RealSense D435i, Kalman-filtered target tracking, a Reaman robotic arm, and custom control algorithms to demonstrate vision-guided grasping.',
+    ],
+    tags: ['YOLO26l', 'YOLOv8n', 'TensorRT', 'RealSense D435i', 'Kalman Filter', 'Robotics'],
+    featured: true,
+  },
+  {
+    period: 'Dec 2025 — Jan 2026',
+    title: 'C++ Instructor & VEX IQ Coach',
+    subtitle: 'Ningbo HZ Club',
+    location: 'Ningbo, Zhejiang',
+    highlights: [
+      'Taught C++ fundamentals and introductory programming concepts.',
+      'Coached students on VEX IQ robot operation and competition preparation.',
+    ],
+    tags: ['C++', 'VEX IQ', 'Teaching'],
+  },
+  {
+    period: 'Jun 2023 — Apr 2025',
+    title: 'Founder & Leader, School Robotics Team',
+    subtitle: 'Ningbo Xiaoshi High School',
+    location: 'Ningbo, Zhejiang',
+    highlights: [
+      'Founded a school VEX robotics competition team and led its members to a first-place national ranking in China.',
+      'Developed reusable C++ chassis-control code supporting multiple robot configurations.',
+    ],
+    tags: ['C++', 'VEX Robotics', 'Leadership'],
   },
 ]
 
-export const blogPosts = [
+export const education = [
   {
-    title: 'Building a Portfolio with Vue 3 & Vite',
-    date: '2026',
-    excerpt: 'How this site was built — from CSS starfield generation to glassmorphism card design and Vue Router integration.',
-    url: '#',
-    tags: ['Vue', 'CSS', 'Design'],
-  },
-  {
-    title: 'Digit OCR with C++ & CMake',
-    date: '2026',
-    excerpt: 'Handwritten digit recognition implemented in C++ with CMake build system, using MLP and CNN models.',
-    url: 'https://github.com/StarsHarryZhu/Digit_OCR',
-    tags: ['C++', 'CMake', 'CNN', 'MLP'],
+    institution: 'Stony Brook University',
+    degree: 'B.S. in Computer Science · Minor in Mathematics',
+    period: 'Aug 2025 — May 2029',
+    location: 'Stony Brook, New York',
   },
 ]
 
 export const footerItems = [
   'starfield',
-  '共和国最锋利的剑',
+  'COMPUTER VISION · ROBOTICS · SYSTEMS',
 ]
 
 export { avatarImage }

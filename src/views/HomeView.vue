@@ -13,15 +13,15 @@
         :subtitle="profile.subtitle"
       />
 
-      <Intro class="block" style="--delay: 150ms" :bios="profile.bios" />
+      <Intro class="block" style="--delay: 150ms" title="Profile" :bios="profile.bios" />
 
       <Timeline class="block" style="--delay: 200ms" :items="timeline" />
 
-      <Skills class="block" style="--delay: 250ms" :categories="skillCategories" />
+      <Education class="block" style="--delay: 250ms" :items="education" />
 
-      <Projects class="block" style="--delay: 300ms" :items="projects" />
+      <Skills class="block" style="--delay: 300ms" :categories="skillCategories" />
 
-      <BlogPreview class="block" style="--delay: 350ms" :items="blogPosts" />
+      <Projects class="block" style="--delay: 350ms" :items="projects" />
 
       <Contacts class="block" style="--delay: 400ms" :items="contacts" />
 
@@ -38,14 +38,14 @@ import {
   skillCategories,
   projects,
   timeline,
-  blogPosts,
+  education,
   contacts,
   footerItems,
   avatarImage,
 } from '@/data/site-data.js'
 
-import BlogPreview from '@/components/BlogPreview.vue'
 import Contacts from '@/components/Contacts.vue'
+import Education from '@/components/Education.vue'
 import Footer from '@/components/Footer.vue'
 import Hero from '@/components/Hero.vue'
 import Intro from '@/components/Intro.vue'
