@@ -4,11 +4,13 @@
   <main class="page-shell">
     <a href="#home-card" class="skip-link">Skip to content</a>
 
-    <article id="home-card" :class="['home-card', { 'is-ready': isReady }]" style="scroll-margin-top: var(--shell-pad);">
+    <article id="home-card" class="home-card" style="scroll-margin-top: var(--shell-pad);">
       <Hero
         class="block"
         style="--delay: 100ms"
-        :avatar="avatarImage"
+        :avatar="avatarImageSet.webp"
+        :avatar2x="avatarImageSet.webp2x"
+        :avatarFallback="avatarImageSet.fallback"
         :title="profile.title"
         :subtitle="profile.subtitle"
       />
@@ -31,8 +33,6 @@
 </template>
 
 <script setup>
-import { onMounted, shallowRef } from 'vue'
-
 import {
   profile,
   skillCategories,
@@ -41,7 +41,7 @@ import {
   education,
   contacts,
   footerItems,
-  avatarImage,
+  avatarImageSet,
 } from '@/data/site-data.js'
 
 import Contacts from '@/components/Contacts.vue'
@@ -53,14 +53,6 @@ import Projects from '@/components/Projects.vue'
 import Skills from '@/components/Skills.vue'
 import StarfieldBackground from '@/components/StarfieldBackground.vue'
 import Timeline from '@/components/Timeline.vue'
-
-const isReady = shallowRef(false)
-
-onMounted(() => {
-  requestAnimationFrame(() => {
-    isReady.value = true
-  })
-})
 </script>
 
 <style scoped>
@@ -115,14 +107,18 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: clamp(0.9rem, 2vw, 1.4rem);
-  opacity: 0;
-  transform: translateY(22px) scale(0.988);
-  transition: opacity 0.58s ease, transform 0.58s ease;
+  animation: card-enter 0.58s ease both;
 }
 
-.home-card.is-ready {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.988);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* ===== Entrance Animation ===== */
@@ -130,15 +126,18 @@ onMounted(() => {
 .block {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.48s ease, transform 0.48s ease;
-  will-change: transform, opacity;
+  animation: block-enter 0.48s ease var(--delay, 0ms) both;
 }
 
-.home-card.is-ready .block {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: var(--delay, 0ms);
-  will-change: auto;
+@keyframes block-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===== Responsive ===== */
@@ -162,10 +161,9 @@ onMounted(() => {
 @media (prefers-reduced-motion: reduce) {
   .home-card,
   .block {
-    transition: none !important;
+    animation: none !important;
     opacity: 1;
     transform: none;
-    will-change: auto;
   }
 }
 

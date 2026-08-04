@@ -1,14 +1,20 @@
 <template>
   <header class="hero">
     <div class="avatar-ring">
-      <img
-        class="avatar"
-        :src="avatar"
-        :alt="altText"
-        width="124"
-        height="124"
-        loading="eager"
-      />
+      <picture>
+        <source
+          type="image/webp"
+          :srcset="`${avatar} 1x, ${avatar2x} 2x`"
+        />
+        <img
+          class="avatar"
+          :src="avatarFallback"
+          :alt="altText"
+          width="124"
+          height="124"
+          loading="eager"
+        />
+      </picture>
     </div>
     <div class="hero-copy">
       <h1>{{ title }}</h1>
@@ -20,6 +26,8 @@
 <script setup>
 defineProps({
   avatar: { type: String, required: true },
+  avatar2x: { type: String, required: true },
+  avatarFallback: { type: String, required: true },
   altText: { type: String, default: 'Portrait of Harry Zhu' },
   title: { type: String, required: true },
   subtitle: { type: String, required: true },

@@ -7,7 +7,7 @@
         :is="item.tag"
         v-for="(item, index) in resolvedItems"
         :key="`project-${index}`"
-        class="project-card"
+        class="project-card glass-card"
         v-bind="item.linkProps"
         :aria-label="item.ariaLabel"
       >
@@ -16,7 +16,7 @@
           <h3 class="project-title">{{ item.name }}</h3>
           <p class="project-intro">{{ item.intro }}</p>
           <div v-if="item.tags && item.tags.length" class="project-tags">
-            <span v-for="(tag, ti) in item.tags" :key="`tag-${ti}`" class="project-tag">{{ tag }}</span>
+            <span v-for="(tag, ti) in item.tags" :key="`tag-${ti}`" class="tag-pill tag-pill--cyan">{{ tag }}</span>
           </div>
         </div>
       </component>
@@ -61,19 +61,14 @@ const resolvedItems = computed(() =>
 }
 
 .project-card {
+  --lift: -3px;
   position: relative;
   display: block;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
   text-decoration: none;
   color: inherit;
   min-height: 160px;
   overflow: hidden;
-  transition:
-    transform var(--transition-base),
-    border-color var(--transition-base),
-    box-shadow var(--transition-base);
 }
 
 .project-accent {
@@ -98,13 +93,6 @@ const resolvedItems = computed(() =>
   display: grid;
   gap: 0.42rem;
   align-content: start;
-}
-
-.project-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--glass-border-hover);
-  background: var(--glass-bg-hover);
-  box-shadow: var(--shadow-glow-blue);
 }
 
 .project-card:hover .project-accent {
@@ -136,16 +124,6 @@ const resolvedItems = computed(() =>
   flex-wrap: wrap;
   gap: 0.32rem;
   margin-top: 0.2rem;
-}
-
-.project-tag {
-  padding: 0.12rem 0.44rem;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--glass-border);
-  background: var(--color-accent-cyan-dim);
-  color: var(--color-accent-cyan);
-  font-size: 0.68rem;
-  line-height: 1.5;
 }
 
 @media (max-width: 640px) {

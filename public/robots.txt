@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://starsharryzhu.github.io/sitemap.xml

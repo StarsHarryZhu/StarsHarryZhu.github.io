@@ -26,7 +26,7 @@
             </li>
           </ul>
           <div v-if="entry.tags && entry.tags.length" class="timeline-tags">
-            <span v-for="(tag, ti) in entry.tags" :key="`ttag-${ti}`" class="timeline-tag">{{ tag }}</span>
+            <span v-for="(tag, ti) in entry.tags" :key="`ttag-${ti}`" class="tag-pill tag-pill--cyan">{{ tag }}</span>
           </div>
         </div>
       </div>
@@ -154,16 +154,6 @@ defineProps({
   flex-wrap: wrap;
   gap: 0.32rem;
   margin-top: 0.48rem;
-}
-
-.timeline-tag {
-  padding: 0.1rem 0.4rem;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--glass-border);
-  background: var(--color-accent-cyan-dim);
-  color: var(--color-accent-cyan);
-  font-size: 0.68rem;
-  line-height: 1.5;
 }
 
 .timeline-entry--featured .timeline-dot {

@@ -1,7 +1,10 @@
 <template>
   <div class="starfield" aria-hidden="true">
     <!-- Nebula glows with drift -->
-    <div class="starfield-nebula">
+    <div
+      class="starfield-nebula"
+      :style="{ '--drift-x': nebulaX + 'px', '--drift-y': nebulaY + 'px' }"
+    >
       <div class="starfield-nebula-inner"></div>
     </div>
 
@@ -70,7 +73,7 @@ onMounted(() => {
 .starfield-nebula {
   position: absolute;
   inset: 0;
-  transform: translate(v-bind('nebulaX + "px"'), v-bind('nebulaY + "px"'));
+  transform: translate(var(--drift-x), var(--drift-y));
   will-change: transform;
 }
 

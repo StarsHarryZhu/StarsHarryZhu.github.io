@@ -96,6 +96,48 @@ a {
   will-change: auto;
 }
 
+/* ===== Shared Component Utilities ===== */
+
+/* Pill-shaped tag chip */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border);
+  font-size: 0.68rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.tag-pill--cyan {
+  background: var(--color-accent-cyan-dim);
+  color: var(--color-accent-cyan);
+}
+
+.tag-pill--amber {
+  background: rgba(240, 184, 72, 0.08);
+  color: var(--color-accent-amber);
+}
+
+/* Glass surface card (shared base + hover lift) */
+.glass-card {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  transition:
+    transform var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    background-color var(--transition-base);
+}
+
+.glass-card:hover {
+  transform: translateY(var(--lift, -2px));
+  border-color: var(--glass-border-hover);
+  background: var(--glass-bg-hover);
+  box-shadow: var(--shadow-glow-blue);
+}
+
 /* ===== Reduced Motion ===== */
 
 @media (prefers-reduced-motion: reduce) {

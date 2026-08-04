@@ -5,7 +5,7 @@
         :is="item.tag"
         v-for="(item, index) in resolvedItems"
         :key="`contact-${index}`"
-        class="contact-btn"
+        class="contact-btn glass-card"
         v-bind="item.tagProps"
         :aria-label="item.ariaLabel || item.name"
         @click="item.onClick"
@@ -92,8 +92,6 @@ const resolvedItems = computed(() =>
   width: 100%;
   min-height: 2.5rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
   color: var(--color-text-primary);
   font: inherit;
   font-size: var(--text-sm);
@@ -104,18 +102,6 @@ const resolvedItems = computed(() =>
   align-items: center;
   gap: 0.54rem;
   padding: 0.4rem 0.64rem;
-  transition:
-    transform var(--transition-base),
-    border-color var(--transition-base),
-    box-shadow var(--transition-base),
-    background-color var(--transition-base);
-}
-
-.contact-btn:hover {
-  transform: translateY(-2px);
-  border-color: var(--glass-border-hover);
-  background: var(--glass-bg-hover);
-  box-shadow: var(--shadow-glow-blue);
 }
 
 .contact-btn:focus-visible {

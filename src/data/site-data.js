@@ -1,6 +1,9 @@
-import avatarImage from '@/assets/pig.jpg'
+import avatarImage from '@/assets/pig.webp'
+import avatarImage2x from '@/assets/pig@2x.webp'
+import avatarImageFallback from '@/assets/pig-fallback.jpg'
 import gmailIcon from '@/assets/Gmail.png'
 import githubIconWhite from '@/assets/GitHub_Invertocat_White.svg'
+import linkedinIcon from '@/assets/LinkedIn.svg'
 
 export const profile = {
   title: 'Starfield',
@@ -77,7 +80,7 @@ export const contacts = [
   {
     type: 'link',
     name: 'LinkedIn',
-    icon: 'https://static.licdn.com/aero-v1/sc/h/akt4ae504epesldzj74dzred8',
+    icon: linkedinIcon,
     url: 'https://www.linkedin.com/in/huanyi-zhu-518703385/',
   },
   {
@@ -139,5 +142,11 @@ export const footerItems = [
   'starfield',
   'COMPUTER VISION · ROBOTICS · SYSTEMS',
 ]
+
+export const avatarImageSet = {
+  webp: avatarImage,
+  webp2x: avatarImage2x,
+  fallback: avatarImageFallback,
+}
 
 export { avatarImage }
