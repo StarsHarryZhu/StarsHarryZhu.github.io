@@ -103,7 +103,6 @@ export const timeline = [
       'Integrated an Intel RealSense D435i, Kalman-filtered target tracking, a Reaman robotic arm, and custom control algorithms to demonstrate vision-guided grasping.',
     ],
     tags: ['YOLO26l', 'YOLOv8n', 'TensorRT', 'RealSense D435i', 'Kalman Filter', 'Robotics'],
-    featured: true,
   },
   {
     period: 'Dec 2025 — Jan 2026',
