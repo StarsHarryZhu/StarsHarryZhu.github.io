@@ -6,7 +6,7 @@
         <defs>
           <linearGradient id="star-grad" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#7DF4E8" />
-            <stop offset="1" stop-color="#9B8BFF" />
+            <stop offset="1" stop-color="#A79BFF" />
           </linearGradient>
         </defs>
         <path

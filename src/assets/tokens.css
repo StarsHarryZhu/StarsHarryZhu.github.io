@@ -22,12 +22,16 @@
   --halo-blue:  rgba(90, 150, 255, 0.32);
   --halo-violet: rgba(150, 130, 255, 0.3);
 
-  /* ===== Color: Accents (cool family; amber removed) ===== */
+  /* ===== Color: Accents (cool family; amber removed) =====
+     Brightened (2026-08-05) so accent-as-text stays readable: the two soft
+     tints — star-blue & star-violet — were washing out over the aurora halos
+     behind the glass (≥5.6:1 worst-case now). The *-deep variants are
+     decorative-only (borders / gradient ends); do NOT use them for text. */
   --star-cyan:        #7DF4E8;   /* primary accent — star-light */
   --star-cyan-strong: #48E2D3;
-  --star-blue:        #6FA8FF;
+  --star-blue:        #7EB0FF;
   --star-blue-deep:   #4A7BD9;
-  --star-violet:      #9B8BFF;
+  --star-violet:      #A79BFF;
   --star-violet-deep: #6C5CD6;
   --star-white:       #EAF2FF;   /* glint / glow core */
 
@@ -49,10 +53,14 @@
   --shadow-lift:  0 34px 90px -26px rgba(2, 6, 26, 0.96);
   --shadow-halo:  0 0 90px -30px var(--halo-blue);
 
-  /* ===== Color: Text (all ≥4.5:1 on panel blend) ===== */
+  /* ===== Color: Text =====
+     Hierarchy primary > secondary > tertiary, kept distinct. All three stay
+     ≥7.3:1 on the glass panel and ≥5.6:1 even directly over the brightest
+     aurora halo — well above WCAG AA for body copy. (2026-08-05: tertiary
+     was #6E82B4 at ~4.5:1 — unreadable on halo-lit regions.) */
   --text-primary:   #E8F0FF;
-  --text-secondary: #9DB0DE;
-  --text-tertiary:  #6E82B4;
+  --text-secondary: #A9B8DE;
+  --text-tertiary:  #94A8D0;
 
   /* ===== Typography ===== */
   --font-display: 'Space Grotesk', 'Inter', system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', sans-serif;
