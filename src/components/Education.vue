@@ -1,9 +1,18 @@
 <template>
-  <section class="education" aria-label="Education">
-    <SectionHeader overline="FOUNDATION" title="Education" />
+  <section ref="root" class="education" aria-label="Education">
+    <SectionHeader overline="Academic" title="Education" accent="violet" />
 
     <div class="education-grid">
-      <article v-for="(item, index) in items" :key="`education-${index}`" class="education-card">
+      <article
+        v-for="(item, index) in items"
+        :key="`education-${index}`"
+        :ref="(el) => reveal.observe(el)"
+        class="panel education-card reveal"
+        :style="{
+          '--reveal-delay': `${index * 120}ms`,
+          '--panel-halo': 'var(--halo-violet)',
+        }"
+      >
         <div class="education-signal" aria-hidden="true"></div>
         <div class="education-copy">
           <span class="education-period">{{ item.period }}</span>
@@ -17,11 +26,18 @@
 </template>
 
 <script setup>
+import { useTemplateRef } from 'vue'
 import SectionHeader from './SectionHeader.vue'
+import { useScrollReveal } from '@/composables/useScrollReveal'
+import { useRipple } from '@/composables/useRipple'
 
 defineProps({
   items: { type: Array, required: true },
 })
+
+const root = useTemplateRef('root')
+const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
+useRipple(() => root.value, { selector: '.education-card' })
 </script>
 
 <style scoped>
@@ -43,20 +59,32 @@ defineProps({
   align-items: center;
   min-height: 112px;
   padding: clamp(0.9rem, 2vw, 1.2rem);
-  overflow: hidden;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(112deg, rgba(240, 184, 72, 0.09), transparent 36%),
-    var(--glass-bg);
 }
 
+/* ===== Violet signal bar: breathing ===== */
+
 .education-signal {
-  width: 10px;
-  height: 42px;
+  width: 6px;
+  height: 46px;
   border-radius: var(--radius-full);
-  background: linear-gradient(180deg, var(--color-accent-amber), rgba(240, 184, 72, 0.18));
-  box-shadow: var(--shadow-glow-amber);
+  background: linear-gradient(
+    180deg,
+    var(--star-violet),
+    rgba(155, 139, 255, 0.18)
+  );
+  box-shadow: 0 0 18px rgba(155, 139, 255, 0.3);
+  animation: signal-breathe 3.2s var(--ease-aurora) infinite;
+}
+
+@keyframes signal-breathe {
+  0%, 100% {
+    box-shadow: 0 0 14px rgba(155, 139, 255, 0.2);
+    opacity: 0.78;
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(155, 139, 255, 0.42);
+    opacity: 1;
+  }
 }
 
 .education-copy {
@@ -66,33 +94,43 @@ defineProps({
 .education-period {
   display: block;
   margin-bottom: 0.22rem;
-  color: var(--color-accent-amber);
+  color: var(--star-violet);
   font-size: var(--text-xs);
   font-weight: 500;
-  letter-spacing: var(--tracking-wider);
+  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
 }
 
 .education-institution {
   margin: 0;
-  color: var(--color-text-primary);
+  color: var(--text-primary);
   font-family: var(--font-display);
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
   font-weight: 600;
 }
 
 .education-degree,
 .education-location {
-  margin: 0.22rem 0 0;
-  color: var(--color-text-secondary);
+  color: var(--text-secondary);
   font-size: var(--text-sm);
   line-height: var(--leading-base);
 }
 
+.education-degree {
+  margin: 0.24rem 0 0;
+}
+
 .education-location {
   margin: 0;
-  color: var(--color-text-tertiary);
+  color: var(--text-tertiary);
   text-align: right;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .education-signal {
+    animation: none;
+    opacity: 0.85;
+  }
 }
 
 @media (max-width: 640px) {

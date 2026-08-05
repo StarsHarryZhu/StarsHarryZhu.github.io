@@ -1,38 +1,57 @@
 <template>
   <StarfieldBackground />
 
-  <main class="page-shell">
-    <a href="#home-card" class="skip-link">Skip to content</a>
+  <!-- Pointer light wash: a faint aurora glow that follows the cursor -->
+  <div
+    class="cursor-glow"
+    aria-hidden="true"
+    :style="{ '--glow-x': glowX, '--glow-y': glowY }"
+  ></div>
 
-    <article id="home-card" class="home-card" style="scroll-margin-top: var(--shell-pad);">
+  <main id="content" class="page-shell" tabindex="-1">
+    <a href="#content" class="skip-link" @click.prevent="skipToContent">Skip to content</a>
+
+    <!-- Floating constellation panels: each section drifts at its own depth -->
+    <div class="pane pane--hero" :style="heroStyle">
       <Hero
-        class="block"
-        style="--delay: 100ms"
         :avatar="avatarImageSet.webp"
         :avatar2x="avatarImageSet.webp2x"
         :avatarFallback="avatarImageSet.fallback"
         :title="profile.title"
         :subtitle="profile.subtitle"
       />
+    </div>
 
-      <Intro class="block" style="--delay: 150ms" title="Profile" :bios="profile.bios" />
+    <div class="pane pane--intro" :style="introStyle">
+      <Intro title="Profile" :bios="profile.bios" />
+    </div>
 
-      <Timeline class="block" style="--delay: 200ms" :items="timeline" />
+    <div class="pane pane--timeline" :style="timelineStyle">
+      <Timeline :items="timeline" />
+    </div>
 
-      <Education class="block" style="--delay: 250ms" :items="education" />
+    <div class="pane pane--education" :style="educationStyle">
+      <Education :items="education" />
+    </div>
 
-      <Skills class="block" style="--delay: 300ms" :categories="skillCategories" />
+    <div class="pane pane--skills" :style="skillsStyle">
+      <Skills :categories="skillCategories" />
+    </div>
 
-      <Projects class="block" style="--delay: 350ms" :items="projects" />
+    <div class="pane pane--projects" :style="projectsStyle">
+      <Projects :items="projects" />
+    </div>
 
-      <Contacts class="block" style="--delay: 400ms" :items="contacts" />
+    <div class="pane pane--contacts" :style="contactsStyle">
+      <Contacts :items="contacts" />
+    </div>
 
-      <Footer class="block" style="--delay: 450ms" :items="footerItems" />
-    </article>
+    <Footer :items="footerItems" />
   </main>
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import {
   profile,
   skillCategories,
@@ -53,30 +72,101 @@ import Projects from '@/components/Projects.vue'
 import Skills from '@/components/Skills.vue'
 import StarfieldBackground from '@/components/StarfieldBackground.vue'
 import Timeline from '@/components/Timeline.vue'
+import { useParallax } from '@/composables/useParallax'
+
+// Shared normalized pointer in [-1, 1]. refs stay 0 on touch / reduced-motion.
+const { mouseX, mouseY } = useParallax()
+
+const glowX = computed(() => `${(mouseX.value * 0.5 + 0.5) * 100}%`)
+const glowY = computed(() => `${(mouseY.value * 0.5 + 0.5) * 100}%`)
+
+// Per-panel parallax depth (px): nearer content drifts more with the pointer.
+function paneStyle(depth) {
+  return computed(() => ({
+    transform: `translate3d(${(mouseX.value * depth).toFixed(2)}px, ${(mouseY.value * depth).toFixed(2)}px, 0)`,
+  }))
+}
+
+const heroStyle = paneStyle(6)
+const introStyle = paneStyle(10)
+const timelineStyle = paneStyle(4)
+const educationStyle = paneStyle(12)
+const skillsStyle = paneStyle(8)
+const projectsStyle = paneStyle(5)
+const contactsStyle = paneStyle(14)
+
+function skipToContent() {
+  document.getElementById('content')?.focus()
+}
 </script>
 
 <style scoped>
 .page-shell {
   position: relative;
-  z-index: 1;
-  min-height: 100dvh;
-  padding: var(--shell-pad);
+  z-index: var(--z-panel);
   display: grid;
-  place-items: center;
-  color: var(--color-text-primary);
-  font-family: var(--font-body);
+  justify-items: center;
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding: var(--shell-pad);
+  gap: var(--section-gap);
 }
 
-/* ===== Skip Link ===== */
+/* ===== Constellation panes ===== */
+
+.pane {
+  width: 100%;
+}
+
+/* Parallax layers only on precise pointers (touch has no hover parallax). */
+@media (hover: hover) and (pointer: fine) {
+  .pane {
+    will-change: transform;
+  }
+}
+
+@media (min-width: 960px) {
+  .pane--intro,
+  .pane--contacts {
+    width: 62%;
+    margin-inline-start: 6%;
+  }
+  .pane--contacts {
+    width: 60%;
+  }
+  .pane--education {
+    width: 72%;
+  }
+}
+
+/* ===== Pointer light wash ===== */
+
+.cursor-glow {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-wash);
+  pointer-events: none;
+  background:
+    radial-gradient(
+      640px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      rgba(110, 170, 255, 0.06) 0%,
+      rgba(155, 139, 255, 0.035) 40%,
+      transparent 72%
+    );
+  opacity: 0.75;
+}
+
+/* ===== Skip link ===== */
 
 .skip-link {
   position: absolute;
   top: -100%;
   left: 0;
-  z-index: 100;
+  z-index: var(--z-skip);
   padding: var(--space-2) var(--space-4);
-  background: var(--color-void-950);
-  color: var(--color-text-primary);
+  background: var(--bg-base-1);
+  color: var(--text-primary);
   border: 1px solid var(--glass-border);
   border-radius: 0 0 var(--radius-md) 0;
   text-decoration: none;
@@ -87,83 +177,11 @@ import Timeline from '@/components/Timeline.vue'
   top: 0;
 }
 
-/* ===== Home Card ===== */
-
-.home-card {
-  position: relative;
-  z-index: 2;
-  width: var(--content-width);
-  min-height: calc(100dvh - (var(--shell-pad) * 2) - 4px);
-  padding: clamp(1.2rem, 2.8vw, 2.4rem);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--glass-border);
-  outline: 1px solid rgba(100, 160, 220, 0.08);
-  outline-offset: -6px;
-  background: linear-gradient(145deg, rgba(10, 24, 40, 0.86), var(--glass-bg));
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  box-shadow:
-    var(--shadow-card),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(0.9rem, 2vw, 1.4rem);
-  animation: card-enter 0.58s ease both;
-}
-
-@keyframes card-enter {
-  from {
-    opacity: 0;
-    transform: translateY(22px) scale(0.988);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* ===== Entrance Animation ===== */
-
-.block {
-  opacity: 0;
-  transform: translateY(16px);
-  animation: block-enter 0.48s ease var(--delay, 0ms) both;
-}
-
-@keyframes block-enter {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ===== Responsive ===== */
-
-@media (max-width: 960px) {
-  .home-card {
-    min-height: calc(100dvh - (var(--shell-pad) * 2) - 4px);
-  }
-}
-
-@media (max-width: 700px) {
-  .home-card {
-    border-radius: var(--radius-lg);
-    padding: clamp(1rem, 4vw, 1.3rem);
-    outline-offset: -4px;
-  }
-}
-
 /* ===== Reduced Motion ===== */
 
 @media (prefers-reduced-motion: reduce) {
-  .home-card,
-  .block {
-    animation: none !important;
-    opacity: 1;
-    transform: none;
+  .cursor-glow {
+    display: none;
   }
 }
 
@@ -172,24 +190,15 @@ import Timeline from '@/components/Timeline.vue'
 @media print {
   .page-shell {
     background: white !important;
-    place-items: start;
+    justify-items: start;
     padding: 1rem;
+    gap: 1.2rem;
   }
-  .home-card {
-    box-shadow: none !important;
-    outline: none !important;
-    border: 1px solid #ccc !important;
-    background: white !important;
-    backdrop-filter: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-    color: #222 !important;
-  }
-  .block {
-    opacity: 1 !important;
+  .pane {
     transform: none !important;
   }
-  .skip-link {
+  .skip-link,
+  .cursor-glow {
     display: none;
   }
 }

@@ -1,46 +1,56 @@
 <template>
-  <section class="intro" aria-label="About">
-    <h2 v-if="title" class="intro-title">{{ title }}</h2>
-    <p v-for="(bio, index) in bios" :key="`bio-${index}`">{{ bio }}</p>
+  <section class="panel intro reveal" :ref="reveal.observe" aria-label="About">
+    <span class="glint intro-glint intro-glint--a" aria-hidden="true"></span>
+    <span class="glint intro-glint intro-glint--b" aria-hidden="true"></span>
+    <span v-if="title" class="intro-overline">{{ title }}</span>
+    <p v-for="(bio, index) in bios" :key="`bio-${index}`" class="intro-bio">{{ bio }}</p>
   </section>
 </template>
 
 <script setup>
+import { useScrollReveal } from '@/composables/useScrollReveal'
+
 defineProps({
   bios: { type: Array, required: true },
   title: { type: String, default: '' },
 })
+
+const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
 </script>
 
 <style scoped>
 .intro {
+  --panel-halo: var(--halo-violet);
   display: grid;
-  gap: 0.56rem;
-  padding-bottom: var(--space-3);
-  padding-left: clamp(0.6rem, 1.6vw, 1rem);
-  border-left: 2px solid transparent;
-  border-image: linear-gradient(
-    180deg,
-    var(--color-accent-cyan) 0%,
-    var(--color-nebula-400) 50%,
-    transparent 100%
-  ) 1;
+  gap: 0.7rem;
+  padding: var(--panel-pad);
 }
 
-.intro-title {
-  margin: 0;
+.intro-overline {
   font-size: var(--text-xs);
   font-weight: 500;
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--color-accent-cyan);
+  color: var(--star-violet);
 }
 
-.intro p {
+.intro-bio {
   margin: 0;
-  color: var(--color-text-secondary);
-  line-height: var(--leading-relaxed);
-  font-size: clamp(0.88rem, 1.4vw, 0.96rem);
+  color: var(--text-secondary);
+  line-height: 1.75;
 }
 
+/* Glints pinned near the panel corners */
+.intro-glint--a {
+  left: 8%;
+  top: 14%;
+  animation-duration: 4.2s;
+}
+
+.intro-glint--b {
+  right: 12%;
+  bottom: 18%;
+  animation-delay: -1.6s;
+  animation-duration: 3.4s;
+}
 </style>

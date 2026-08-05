@@ -1,52 +1,109 @@
 <template>
-  <section aria-label="Skills">
-    <template v-if="categories">
-      <div v-for="(category, ci) in categories" :key="`cat-${ci}`" class="skill-group">
-        <h3 v-if="category.name" class="skill-group-label">{{ category.name }}</h3>
+  <section ref="root" class="skills" aria-label="Skills">
+    <div class="skills-grid">
+      <div
+        v-for="(category, ci) in categories"
+        :key="`cat-${ci}`"
+        :ref="(el) => reveal.observe(el)"
+        class="panel skill-panel reveal"
+        :class="`skill-panel--${ACCENTS[ci % ACCENTS.length]}`"
+        :style="{ '--reveal-delay': `${ci * 120}ms` }"
+      >
+        <div class="skill-accent" aria-hidden="true"></div>
+        <h3 v-if="category.name" class="skill-label">{{ category.name }}</h3>
         <ul class="skills-list">
           <li
             v-for="(skill, si) in category.skills"
             :key="`skill-${ci}-${si}`"
             class="skill-chip"
+            :style="{ transitionDelay: `${si * 30}ms` }"
           >
-            <span v-if="skill.icon" class="skill-icon" aria-hidden="true">{{ skill.icon }}</span>
             {{ skill.name }}
           </li>
         </ul>
       </div>
-    </template>
-    <ul v-else class="skills-list">
-      <li v-for="(skill, index) in items" :key="`skill-${index}`" class="skill-chip">
-        {{ skill.name }}
-      </li>
-    </ul>
+    </div>
   </section>
 </template>
 
 <script setup>
+import { useTemplateRef } from 'vue'
+import { useScrollReveal } from '@/composables/useScrollReveal'
+import { useRipple } from '@/composables/useRipple'
+
 defineProps({
-  items: { type: Array, default: () => [] },
-  categories: { type: Array, default: null },
+  categories: { type: Array, required: true },
 })
+
+const ACCENTS = ['cyan', 'blue', 'violet']
+
+const root = useTemplateRef('root')
+const reveal = useScrollReveal({ rootMargin: '0px 0px -6% 0px' })
+useRipple(() => root.value, { selector: '.skill-chip' })
 </script>
 
 <style scoped>
-.skill-group {
-  margin-bottom: var(--space-4);
+.skills {
+  display: grid;
+  gap: var(--space-5);
 }
 
-.skill-group:last-child {
-  margin-bottom: 0;
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
 }
 
-.skill-group-label {
-  margin: 0 0 var(--space-2);
+/* ===== Category panels: per-accent top gradient + halo ===== */
+
+.skill-panel {
+  position: relative;
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
+  padding: clamp(1rem, 2vw, 1.3rem);
+}
+
+.skill-panel--cyan {
+  --panel-accent: var(--star-cyan);
+  --panel-halo: var(--halo-cyan);
+}
+
+.skill-panel--blue {
+  --panel-accent: var(--star-blue);
+  --panel-halo: var(--halo-blue);
+}
+
+.skill-panel--violet {
+  --panel-accent: var(--star-violet);
+  --panel-halo: var(--halo-violet);
+}
+
+.skill-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: linear-gradient(
+    90deg,
+    var(--panel-accent),
+    color-mix(in srgb, var(--panel-accent) 35%, transparent)
+  );
+  opacity: 0.85;
+}
+
+.skill-label {
+  margin: 0;
   font-size: var(--text-xs);
   font-weight: 500;
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--color-text-tertiary);
+  color: var(--panel-accent);
 }
+
+/* ===== Floating chips: spring hover + staggered settle ===== */
 
 .skills-list {
   list-style: none;
@@ -59,6 +116,7 @@ defineProps({
 }
 
 .skill-chip {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -68,36 +126,43 @@ defineProps({
   padding: 0.4rem 0.72rem;
   border-radius: var(--radius-full);
   border: 1px solid var(--glass-border);
-  background: var(--color-accent-cyan-dim);
-  color: var(--color-nebula-200);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--panel-accent) 12%, transparent), transparent 60%),
+    rgba(125, 244, 232, 0.06);
+  color: var(--panel-accent);
   font-size: var(--text-sm);
+  font-weight: 500;
   line-height: 1;
   cursor: default;
+  backdrop-filter: blur(6px);
+  box-shadow: var(--glass-highlight);
+  opacity: 0;
+  transform: translateY(12px);
   transition:
-    transform var(--transition-base),
+    opacity 0.4s var(--ease-flow),
+    transform 0.5s var(--ease-spring),
     border-color var(--transition-base),
     box-shadow var(--transition-base),
     background-color var(--transition-base);
 }
 
-.skill-icon {
-  font-size: 1em;
-  line-height: 1;
+.skill-panel.is-visible .skill-chip {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.skill-chip:hover {
-  transform: translateY(-2px);
-  border-color: var(--color-accent-cyan);
-  background: rgba(78, 240, 208, 0.12);
-  box-shadow: var(--shadow-glow-cyan);
-}
-
-.skill-chip:focus-visible {
-  outline: 2px solid var(--color-accent-cyan);
-  outline-offset: 2px;
+/* Equal specificity to the settle rule but later in the file → hover wins. */
+.skill-panel .skill-chip:hover {
+  transform: translateY(-3px);
+  border-color: var(--panel-accent);
+  box-shadow:
+    var(--glass-highlight),
+    0 0 18px color-mix(in srgb, var(--panel-accent) 30%, transparent);
 }
 
 @media (max-width: 640px) {
-  .skills-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skills-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 </style>

@@ -16,7 +16,7 @@ html,
 body,
 #app {
   min-height: 100%;
-  background-color: var(--color-void-950);
+  background-color: var(--bg-base-0);
 }
 
 body {
@@ -26,7 +26,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: var(--leading-base);
-  color: var(--color-text-primary);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -52,47 +52,145 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent-cyan);
+  outline: 2px solid var(--star-cyan);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
 ::selection {
-  background: rgba(78, 240, 208, 0.25);
-  color: var(--color-text-primary);
+  background: rgba(110, 244, 224, 0.22);
+  color: var(--text-primary);
 }
 
-/* ===== Scrollbar (subtle, space-themed) ===== */
+/* ===== Scrollbar (soft star-light) ===== */
 
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-void-900);
+  background: var(--bg-base-1);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-nebula-500);
+  background: linear-gradient(
+    180deg,
+    var(--star-cyan) 0%,
+    var(--star-violet) 100%
+  );
   border-radius: var(--radius-full);
+  opacity: 0.6;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-nebula-400);
-}
-
-/* ===== Shared Animation Utilities ===== */
-
-.animate-in {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.48s ease, transform 0.48s ease;
-  will-change: transform, opacity;
-}
-
-.animate-in.is-visible {
   opacity: 1;
-  transform: translateY(0);
+}
+
+/* ===== Floating Glass Panel =====
+   The only frosted surface. Each section that reads as a single body of
+   content gets `.panel` on its root; grid sections (Timeline/Skills/Projects)
+   put `.panel` on each card instead — never nested (backdrop-filter budget). */
+
+.panel {
+  position: relative;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--glass-border);
+  background:
+    linear-gradient(155deg, rgba(120, 170, 255, 0.07), transparent 46%),
+    var(--glass-bg);
+  backdrop-filter: blur(var(--panel-blur, var(--glass-blur))) saturate(var(--glass-saturate));
+  box-shadow:
+    var(--glass-highlight),
+    var(--glass-shade),
+    var(--shadow-float),
+    var(--shadow-halo);
+  contain: paint;
+  transition:
+    transform var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+/* Halo behind the glass — breathes gently (HarmonyOS 光晕呼吸). */
+.panel::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 8%;
+  top: -12%;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(var(--panel-halo, var(--halo-blue)), transparent 70%);
+  filter: blur(70px);
+  opacity: 0.22;
+  pointer-events: none;
+  animation: halo-breathe 8s var(--ease-aurora) infinite alternate;
+  will-change: transform;
+}
+
+.panel:hover {
+  transform: translateY(-5px);
+  border-color: var(--glass-border-hover);
+  box-shadow:
+    var(--glass-highlight),
+    var(--glass-shade),
+    var(--shadow-lift),
+    var(--shadow-halo);
+}
+
+.panel:hover::before {
+  opacity: 0.3;
+}
+
+/* 材质流光 — a faint band of light drifts across the glass like sunlight on
+   a window pane. Transform-only (composited) so it stays cheap. */
+.panel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -100%;
+  width: 60%;
+  background: linear-gradient(
+    105deg,
+    transparent,
+    rgba(255, 255, 255, 0.06) 45%,
+    rgba(255, 255, 255, 0.11) 50%,
+    rgba(255, 255, 255, 0.06) 55%,
+    transparent
+  );
+  pointer-events: none;
+  animation: sheen-drift 16s var(--ease-aurora) infinite;
+}
+
+@keyframes sheen-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(360%); }
+}
+
+/* Panels that are also scroll-revealed settle to identity, then hover wins. */
+.panel.is-visible:hover {
+  transform: translateY(-5px);
+}
+
+/* ===== Gaseous Reveal (气态动效: blur + scale + rise like smoke) =====
+   Driven by useScrollReveal adding `.is-visible`. One-shot per element. */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px) scale(0.94);
+  filter: blur(20px);
+  transition:
+    transform 0.9s var(--ease-spring) var(--reveal-delay, 0ms),
+    opacity 0.7s var(--ease-flow) var(--reveal-delay, 0ms),
+    filter 0.7s var(--ease-flow) var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
   will-change: auto;
 }
 
@@ -102,40 +200,92 @@ a {
 .tag-pill {
   display: inline-flex;
   align-items: center;
-  padding: 0.1rem 0.4rem;
+  padding: 0.12rem 0.5rem;
   border-radius: var(--radius-full);
   border: 1px solid var(--glass-border);
-  font-size: 0.68rem;
+  background: rgba(110, 244, 224, 0.06);
+  color: var(--pill-accent, var(--star-cyan));
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: 0.02em;
   line-height: 1.5;
   white-space: nowrap;
 }
 
-.tag-pill--cyan {
-  background: var(--color-accent-cyan-dim);
-  color: var(--color-accent-cyan);
+/* ===== Water Ripple + 按压点光源 (press point-light) =====
+   useRipple appends a `.ripple-el` span at the press point. The expanding ring
+   is the 水波涟漪; the soft white box-shadow bloom is the 按压点光源 —
+   "like a light source glowing under the icon". */
+
+.ripple-host {
+  position: relative;
+  overflow: hidden;
 }
 
-.tag-pill--amber {
-  background: rgba(240, 184, 72, 0.08);
-  color: var(--color-accent-amber);
+/* 按压弹性反馈 — elastic scale while pressed. */
+.ripple-host:active {
+  transform: scale(0.98);
 }
 
-/* Glass surface card (shared base + hover lift) */
-.glass-card {
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  transition:
-    transform var(--transition-base),
-    border-color var(--transition-base),
-    box-shadow var(--transition-base),
-    background-color var(--transition-base);
+.ripple-el {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ripple-color, rgba(255, 255, 255, 0.45));
+  box-shadow: 0 0 26px 8px rgba(255, 255, 255, 0.16);
+  opacity: 0;
+  transform: scale(0.15);
+  pointer-events: none;
+  animation: ripple-expand 750ms var(--ease-flow) forwards;
+  will-change: transform, opacity;
 }
 
-.glass-card:hover {
-  transform: translateY(var(--lift, -2px));
-  border-color: var(--glass-border-hover);
-  background: var(--glass-bg-hover);
-  box-shadow: var(--shadow-glow-blue);
+@keyframes ripple-expand {
+  from {
+    opacity: 0.75;
+    transform: scale(0.15);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+/* ===== Star-light glints (星芒闪烁) =====
+   Tiny 3px twinkling dots pinned to cards/chips. */
+
+.glint {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(234, 242, 255, 0.9);
+  box-shadow: 0 0 8px 2px rgba(234, 242, 255, 0.5);
+  opacity: 0.55;
+  pointer-events: none;
+  animation: glint-twinkle 3.8s var(--ease-aurora) infinite alternate;
+}
+
+@keyframes glint-twinkle {
+  from {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 0.95;
+    transform: scale(1.15);
+  }
+}
+
+/* ===== Keyframes shared across components ===== */
+
+/* Halo breathing — panels and the avatar ring. */
+@keyframes halo-breathe {
+  0%   { scale: 0.96; opacity: 0.16; }
+  50%  { scale: 1.06; opacity: 0.28; }
+  100% { scale: 0.98; opacity: 0.2; }
 }
 
 /* ===== Reduced Motion ===== */
@@ -147,5 +297,43 @@ a {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  .panel:hover,
+  .panel.is-visible:hover {
+    transform: none;
+  }
+
+  /* Static sheen and ripples have no place under reduced motion. */
+  .panel::after {
+    display: none;
+  }
+
+  .ripple-host:active {
+    transform: none;
+  }
+}
+
+/* ===== Print ===== */
+
+@media print {
+  .panel {
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    color: #222 !important;
+    contain: none;
+  }
+  .panel::before,
+  .glint {
+    display: none;
   }
 }

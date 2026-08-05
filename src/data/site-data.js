@@ -140,7 +140,6 @@ export const education = [
 
 export const footerItems = [
   'starfield',
-  'COMPUTER VISION · ROBOTICS · SYSTEMS',
 ]
 
 export const avatarImageSet = {
@@ -148,5 +147,3 @@ export const avatarImageSet = {
   webp2x: avatarImage2x,
   fallback: avatarImageFallback,
 }
-
-export { avatarImage }
