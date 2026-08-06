@@ -17,10 +17,12 @@
   --page-vignette:
     radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(3, 4, 13, 0.9) 100%);
 
-  /* ===== Aurora veil halos (HarmonyOS soft halos, blur 70–90px) ===== */
-  --halo-cyan:  rgba(80, 226, 214, 0.3);
-  --halo-blue:  rgba(90, 150, 255, 0.32);
-  --halo-violet: rgba(150, 130, 255, 0.3);
+  /* ===== Aurora veil halos (HarmonyOS soft halos, blur 40–70px) =====
+     Brightened so each panel has a visible light source glowing through its
+     glass — the key to reading as translucent rather than a dark slab. */
+  --halo-cyan:  rgba(80, 226, 214, 0.5);
+  --halo-blue:  rgba(90, 150, 255, 0.52);
+  --halo-violet: rgba(150, 130, 255, 0.5);
 
   /* ===== Color: Accents (cool family; amber removed) =====
      Brightened (2026-08-05) so accent-as-text stays readable: the two soft
@@ -36,16 +38,22 @@
   --star-white:       #EAF2FF;   /* glint / glow core */
 
   /* ===== Glass Surfaces (frosted, TRANSLUCENT — 通透质感) =====
-     HarmonyOS HDS Immersive Material: the material is meant to let the
-     background show through (背景透出). GENTLE tier ≈ blur 15. Low alpha keeps
-     panels airy while the blur + saturate preserve readability. */
-  --glass-bg:          rgba(9, 17, 46, 0.26);
-  --glass-bg-hover:    rgba(13, 24, 58, 0.34);
-  --glass-border:      rgba(150, 186, 255, 0.2);
-  --glass-border-hover: rgba(185, 215, 255, 0.4);
-  --glass-blur:        16px;     /* HarmonyOS 均衡 GENTLE tier (~15) */
-  --glass-saturate:    1.45;
-  --glass-highlight:   inset 0 1px 0 rgba(255, 255, 255, 0.2);
+     HarmonyOS HDS Immersive Material: EVERY panel is a semi-transparent pane —
+     you see the luminous aurora + starfield THROUGH it. Light cool-blue tint at
+     LOW alpha keeps the glass see-through; the pane is still perceived because
+     the bright backdrop behind it (bright aurora + per-panel halo glow) shows
+     through while the border + top-edge highlight + shadow define the rim.
+     --glass-bg alpha is the knob: ~0.12–0.18 reads translucent over a luminous
+     backdrop; higher hides the backdrop (opaque); the pane disappears entirely
+     only if BOTH tint AND backdrop are dark. (2026-08-06 iterated 0.065→0.24→
+     now 0.15 + much brighter aurora: the missing lever was a bright backdrop.) */
+  --glass-bg:          rgba(48, 88, 158, 0.15);
+  --glass-bg-hover:    rgba(58, 100, 172, 0.2);
+  --glass-border:      rgba(185, 218, 255, 0.32);
+  --glass-border-hover: rgba(210, 235, 255, 0.5);
+  --glass-blur:        10px;     /* light frost: glassy, backdrop stays legible */
+  --glass-saturate:    1.6;
+  --glass-highlight:   inset 0 1px 0 rgba(255, 255, 255, 0.45);
   --glass-shade:       inset 0 -1px 0 rgba(0, 0, 0, 0.3);
 
   /* ===== Light / Glow ===== */

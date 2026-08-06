@@ -43,7 +43,7 @@ const reveal = useScrollReveal({ threshold: 0.05 })
 
 <style scoped>
 .hero {
-  --panel-blur: 20px;
+  --panel-blur: 16px;
   --panel-halo: var(--halo-cyan);
   padding: clamp(3rem, 10vh, 6rem);
 }

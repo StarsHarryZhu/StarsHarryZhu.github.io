@@ -32,7 +32,7 @@ function getPointer() {
 
 // Mounts the singleton field; other components reach it via useParticleField().
 useParticleField(() => canvasRef.value, {
-  count: 150,
+  count: 110,
   connectDistance: 120,
   pointerStrength: 0.14,
   getPointer,
@@ -73,32 +73,32 @@ useParticleField(() => canvasRef.value, {
 .sf-aurora {
   position: absolute;
   inset: -15%;
-  filter: blur(70px);
-  opacity: 0.26;
+  filter: blur(40px);
+  opacity: 0.55;
   will-change: transform;
 }
 
 .sf-aurora--a {
   background:
-    radial-gradient(38% 32% at 22% 60%, rgba(125, 244, 232, 0.3), transparent 70%),
-    radial-gradient(30% 26% at 72% 30%, rgba(155, 139, 255, 0.26), transparent 70%),
-    radial-gradient(28% 24% at 50% 80%, rgba(111, 168, 255, 0.22), transparent 70%);
+    radial-gradient(46% 38% at 22% 60%, rgba(125, 244, 232, 0.5), transparent 70%),
+    radial-gradient(38% 32% at 72% 30%, rgba(155, 139, 255, 0.45), transparent 70%),
+    radial-gradient(34% 28% at 50% 80%, rgba(111, 168, 255, 0.42), transparent 70%);
   animation: aurora-drift-a 40s var(--ease-aurora) infinite alternate;
 }
 
 .sf-aurora--b {
   background:
-    radial-gradient(34% 28% at 78% 62%, rgba(111, 168, 255, 0.28), transparent 70%),
-    radial-gradient(30% 26% at 30% 24%, rgba(125, 244, 232, 0.2), transparent 70%),
-    radial-gradient(24% 20% at 62% 88%, rgba(90, 150, 255, 0.26), transparent 70%);
+    radial-gradient(42% 34% at 78% 62%, rgba(111, 168, 255, 0.48), transparent 70%),
+    radial-gradient(38% 32% at 30% 24%, rgba(125, 244, 232, 0.4), transparent 70%),
+    radial-gradient(30% 24% at 62% 88%, rgba(90, 150, 255, 0.45), transparent 70%);
   animation: aurora-drift-b 52s var(--ease-aurora) infinite alternate;
   animation-delay: -18s;
 }
 
 .sf-aurora--c {
   background:
-    radial-gradient(26% 22% at 16% 28%, rgba(155, 139, 255, 0.3), transparent 70%),
-    radial-gradient(30% 26% at 84% 14%, rgba(80, 226, 214, 0.2), transparent 70%);
+    radial-gradient(34% 28% at 16% 28%, rgba(155, 139, 255, 0.5), transparent 70%),
+    radial-gradient(38% 32% at 84% 14%, rgba(80, 226, 214, 0.4), transparent 70%);
   animation: aurora-drift-c 60s var(--ease-aurora) infinite alternate;
   animation-delay: -32s;
 }
@@ -135,7 +135,16 @@ useParticleField(() => canvasRef.value, {
 @media (prefers-reduced-motion: reduce) {
   .sf-aurora {
     animation: none;
-    opacity: 0.35;
+    opacity: 0.65;
+  }
+}
+
+/* ===== Perf tier: static aurora (blur kept — rasterized once, free) =====
+   NOTE: same triggers as global.css — no prefers-reduced-transparency. */
+
+@media (max-width: 767px), (hover: none) and (pointer: coarse) {
+  .sf-aurora {
+    animation: none;
   }
 }
 </style>

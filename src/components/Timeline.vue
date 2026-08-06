@@ -204,7 +204,7 @@ useRipple(() => root.value, { selector: '.timeline-card' })
 }
 
 .timeline-card--featured {
-  --panel-blur: 22px;
+  --panel-blur: 16px;
   --panel-halo: var(--halo-violet);
   border: 1px solid transparent;
   background:

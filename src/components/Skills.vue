@@ -128,13 +128,12 @@ useRipple(() => root.value, { selector: '.skill-chip' })
   border: 1px solid var(--glass-border);
   background:
     linear-gradient(135deg, color-mix(in srgb, var(--panel-accent) 12%, transparent), transparent 60%),
-    rgba(125, 244, 232, 0.06);
+    rgba(125, 244, 232, 0.09);
   color: var(--panel-accent);
   font-size: var(--text-sm);
   font-weight: 500;
   line-height: 1;
   cursor: default;
-  backdrop-filter: blur(6px);
   box-shadow: var(--glass-highlight);
   opacity: 0;
   transform: translateY(12px);

@@ -15,8 +15,12 @@ import { onMounted, onBeforeUnmount } from 'vue'
  * Performance
  *   - Three pre-rendered radial-gradient sprites (cyan/blue/violet) drawn via
  *     drawImage — no per-particle shadowBlur.
- *   - Connecting lines use a uniform spatial hash (O(n) per frame).
- *   - Particle count auto-reduces on narrow viewports; bursts capped.
+ *   - Connecting lines use a uniform spatial hash (O(n) per frame), batched
+ *     into a few alpha buckets so there are only ~4 stroke() calls per frame.
+ *   - Frame-skipped to ~30fps (perf tier ~20fps): halves canvas repaints and,
+ *     because the canvas sits behind the glass panels, halves their
+ *     backdrop-filter re-blur frequency too.
+ *   - Particle count auto-reduces on narrow viewports / perf tier; bursts capped.
  *   - RAF pauses on `visibilitychange`; freezes to a static frame under
  *     `prefers-reduced-motion` (bursts become no-ops).
  *
@@ -32,7 +36,7 @@ import { onMounted, onBeforeUnmount } from 'vue'
  *              setHoverTargets: (t:Array<{x:number,y:number,r:number}>)=>void }}
  */
 
-const MAX_PARTICLES = 180
+const MAX_PARTICLES = 140
 const BURST_PER_TRIGGER = 10
 
 // Active field API, so controller-mode callers share one field.
@@ -64,6 +68,11 @@ export function useParticleField(getCanvas, opts = {}) {
   let sprites = []
   let reduced = false
   let hoverTargets = []
+  let perfTier = false
+  let frameInterval = 2
+  let frameCount = 0
+  let resizeTimer = null
+  let onResize = null
 
   const reduceCount = Math.min(count, 46)
 
@@ -119,6 +128,13 @@ export function useParticleField(getCanvas, opts = {}) {
 
   function frame(time) {
     if (disposed) return
+    // Frame-skip: render ~30fps (perf tier ~20fps) instead of full rAF.
+    // Halves canvas repaints and — since the canvas sits behind the glass
+    // panels — halves their backdrop-filter re-blur frequency too.
+    if (frameCount++ % frameInterval !== 0) {
+      rafId = requestAnimationFrame(frame)
+      return
+    }
     ctx.clearRect(0, 0, width, height)
 
     // Normalized [-1, 1] pointer → canvas pixel coordinates.
@@ -204,7 +220,7 @@ export function useParticleField(getCanvas, opts = {}) {
 
     // Connect near particles with faint constellation lines.
     if (connectDistance > 0) {
-      const cd = connectDistance
+      const cd = perfTier ? connectDistance * 0.75 : connectDistance
       const cols = Math.max(1, Math.ceil(width / cd))
       const buckets = new Map()
 
@@ -219,7 +235,11 @@ export function useParticleField(getCanvas, opts = {}) {
         list.push(i)
       }
 
+      // Batch segments by alpha bucket: a handful of beginPath/stroke calls per
+      // frame instead of one per pair, and no per-segment string allocation.
       ctx.lineWidth = 1
+      const LINE_ALPHAS = [0.045, 0.03, 0.02, 0.01]
+      const segs = [[], [], [], []]
       for (let i = 0; i < particles.length; i++) {
         const a = particles[i]
         const cx = Math.floor(a.x / cd)
@@ -238,15 +258,24 @@ export function useParticleField(getCanvas, opts = {}) {
               const d2 = dx * dx + dy * dy
               if (d2 < cd * cd) {
                 const d = Math.sqrt(d2)
-                ctx.strokeStyle = `hsla(210, 85%, 75%, ${(1 - d / cd) * 0.05})`
-                ctx.beginPath()
-                ctx.moveTo(a.x, a.y)
-                ctx.lineTo(b.x, b.y)
-                ctx.stroke()
+                const f = 1 - d / cd
+                const bi = Math.min(3, (f * 4) | 0)
+                segs[bi].push(a.x, a.y, b.x, b.y)
               }
             }
           }
         }
+      }
+      for (let b = 0; b < segs.length; b++) {
+        const s = segs[b]
+        if (!s.length) continue
+        ctx.strokeStyle = `hsla(210, 85%, 75%, ${LINE_ALPHAS[b]})`
+        ctx.beginPath()
+        for (let i = 0; i < s.length; i += 4) {
+          ctx.moveTo(s[i], s[i + 1])
+          ctx.lineTo(s[i + 2], s[i + 3])
+        }
+        ctx.stroke()
       }
     }
 
@@ -316,14 +345,25 @@ export function useParticleField(getCanvas, opts = {}) {
 
     sprites = makeSprites()
     resize()
-    window.addEventListener('resize', resize)
+    onResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(resize, 200) // mobile URL-bar collapse fires resize storms
+    }
+    window.addEventListener('resize', onResize)
     document.addEventListener('visibilitychange', onVisibility)
 
     if (typeof window !== 'undefined' && window.matchMedia) {
       reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      // Mirrors the perf-tier media query in global.css / StarfieldBackground.
+      // prefers-reduced-transparency deliberately excluded (design is translucent).
+      perfTier =
+        window.matchMedia('(max-width: 767px)').matches ||
+        (window.matchMedia('(hover: none)').matches &&
+          window.matchMedia('(pointer: coarse)').matches)
     }
+    frameInterval = perfTier ? 3 : 2
 
-    const n = window.innerWidth < 700 ? reduceCount : count
+    const n = window.innerWidth < 700 ? (perfTier ? 30 : reduceCount) : (perfTier ? 60 : count)
     particles = Array.from({ length: n }, () => spawn(true))
 
     activeField = { burst, setHoverTargets }
@@ -339,7 +379,7 @@ export function useParticleField(getCanvas, opts = {}) {
     disposed = true
     // Only this field is ever mounted in the SPA, so clear the singleton.
     activeField = null
-    window.removeEventListener('resize', resize)
+    if (onResize) window.removeEventListener('resize', onResize)
     document.removeEventListener('visibilitychange', onVisibility)
     if (rafId) cancelAnimationFrame(rafId)
   })

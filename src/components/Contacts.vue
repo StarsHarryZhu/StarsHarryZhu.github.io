@@ -105,8 +105,7 @@ function onPress(e) {
   border: 1px solid var(--glass-border);
   background:
     linear-gradient(155deg, rgba(120, 170, 255, 0.07), transparent 46%),
-    rgba(13, 22, 54, 0.42);
-  backdrop-filter: blur(14px) saturate(1.4);
+    rgba(13, 22, 54, 0.55);
   box-shadow:
     var(--glass-highlight),
     var(--glass-shade),
@@ -167,7 +166,7 @@ function onPress(e) {
   padding: 0.6rem 0.95rem;
   border-radius: 16px;
   border: 1px solid rgba(125, 244, 232, 0.4);
-  background: rgba(7, 12, 38, 0.86);
+  background: rgba(7, 12, 38, 0.94);
   color: var(--text-primary);
   text-align: center;
   font-size: var(--text-sm);
@@ -175,7 +174,6 @@ function onPress(e) {
   box-shadow:
     0 0 22px rgba(125, 244, 232, 0.14),
     0 14px 32px rgba(2, 5, 24, 0.55);
-  backdrop-filter: blur(28px) saturate(1.4);
 }
 
 .toast-enter-active {

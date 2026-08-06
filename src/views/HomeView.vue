@@ -140,21 +140,23 @@ function skipToContent() {
   }
 }
 
-/* ===== Pointer light wash ===== */
+/* ===== Pointer light wash (fine pointers only — touch has no cursor) ===== */
 
-.cursor-glow {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-wash);
-  pointer-events: none;
-  background:
-    radial-gradient(
-      640px circle at var(--glow-x, 50%) var(--glow-y, 50%),
-      rgba(110, 170, 255, 0.06) 0%,
-      rgba(155, 139, 255, 0.035) 40%,
-      transparent 72%
-    );
-  opacity: 0.75;
+@media (hover: hover) and (pointer: fine) {
+  .cursor-glow {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-wash);
+    pointer-events: none;
+    background:
+      radial-gradient(
+        480px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+        rgba(110, 170, 255, 0.06) 0%,
+        rgba(155, 139, 255, 0.035) 40%,
+        transparent 72%
+      );
+    opacity: 0.5;
+  }
 }
 
 /* ===== Skip link ===== */
