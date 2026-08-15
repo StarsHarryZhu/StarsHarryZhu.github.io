@@ -1,43 +1,41 @@
 import { onMounted, onBeforeUnmount } from 'vue'
 
 /**
- * useParticleField — Canvas 2D luminous "firefly / constellation" particle field.
+ * useParticleField — Canvas 2D luminous "gas mote" particle field.
  *
- * HarmonyOS 灵动粒子 reinterpreted: soft glowing particles that twinkle, drift,
- * respond to the pointer, converge toward hovered cards, and burst outward from
- * interaction points (click / tap) before dissipating like embers.
+ * HarmonyOS 气态动效 reinterpreted: soft, airy motes of light that drift like
+ * gas through the liquid sky, respond gently to the pointer, and burst outward
+ * from interaction points before dissipating. Colored to match the Liquid Sky
+ * palette (teal / blue / violet / coral cores on frosted white).
  *
  * Module singleton (mirrors useParallax):
- *   - StarfieldBackground mounts the field with `useParticleField(getCanvas, opts)`.
+ *   - LiquidSky mounts the field with `useParticleField(getCanvas, opts)`.
  *   - Any component can call `useParticleField()` (no args) to obtain the same
  *     field's `{ burst, setHoverTargets }` controller and trigger reactions.
  *
  * Performance
- *   - Three pre-rendered radial-gradient sprites (cyan/blue/violet) drawn via
- *     drawImage — no per-particle shadowBlur.
- *   - Connecting lines use a uniform spatial hash (O(n) per frame), batched
- *     into a few alpha buckets so there are only ~4 stroke() calls per frame.
- *   - Frame-skipped to ~30fps (perf tier ~20fps): halves canvas repaints and,
- *     because the canvas sits behind the glass panels, halves their
- *     backdrop-filter re-blur frequency too.
- *   - Particle count auto-reduces on narrow viewports / perf tier; bursts capped.
+ *   - Three pre-rendered radial-gradient sprites drawn via drawImage — no
+ *     per-particle shadowBlur.
+ *   - Connecting lines (off by default) use a uniform spatial hash, batched
+ *     into a few alpha buckets.
+ *   - Frame-skipped to ~30fps (perf tier ~20fps).
  *   - RAF pauses on `visibilitychange`; freezes to a static frame under
  *     `prefers-reduced-motion` (bursts become no-ops).
  *
  * @param {() => HTMLCanvasElement | null} [getCanvas]  ref accessor. Omitted →
  *        controller mode returning the active field's API (no-op if unmounted).
  * @param {Object} [opts]
- * @param {number} [opts.count=150]            particle count (desktop)
- * @param {number} [opts.connectDistance=120]  px; 0 disables connecting lines
- * @param {number} [opts.pointerStrength=0.14] pointer attraction factor
+ * @param {number} [opts.count=64]             particle count (desktop)
+ * @param {number} [opts.connectDistance=0]    px; 0 disables connecting lines
+ * @param {number} [opts.pointerStrength=0.1]  pointer attraction factor
  * @param {() => {x:number,y:number} | null} [opts.getPointer]
  *        normalized pointer in [-1, 1]; null disables attraction
  * @returns {{ burst: (x:number,y:number,n?:number)=>void,
  *              setHoverTargets: (t:Array<{x:number,y:number,r:number}>)=>void }}
  */
 
-const MAX_PARTICLES = 140
-const BURST_PER_TRIGGER = 10
+const MAX_PARTICLES = 90
+const BURST_PER_TRIGGER = 9
 
 // Active field API, so controller-mode callers share one field.
 let activeField = null
@@ -52,9 +50,9 @@ export function useParticleField(getCanvas, opts = {}) {
   }
 
   const {
-    count = 150,
-    connectDistance = 120,
-    pointerStrength = 0.14,
+    count = 64,
+    connectDistance = 0,
+    pointerStrength = 0.1,
     getPointer = () => null,
   } = opts
 
@@ -74,12 +72,14 @@ export function useParticleField(getCanvas, opts = {}) {
   let resizeTimer = null
   let onResize = null
 
-  const reduceCount = Math.min(count, 46)
+  const reduceCount = Math.min(count, 34)
 
+  // AeroGlass palette: bright cores that read as light on the dark theme.
   const SPRITE_COLORS = [
-    { core: '125, 244, 232', mid: '125, 244, 232' }, // cyan  #7DF4E8
-    { core: '111, 168, 255', mid: '111, 168, 255' }, // blue  #6FA8FF
-    { core: '155, 139, 255', mid: '155, 139, 255' }, // violet #9B8BFF
+    { core: '125, 244, 232', mid: '125, 244, 232' },   // cyan   #7DF4E8
+    { core: '138, 180, 255', mid: '138, 180, 255' },   // sky    #8AB4FF
+    { core: '167, 155, 255', mid: '167, 155, 255' },   // violet #A79BFF
+    { core: '103, 158, 254', mid: '86, 134, 254' },    // brand  #679EFE→#5686FE
   ]
 
   function makeSprites() {
@@ -94,7 +94,8 @@ export function useParticleField(getCanvas, opts = {}) {
         size / 2, size / 2, size / 2,
       )
       grad.addColorStop(0, `rgba(${core}, 0.95)`)
-      grad.addColorStop(0.35, `rgba(${mid}, 0.35)`)
+      grad.addColorStop(0.3, `rgba(255, 255, 255, 0.5)`)
+      grad.addColorStop(0.55, `rgba(${mid}, 0.3)`)
       grad.addColorStop(1, `rgba(${core}, 0)`)
       g.fillStyle = grad
       g.fillRect(0, 0, size, size)
@@ -117,10 +118,10 @@ export function useParticleField(getCanvas, opts = {}) {
     return {
       x: initial ? Math.random() * width : width / 2,
       y: initial ? Math.random() * height : height / 2,
-      vx: (Math.random() - 0.5) * 0.1,
-      vy: (Math.random() - 0.5) * 0.1,
-      r: 0.7 + Math.random() * 2.2,
-      alpha: 0.3 + Math.random() * 0.55,
+      vx: (Math.random() - 0.5) * 0.06,
+      vy: (Math.random() - 0.5) * 0.06,
+      r: 1.1 + Math.random() * 2.6,
+      alpha: 0.28 + Math.random() * 0.45,
       drift: Math.random() * Math.PI * 2,
       hue: (Math.random() * SPRITE_COLORS.length) | 0,
     }
@@ -129,8 +130,6 @@ export function useParticleField(getCanvas, opts = {}) {
   function frame(time) {
     if (disposed) return
     // Frame-skip: render ~30fps (perf tier ~20fps) instead of full rAF.
-    // Halves canvas repaints and — since the canvas sits behind the glass
-    // panels — halves their backdrop-filter re-blur frequency too.
     if (frameCount++ % frameInterval !== 0) {
       rafId = requestAnimationFrame(frame)
       return
@@ -147,17 +146,17 @@ export function useParticleField(getCanvas, opts = {}) {
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i]
 
-      // Organic micro-drift.
+      // Organic micro-drift (gas-like).
       p.drift += 0.002
-      p.vx += Math.sin(p.drift) * 0.0006
-      p.vy += Math.cos(p.drift * 1.31) * 0.0006
+      p.vx += Math.sin(p.drift) * 0.0004
+      p.vy += Math.cos(p.drift * 1.31) * 0.0004
 
       // Gentle pointer attraction.
       if (pointerX !== null) {
         const dx = pointerX - p.x
         const dy = pointerY - p.y
         const d2 = dx * dx + dy * dy
-        const rad = 170
+        const rad = 160
         if (d2 < rad * rad && d2 > 0.01) {
           const d = Math.sqrt(d2)
           const f = (1 - d / rad) * pointerStrength
@@ -166,7 +165,7 @@ export function useParticleField(getCanvas, opts = {}) {
         }
       }
 
-      // Convergence toward hovered cards (converge-then-dissipate like embers).
+      // Convergence toward hovered cards (converge-then-dissipate).
       for (let t = 0; t < targets.length; t++) {
         const target = targets[t]
         const dx = target.x - p.x
@@ -178,7 +177,7 @@ export function useParticleField(getCanvas, opts = {}) {
             p.vx += (Math.random() - 0.5) * 0.02
             p.vy += (Math.random() - 0.5) * 0.02
           } else {
-            const f = (1 - d / target.r) * 0.06
+            const f = (1 - d / target.r) * 0.05
             p.vx += (dx / d) * f
             p.vy += (dy / d) * f
           }
@@ -191,7 +190,7 @@ export function useParticleField(getCanvas, opts = {}) {
       p.x += p.vx
       p.y += p.vy
 
-      // Burst particles fade fast and expire (dissipate like smoke).
+      // Burst particles fade fast and expire (dissipate like gas).
       if (p.life !== undefined) {
         p.life -= 0.04
         if (p.life <= 0) {
@@ -210,7 +209,7 @@ export function useParticleField(getCanvas, opts = {}) {
       // Twinkle base particles; burst particles fade with life.
       const twinkle =
         p.life === undefined
-          ? 0.6 + 0.4 * Math.sin(time * 0.002 + p.drift)
+          ? 0.65 + 0.35 * Math.sin(time * 0.002 + p.drift)
           : p.life
       const s = p.r * 7
       ctx.globalAlpha = Math.max(0, p.alpha * twinkle)
@@ -218,7 +217,7 @@ export function useParticleField(getCanvas, opts = {}) {
     }
     ctx.globalAlpha = 1
 
-    // Connect near particles with faint constellation lines.
+    // Connect near particles with faint constellation lines (opt-in).
     if (connectDistance > 0) {
       const cd = perfTier ? connectDistance * 0.75 : connectDistance
       const cols = Math.max(1, Math.ceil(width / cd))
@@ -235,10 +234,9 @@ export function useParticleField(getCanvas, opts = {}) {
         list.push(i)
       }
 
-      // Batch segments by alpha bucket: a handful of beginPath/stroke calls per
-      // frame instead of one per pair, and no per-segment string allocation.
+      // Batch segments by alpha bucket.
       ctx.lineWidth = 1
-      const LINE_ALPHAS = [0.045, 0.03, 0.02, 0.01]
+      const LINE_ALPHAS = [0.05, 0.035, 0.022, 0.012]
       const segs = [[], [], [], []]
       for (let i = 0; i < particles.length; i++) {
         const a = particles[i]
@@ -269,7 +267,7 @@ export function useParticleField(getCanvas, opts = {}) {
       for (let b = 0; b < segs.length; b++) {
         const s = segs[b]
         if (!s.length) continue
-        ctx.strokeStyle = `hsla(210, 85%, 75%, ${LINE_ALPHAS[b]})`
+        ctx.strokeStyle = `hsla(228, 80%, 55%, ${LINE_ALPHAS[b]})`
         ctx.beginPath()
         for (let i = 0; i < s.length; i += 4) {
           ctx.moveTo(s[i], s[i + 1])
@@ -316,14 +314,14 @@ export function useParticleField(getCanvas, opts = {}) {
     for (let i = 0; i < spawned; i++) {
       if (particles.length >= MAX_PARTICLES) break
       const ang = Math.random() * Math.PI * 2
-      const speed = 0.6 + Math.random() * 0.8
+      const speed = 0.5 + Math.random() * 0.7
       particles.push({
         x,
         y,
         vx: Math.cos(ang) * speed,
         vy: Math.sin(ang) * speed,
-        r: 0.7 + Math.random() * 1.6,
-        alpha: 0.5 + Math.random() * 0.4,
+        r: 1 + Math.random() * 1.8,
+        alpha: 0.4 + Math.random() * 0.4,
         drift: Math.random() * Math.PI * 2,
         hue: (Math.random() * SPRITE_COLORS.length) | 0,
         life: 1,
@@ -354,8 +352,7 @@ export function useParticleField(getCanvas, opts = {}) {
 
     if (typeof window !== 'undefined' && window.matchMedia) {
       reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      // Mirrors the perf-tier media query in global.css / StarfieldBackground.
-      // prefers-reduced-transparency deliberately excluded (design is translucent).
+      // Mirrors the perf-tier media query in global.css / LiquidSky.
       perfTier =
         window.matchMedia('(max-width: 767px)').matches ||
         (window.matchMedia('(hover: none)').matches &&
@@ -363,7 +360,7 @@ export function useParticleField(getCanvas, opts = {}) {
     }
     frameInterval = perfTier ? 3 : 2
 
-    const n = window.innerWidth < 700 ? (perfTier ? 30 : reduceCount) : (perfTier ? 60 : count)
+    const n = window.innerWidth < 700 ? (perfTier ? 22 : reduceCount) : (perfTier ? 42 : count)
     particles = Array.from({ length: n }, () => spawn(true))
 
     activeField = { burst, setHoverTargets }

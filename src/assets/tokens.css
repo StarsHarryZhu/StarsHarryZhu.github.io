@@ -1,128 +1,194 @@
-/*
- * Deep Starry Sea — Design Tokens
- * HarmonyOS Immersive Light-sense ("沉浸光感视效") reinterpreted for a personal
- * portfolio: 通透质感 (transparent floating glass), 灵动粒子 (firefly particles),
- * 气态动效 (gaseous smoke-dissolve motion). Cool cyan/blue/violet accent family
- * over a vast indigo-navy cosmos. Modern sans-serif voice (Space Grotesk + Inter).
- */
+/* ============================================================
+ * AeroGlass — Design Tokens
+ * HarmonyOS 6/7 气态动效 (gaseous aero motion) × iOS 26 液态玻璃
+ * (Liquid Glass), with a deep-sea aurora backdrop in the spirit
+ * of deepseek.com/harness.
+ *
+ *   · Backdrop: deep navy sea (not black) — vivid enough that the
+ *     glass has something to refract. Huge blurred aurora blobs
+ *     (deep blue #1A3870 / sky #4A8AC4→#2D5F9E), a faint 90px
+ *     engineering grid, gas-mote particles and a screen-blended
+ *     glow orb behind the hero.
+ *   · Surfaces: Liquid Glass — bright top catch-light, white-alpha
+ *     body with a navy refraction tint, 28px continuous curvature,
+ *     hairline bright rim that flares on hover.
+ *   · Type: HarmonyOS Sans (self-hosted Latin) + Fragment Mono.
+ *   · Motion: HarmonyOS 气态动效 — elements condense from blur
+ *     (16px → 0) and rise, settle on the aero curve, spring on
+ *     interaction, halos breathe like light through vapor.
+ * ============================================================ */
+
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('./fonts/HarmonyOS_Sans_Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('./fonts/HarmonyOS_Sans_Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('./fonts/HarmonyOS_Sans_Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  /* ===== Color: Background (deep-space gradient, cool navy) ===== */
-  --bg-base-0: #03040D;
-  --bg-base-1: #060B23;
-  --bg-base-2: #0B1235;
-  --bg-base-3: #08102F;
+  color-scheme: dark;
+
+  /* ===== Background: DSH GUI dark theme (bluish neutral) =====
+     Faithful to the harness GUI theme plugin: near-black bluish
+     surface ramp (base #151517 → layer-1 #232324 → layer-2 #2C2C2E).
+     A whisper of DeepSeek-blue aurora is kept behind the glass so the
+     liquid glass still has something to refract. */
+  --bg-0: #0E0E10;
+  --bg-1: #151517;   /* bluish-950 */
+  --bg-2: #1B1B1D;
   --page-bg:
-    linear-gradient(165deg, #0B1235 0%, #081030 30%, #060B23 62%, #03040D 100%);
+    linear-gradient(
+      168deg,
+      #171719 0%,
+      #151517 38%,
+      #141416 70%,
+      #111113 100%
+    );
   --page-vignette:
-    radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(3, 4, 13, 0.9) 100%);
+    radial-gradient(120% 90% at 50% 0%, transparent 42%, rgba(10, 10, 12, 0.85) 100%);
 
-  /* ===== Aurora veil halos (HarmonyOS soft halos, blur 40–70px) =====
-     Brightened so each panel has a visible light source glowing through its
-     glass — the key to reading as translucent rather than a dark slab. */
-  --halo-cyan:  rgba(80, 226, 214, 0.5);
-  --halo-blue:  rgba(90, 150, 255, 0.52);
-  --halo-violet: rgba(150, 130, 255, 0.5);
+  /* ===== Aurora halos: faint DeepSeek-blue gas ===== */
+  --halo-deep:   rgba(65, 118, 230, 0.22);  /* deepseek-500 */
+  --halo-sky:    rgba(103, 158, 254, 0.28); /* deepseek-400 */
+  --halo-navy:   rgba(86, 134, 254, 0.2);   /* deepseek-450 */
+  --halo-cyan:   rgba(125, 244, 232, 0.14);
+  --halo-violet: rgba(167, 155, 255, 0.12);
 
-  /* ===== Color: Accents (cool family; amber removed) =====
-     Brightened (2026-08-05) so accent-as-text stays readable: the two soft
-     tints — star-blue & star-violet — were washing out over the aurora halos
-     behind the glass (≥5.6:1 worst-case now). The *-deep variants are
-     decorative-only (borders / gradient ends); do NOT use them for text. */
-  --star-cyan:        #7DF4E8;   /* primary accent — star-light */
-  --star-cyan-strong: #48E2D3;
-  --star-blue:        #7EB0FF;
-  --star-blue-deep:   #4A7BD9;
-  --star-violet:      #A79BFF;
-  --star-violet-deep: #6C5CD6;
-  --star-white:       #EAF2FF;   /* glint / glow core */
+  /* ===== Accents =====
+     DeepSeek brand blue is the primary accent; star-cyan kept as the
+     bright "ink" accent; violet for depth. */
+  --accent-blue:      #5686FE;   /* deepseek-450 */
+  --accent-blue-soft: #679EFE;   /* deepseek-400 */
+  --accent-sky:       #8AB4FF;
+  --accent-cyan:      #7DF4E8;
+  --accent-violet:    #A79BFF;
 
-  /* ===== Glass Surfaces (frosted, TRANSLUCENT — 通透质感) =====
-     HarmonyOS HDS Immersive Material: EVERY panel is a semi-transparent pane —
-     you see the luminous aurora + starfield THROUGH it. Light cool-blue tint at
-     LOW alpha keeps the glass see-through; the pane is still perceived because
-     the bright backdrop behind it (bright aurora + per-panel halo glow) shows
-     through while the border + top-edge highlight + shadow define the rim.
-     --glass-bg alpha is the knob: ~0.12–0.18 reads translucent over a luminous
-     backdrop; higher hides the backdrop (opaque); the pane disappears entirely
-     only if BOTH tint AND backdrop are dark. (2026-08-06 iterated 0.065→0.24→
-     now 0.15 + much brighter aurora: the missing lever was a bright backdrop.) */
-  --glass-bg:          rgba(48, 88, 158, 0.15);
-  --glass-bg-hover:    rgba(58, 100, 172, 0.2);
-  --glass-border:      rgba(185, 218, 255, 0.32);
-  --glass-border-hover: rgba(210, 235, 255, 0.5);
-  --glass-blur:        10px;     /* light frost: glassy, backdrop stays legible */
-  --glass-saturate:    1.6;
-  --glass-highlight:   inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  --glass-shade:       inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  --accent-cyan-ink:   #7DF4E8;
+  --accent-blue-ink:   #8AB4FF;
+  --accent-violet-ink: #A79BFF;
 
-  /* ===== Light / Glow ===== */
-  --shadow-float: 0 28px 80px -24px rgba(2, 6, 26, 0.92);
-  --shadow-lift:  0 34px 90px -26px rgba(2, 6, 26, 0.96);
-  --shadow-halo:  0 0 90px -30px var(--halo-blue);
+  /* ===== Liquid Glass surfaces (iOS 26) — THIN frost =====
+     Nearly transparent body: white-alpha sheen over a faint bluish
+     tint, so the dark theme shows through. blur + saturate do the
+     frosting; the tint only reads as a whisper of glass. */
+  --glass-bg:
+    linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.035) 42%,
+      rgba(103, 158, 254, 0.08) 100%
+    ),
+    rgba(35, 35, 36, 0.16);   /* bluish-850 @ 16% */
+  --glass-bg-hover:
+    linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.06) 42%,
+      rgba(103, 158, 254, 0.13) 100%
+    ),
+    rgba(44, 44, 46, 0.22);   /* bluish-800 @ 22% */
+  --glass-blur:       20px;
+  --glass-saturate:   1.6;
+  --glass-brightness: 1.08;
+  --glass-specular:
+    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  --glass-rim: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --glass-iris: inset 0 -28px 50px -32px rgba(103, 158, 254, 0.2);
 
-  /* ===== Color: Text =====
-     Hierarchy primary > secondary > tertiary, kept distinct. All three stay
-     ≥7.3:1 on the glass panel and ≥5.6:1 even directly over the brightest
-     aurora halo — well above WCAG AA for body copy. (2026-08-05: tertiary
-     was #6E82B4 at ~4.5:1 — unreadable on halo-lit regions.) */
-  --text-primary:   #E8F0FF;
-  --text-secondary: #A9B8DE;
-  --text-tertiary:  #94A8D0;
+  --glass-border:       rgba(255, 255, 255, 0.18);
+  --glass-border-hover: rgba(255, 255, 255, 0.32);
 
-  /* ===== Typography ===== */
-  --font-display: 'Space Grotesk', 'Inter', system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', sans-serif;
+  /* ===== Border hierarchy (GUI: l1 → l4) ===== */
+  --border-l1: rgba(255, 255, 255, 0.06);
+  --border-l2: rgba(255, 255, 255, 0.12);
+  --border-l3: rgba(255, 255, 255, 0.16);
+  --border-l4: rgba(255, 255, 255, 0.2);
+
+  /* ===== Light / Shadow ===== */
+  --shadow-float: 0 20px 55px -20px rgba(0, 0, 0, 0.6);
+  --shadow-lift:  0 30px 75px -24px rgba(0, 0, 0, 0.75);
+  --shadow-halo:  0 0 46px -14px rgba(103, 158, 254, 0.35);
+
+  /* ===== Text (GUI bluish ramp) ===== */
+  --text-primary:   #F9FAFB;   /* bluish-50 */
+  --text-secondary: #CFD3D6;   /* bluish-300 */
+  --text-tertiary:  #ADB2B8;   /* bluish-400 */
+
+  /* ===== Typography =====
+     HarmonyOS Sans (self-hosted) is the display + body face;
+     Fragment Mono for technical labels. */
+  --font-display: 'HarmonyOS Sans', 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-body: 'HarmonyOS Sans', 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-mono: 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --text-2xs: 0.68rem;
   --text-xs: 0.74rem;
   --text-sm: 0.85rem;
-  --text-base: 0.96rem;
-  --text-lg: 1.12rem;
+  --text-base: 0.97rem;
+  --text-lg: 1.14rem;
   --text-xl: 1.5rem;
 
   --leading-base: 1.72;
-  --leading-relaxed: 1.8;
+  --leading-relaxed: 1.82;
 
-  --tracking-tight: -0.02em;
-  --tracking-wide: 0.08em;
-  --tracking-wider: 0.18em;
+  --tracking-tight: -0.025em;
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.14em;
 
-  /* ===== Spacing (4px base) ===== */
+  /* ===== Spacing ===== */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
   --space-5: 20px;
   --space-6: 24px;
-  --panel-pad: clamp(1.6rem, 3vw, 2.4rem);
-  --section-gap: clamp(3rem, 8vh, 6rem);
+  --panel-pad: clamp(1.5rem, 3vw, 2.4rem);
+  --section-gap: clamp(3.5rem, 10vh, 6.5rem);
 
-  /* ===== Border Radii ===== */
-  --radius-sm: 6px;
-  --radius-md: 14px;
+  /* ===== Radii — continuous curvature (liquid glass) ===== */
+  --radius-sm: 10px;
+  --radius-md: 16px;
   --radius-lg: 22px;
-  --radius-xl: 28px;
-  --radius-full: 9999px;
+  --radius-panel: 28px;      /* iOS 26 liquid glass curvature */
+  --radius-full: 100px;
 
-  /* ===== Motion (HarmonyOS) ===== */
-  /* Slow organic drift for aurora/halo */
-  --ease-aurora:      cubic-bezier(0.45, 0, 0.55, 1);
-  /* Smooth settle for reveals */
-  --ease-flow:        cubic-bezier(0.22, 1, 0.36, 1);
-  /* Entrance spring with gentle overshoot */
-  --ease-spring:      cubic-bezier(0.34, 1.56, 0.64, 1);
-  /* Hover / micro interactions */
+  /* ===== Motion — HarmonyOS 气态动效 ===== */
+  --ease-breathe:  cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-aero:     cubic-bezier(0.22, 1, 0.36, 1);   /* settle like gas */
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1); /* overshoot */
   --ease-spring-fast: cubic-bezier(0.2, 0.9, 0.3, 1);
+
+  --enter-blur: 16px;
+  --enter-y: 26px;
 
   --transition-base: 220ms var(--ease-spring-fast);
 
   /* ===== Layout / z ===== */
   --shell-pad: clamp(1rem, 3vw, 2.5rem);
-  --content-width: min(1120px, 100%);
+  --content-width: min(1160px, 100%);
+  --nav-height: 64px;
   --z-bg: 0;
   --z-panel: 2;
   --z-wash: 3;
+  --z-nav: 60;
   --z-skip: 100;
   --z-toast: 1200;
 }

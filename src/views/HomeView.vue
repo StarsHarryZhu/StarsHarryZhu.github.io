@@ -1,52 +1,52 @@
 <template>
-  <StarfieldBackground />
+  <AeroSky />
 
-  <!-- Pointer light wash: a faint aurora glow that follows the cursor -->
+  <!-- Pointer light wash: composited glow tile that follows the cursor.
+       The gradient is static (460px radius at 50% 50%); only transform
+       changes per move — no full-screen background repaint. -->
   <div
     class="cursor-glow"
     aria-hidden="true"
-    :style="{ '--glow-x': glowX, '--glow-y': glowY }"
+    :style="{
+      transform: `translate3d(calc(${glowX}vw - 460px), calc(${glowY}vh - 460px), 0)`,
+    }"
   ></div>
+
+  <GlassNav />
 
   <main id="content" class="page-shell" tabindex="-1">
     <a href="#content" class="skip-link" @click.prevent="skipToContent">Skip to content</a>
 
-    <!-- Floating constellation panels: each section drifts at its own depth -->
-    <div class="pane pane--hero" :style="heroStyle">
-      <Hero
-        :avatar="avatarImageSet.webp"
-        :avatar2x="avatarImageSet.webp2x"
-        :avatarFallback="avatarImageSet.fallback"
-        :title="profile.title"
-        :subtitle="profile.subtitle"
+    <Hero
+      :avatar="avatarImageSet.webp"
+      :avatar2x="avatarImageSet.webp2x"
+      :avatarFallback="avatarImageSet.fallback"
+      :title="profile.title"
+      :subtitle="profile.subtitle"
+      :bio="profile.bios[0]"
+    />
+
+    <div class="sections">
+      <About
+        :bios="profile.bios"
+        :contacts="contacts"
+        :focus-areas="focusAreas"
+        :note="aboutNote"
       />
-    </div>
 
-    <div class="pane pane--intro" :style="introStyle">
-      <Intro title="Profile" :bios="profile.bios" />
-    </div>
+      <Experience :items="timeline" />
 
-    <div class="pane pane--timeline" :style="timelineStyle">
-      <Timeline :items="timeline" />
-    </div>
-
-    <div class="pane pane--education" :style="educationStyle">
-      <Education :items="education" />
-    </div>
-
-    <div class="pane pane--skills" :style="skillsStyle">
-      <Skills :categories="skillCategories" />
-    </div>
-
-    <div class="pane pane--projects" :style="projectsStyle">
       <Projects :items="projects" />
-    </div>
 
-    <div class="pane pane--contacts" :style="contactsStyle">
-      <Contacts :items="contacts" />
-    </div>
+      <div class="split">
+        <Toolkit :categories="skillCategories" />
+        <Education :items="education" />
+      </div>
 
-    <Footer :items="footerItems" />
+      <Contact :items="contacts" />
+
+      <Footer :items="footerItems" />
+    </div>
   </main>
 </template>
 
@@ -63,37 +63,31 @@ import {
   avatarImageSet,
 } from '@/data/site-data.js'
 
-import Contacts from '@/components/Contacts.vue'
+import About from '@/components/About.vue'
+import AeroSky from '@/components/AeroSky.vue'
+import Contact from '@/components/Contact.vue'
 import Education from '@/components/Education.vue'
+import Experience from '@/components/Experience.vue'
 import Footer from '@/components/Footer.vue'
+import GlassNav from '@/components/GlassNav.vue'
 import Hero from '@/components/Hero.vue'
-import Intro from '@/components/Intro.vue'
 import Projects from '@/components/Projects.vue'
-import Skills from '@/components/Skills.vue'
-import StarfieldBackground from '@/components/StarfieldBackground.vue'
-import Timeline from '@/components/Timeline.vue'
+import Toolkit from '@/components/Toolkit.vue'
 import { useParallax } from '@/composables/useParallax'
 
 // Shared normalized pointer in [-1, 1]. refs stay 0 on touch / reduced-motion.
 const { mouseX, mouseY } = useParallax()
 
-const glowX = computed(() => `${(mouseX.value * 0.5 + 0.5) * 100}%`)
-const glowY = computed(() => `${(mouseY.value * 0.5 + 0.5) * 100}%`)
+const glowX = computed(() => `${(mouseX.value * 0.5 + 0.5) * 100}`)
+const glowY = computed(() => `${(mouseY.value * 0.5 + 0.5) * 100}`)
 
-// Per-panel parallax depth (px): nearer content drifts more with the pointer.
-function paneStyle(depth) {
-  return computed(() => ({
-    transform: `translate3d(${(mouseX.value * depth).toFixed(2)}px, ${(mouseY.value * depth).toFixed(2)}px, 0)`,
-  }))
-}
+const focusAreas = [
+  'Computer Vision',
+  'Robotics & Control',
+  'Systems Programming',
+]
 
-const heroStyle = paneStyle(6)
-const introStyle = paneStyle(10)
-const timelineStyle = paneStyle(4)
-const educationStyle = paneStyle(12)
-const skillsStyle = paneStyle(8)
-const projectsStyle = paneStyle(5)
-const contactsStyle = paneStyle(14)
+const aboutNote = 'Currently building vision-guided robotic systems — from YOLO detection to TensorRT-accelerated real-time control loops.'
 
 function skipToContent() {
   document.getElementById('content')?.focus()
@@ -105,38 +99,45 @@ function skipToContent() {
   position: relative;
   z-index: var(--z-panel);
   display: grid;
-  justify-items: center;
+  justify-items: stretch;
   width: 100%;
   max-width: var(--content-width);
   margin-inline: auto;
   padding: var(--shell-pad);
-  gap: var(--section-gap);
 }
 
-/* ===== Constellation panes ===== */
-
-.pane {
+.page-shell > * {
+  min-width: 0;
   width: 100%;
 }
 
-/* Parallax layers only on precise pointers (touch has no hover parallax). */
-@media (hover: hover) and (pointer: fine) {
-  .pane {
-    will-change: transform;
-  }
+/* Sections stack with generous air between them */
+.sections {
+  display: grid;
+  gap: var(--section-gap);
+  width: 100%;
+  padding-top: 2rem;
 }
 
-@media (min-width: 960px) {
-  .pane--intro,
-  .pane--contacts {
-    width: 62%;
-    margin-inline-start: 6%;
-  }
-  .pane--contacts {
-    width: 60%;
-  }
-  .pane--education {
-    width: 72%;
+/* Skip rendering off-screen sections (content-visibility) — biggest
+   single win for scroll perf on long pages. contain-intrinsic-BLOCK-
+   size reserves only height (a width fallback would overflow mobile). */
+.sections > * {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 720px;
+}
+
+/* Toolkit + Education side-by-side on wide screens */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .split {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -145,17 +146,22 @@ function skipToContent() {
 @media (hover: hover) and (pointer: fine) {
   .cursor-glow {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 920px;
+    height: 920px;
     z-index: var(--z-wash);
     pointer-events: none;
     background:
       radial-gradient(
-        480px circle at var(--glow-x, 50%) var(--glow-y, 50%),
-        rgba(110, 170, 255, 0.06) 0%,
-        rgba(155, 139, 255, 0.035) 40%,
+        460px circle at 50% 50%,
+        rgba(125, 244, 232, 0.04) 0%,
+        rgba(103, 158, 254, 0.05) 38%,
         transparent 72%
       );
-    opacity: 0.5;
+    opacity: 0.6;
+    will-change: transform;
+    transition: opacity 0.4s var(--ease-breathe);
   }
 }
 
@@ -167,12 +173,13 @@ function skipToContent() {
   left: 0;
   z-index: var(--z-skip);
   padding: var(--space-2) var(--space-4);
-  background: var(--bg-base-1);
+  background: var(--bg-1);
   color: var(--text-primary);
   border: 1px solid var(--glass-border);
   border-radius: 0 0 var(--radius-md) 0;
   text-decoration: none;
   font-size: var(--text-xs);
+  font-weight: 600;
 }
 
 .skip-link:focus {
@@ -192,12 +199,14 @@ function skipToContent() {
 @media print {
   .page-shell {
     background: white !important;
-    justify-items: start;
     padding: 1rem;
-    gap: 1.2rem;
   }
-  .pane {
-    transform: none !important;
+  .sections {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+  .split {
+    grid-template-columns: 1fr;
   }
   .skip-link,
   .cursor-glow {

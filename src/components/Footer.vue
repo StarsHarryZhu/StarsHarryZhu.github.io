@@ -4,18 +4,20 @@
     <p class="footer-dot" aria-hidden="true">
       <svg width="12" height="12" viewBox="0 0 10 10" fill="none">
         <defs>
-          <linearGradient id="star-grad" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient id="footer-star-grad" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#7DF4E8" />
+            <stop offset="0.55" stop-color="#8AB4FF" />
             <stop offset="1" stop-color="#A79BFF" />
           </linearGradient>
         </defs>
         <path
           d="M5 0L6.12 3.37L9.76 3.63L6.87 5.97L7.76 9.56L5 7.68L2.24 9.56L3.13 5.97L0.24 3.63L3.88 3.37L5 0Z"
-          fill="url(#star-grad)"
+          fill="url(#footer-star-grad)"
         />
       </svg>
     </p>
     <p v-if="items[1]" class="footer-side footer-right">{{ items[1] }}</p>
+    <p v-else class="footer-side footer-right">HarmonyOS Aero · Liquid Glass</p>
   </footer>
 </template>
 
@@ -33,11 +35,10 @@ defineProps({
   column-gap: 0.6rem;
   width: 100%;
   padding-top: clamp(1rem, 2.4vw, 1.4rem);
-  border-top: 1px solid transparent;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(125, 244, 232, 0.18) 50%,
+    rgba(255, 255, 255, 0.18) 50%,
     transparent 100%
   );
   background-size: 100% 1px;
@@ -48,7 +49,8 @@ defineProps({
 .footer-side {
   margin: 0;
   color: var(--text-tertiary);
-  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -64,11 +66,11 @@ defineProps({
   margin: 0;
   display: flex;
   align-items: center;
-  opacity: 0.75;
+  opacity: 0.8;
   line-height: 1;
   animation:
-    star-spin 24s linear infinite,
-    star-glow 4.5s var(--ease-aurora) infinite alternate;
+    star-spin 26s linear infinite,
+    star-glow 4.5s var(--ease-breathe) infinite alternate;
   will-change: transform;
 }
 
@@ -80,18 +82,18 @@ defineProps({
 @keyframes star-glow {
   from {
     opacity: 0.55;
-    filter: drop-shadow(0 0 2px rgba(125, 244, 232, 0.35));
+    filter: drop-shadow(0 0 2px rgba(125, 244, 232, 0.4));
   }
   to {
-    opacity: 0.9;
-    filter: drop-shadow(0 0 6px rgba(155, 139, 255, 0.6));
+    opacity: 0.95;
+    filter: drop-shadow(0 0 7px rgba(167, 155, 255, 0.6));
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .footer-dot {
     animation: none;
-    opacity: 0.75;
+    opacity: 0.8;
     filter: none;
   }
 }

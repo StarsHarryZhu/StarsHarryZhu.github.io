@@ -1,146 +1,130 @@
 <template>
-  <section ref="root" class="education" aria-label="Education">
-    <SectionHeader overline="Academic" title="Education" accent="violet" />
+  <section id="education" class="education-section" aria-label="Education">
+    <SectionHeader index="05" title="Education" />
 
-    <div class="education-grid">
-      <article
+    <div class="panel education-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '120ms' }">
+      <span class="panel-halo" style="--panel-halo: var(--halo-violet)" aria-hidden="true"></span>
+
+      <div
         v-for="(item, index) in items"
         :key="`education-${index}`"
-        :ref="(el) => reveal.observe(el)"
-        class="panel education-card reveal"
-        :style="{
-          '--reveal-delay': `${index * 120}ms`,
-          '--panel-halo': 'var(--halo-violet)',
-        }"
+        class="edu-item"
       >
-        <div class="education-signal" aria-hidden="true"></div>
-        <div class="education-copy">
-          <span class="education-period">{{ item.period }}</span>
-          <h3 class="education-institution">{{ item.institution }}</h3>
-          <p class="education-degree">{{ item.degree }}</p>
+        <div class="edu-signal" aria-hidden="true"></div>
+        <div class="edu-copy">
+          <span class="edu-period">{{ item.period }}</span>
+          <h3 class="edu-institution">{{ item.institution }}</h3>
+          <p class="edu-degree">{{ item.degree }}</p>
         </div>
-        <p v-if="item.location" class="education-location">{{ item.location }}</p>
-      </article>
+        <p v-if="item.location" class="edu-location">{{ item.location }}</p>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { useTemplateRef } from 'vue'
-import SectionHeader from './SectionHeader.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
 import { useScrollReveal } from '@/composables/useScrollReveal'
-import { useRipple } from '@/composables/useRipple'
 
 defineProps({
   items: { type: Array, required: true },
 })
 
-const root = useTemplateRef('root')
 const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
-useRipple(() => root.value, { selector: '.education-card' })
 </script>
 
 <style scoped>
-.education {
-  display: grid;
-  gap: var(--space-5);
+.education-section {
+  scroll-margin-top: calc(var(--nav-height) + 1rem);
 }
 
-.education-grid {
+.education-panel {
   display: grid;
   gap: 0.9rem;
+  padding: clamp(1.3rem, 3vw, 2rem);
+  margin-top: 1.1rem;
 }
 
-.education-card {
+.edu-item {
   position: relative;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: var(--space-4);
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
   align-items: center;
-  min-height: 112px;
-  padding: clamp(0.9rem, 2vw, 1.2rem);
+  padding: 1.1rem 0.2rem;
+  border-top: 1px solid var(--border-l1);
 }
 
-/* ===== Violet signal bar: breathing ===== */
-
-.education-signal {
-  width: 6px;
+.edu-signal {
+  width: 4px;
   height: 46px;
   border-radius: var(--radius-full);
   background: linear-gradient(
     180deg,
-    var(--star-violet),
-    rgba(155, 139, 255, 0.18)
+    var(--accent-violet) 0%,
+    rgba(150, 130, 255, 0.2) 100%
   );
-  box-shadow: 0 0 18px rgba(155, 139, 255, 0.3);
-  animation: signal-breathe 3.2s var(--ease-aurora) infinite;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 0 14px rgba(167, 155, 255, 0.32);
+  animation: signal-breathe 3.4s var(--ease-breathe) infinite;
 }
 
 @keyframes signal-breathe {
   0%, 100% {
-    box-shadow: 0 0 14px rgba(155, 139, 255, 0.2);
-    opacity: 0.78;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 0 9px rgba(167, 155, 255, 0.18);
+    opacity: 0.84;
   }
   50% {
-    box-shadow: 0 0 28px rgba(155, 139, 255, 0.42);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 0 24px rgba(167, 155, 255, 0.48);
     opacity: 1;
   }
 }
 
-.education-copy {
+.edu-copy {
   min-width: 0;
 }
 
-.education-period {
+.edu-period {
   display: block;
   margin-bottom: 0.22rem;
-  color: var(--star-violet);
-  font-size: var(--text-xs);
-  font-weight: 500;
+  color: var(--accent-violet);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
 }
 
-.education-institution {
+.edu-institution {
   margin: 0;
   color: var(--text-primary);
   font-family: var(--font-display);
-  font-size: var(--text-lg);
+  font-size: 1.08rem;
   font-weight: 600;
 }
 
-.education-degree,
-.education-location {
+.edu-degree {
+  margin: 0.2rem 0 0;
   color: var(--text-secondary);
   font-size: var(--text-sm);
-  line-height: var(--leading-base);
+  line-height: 1.6;
 }
 
-.education-degree {
-  margin: 0.24rem 0 0;
-}
-
-.education-location {
+.edu-location {
   margin: 0;
+  grid-column: 2;
   color: var(--text-tertiary);
-  text-align: right;
+  font-size: var(--text-xs);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .education-signal {
+  .edu-signal {
     animation: none;
-    opacity: 0.85;
-  }
-}
-
-@media (max-width: 640px) {
-  .education-card {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .education-location {
-    grid-column: 2;
-    text-align: left;
+    opacity: 0.9;
   }
 }
 </style>
