@@ -8,6 +8,8 @@ import linkedinIcon from '@/assets/LinkedIn.svg'
 export const profile = {
   title: 'Starfield',
   subtitle: 'Computer Vision · Robotics · Systems',
+  name: 'Harry Zhu',
+  meta: 'CS @ Stony Brook University',
   bios: [
     'Computer Science student at Stony Brook University, building practical computer-vision and robotics systems.',
     'Recently deployed a vision-guided robotic-grasping pipeline with YOLO, TensorRT, and Intel RealSense.',

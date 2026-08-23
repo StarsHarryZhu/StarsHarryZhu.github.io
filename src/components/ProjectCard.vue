@@ -9,7 +9,6 @@
     :class="`project-card--${ACCENTS[accentIndex % ACCENTS.length]}`"
     :ref="reveal.observe"
   >
-    <span class="panel-halo" aria-hidden="true"></span>
     <span class="card-index">{{ index }}</span>
 
     <header class="project-head">
@@ -66,29 +65,21 @@ useRipple(() => root.value, { selector: '.project-card' })
 .project-card--cyan {
   --project-accent: var(--accent-cyan);
   --pill-accent: var(--accent-cyan);
-  --panel-halo: var(--halo-cyan);
-  --panel-iris: rgba(125, 244, 232, 0.16);
 }
 
 .project-card--sky {
   --project-accent: var(--accent-sky);
   --pill-accent: var(--accent-sky);
-  --panel-halo: var(--halo-sky);
-  --panel-iris: rgba(74, 138, 196, 0.24);
 }
 
 .project-card--violet {
   --project-accent: var(--accent-violet);
   --pill-accent: var(--accent-violet);
-  --panel-halo: var(--halo-violet);
-  --panel-iris: rgba(150, 130, 255, 0.18);
 }
 
 .project-card:hover {
   box-shadow:
-    var(--glass-specular),
     0 0 0 1px rgba(255, 255, 255, 0.12),
-    var(--glass-iris),
     var(--shadow-lift),
     0 0 30px color-mix(in srgb, var(--project-accent) 22%, transparent);
 }
@@ -96,7 +87,7 @@ useRipple(() => root.value, { selector: '.project-card' })
 .project-card:focus-visible {
   outline: 2px solid var(--project-accent);
   outline-offset: 2px;
-  border-color: var(--glass-border-hover);
+  border-color: var(--card-border-hover);
 }
 
 .project-head {

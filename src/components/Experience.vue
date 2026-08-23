@@ -3,7 +3,6 @@
     <SectionHeader index="02" title="Experience" />
 
     <div class="panel experience-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
-      <span class="panel-halo" aria-hidden="true"></span>
 
       <div class="timeline-track">
         <div
@@ -86,22 +85,8 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
   background: radial-gradient(circle at 32% 28%, #ffffff, var(--accent-cyan) 60%);
   box-shadow:
     inset -1px -2px 3px rgba(0, 0, 0, 0.35),
-    0 0 14px rgba(125, 244, 232, 0.6);
+    0 0 14px rgba(110, 168, 254, 0.6);
   flex-shrink: 0;
-  animation: dot-breathe 3s var(--ease-breathe) infinite;
-}
-
-@keyframes dot-breathe {
-  0%, 100% {
-    box-shadow:
-      inset -1px -2px 3px rgba(0, 0, 0, 0.35),
-      0 0 8px rgba(125, 244, 232, 0.35);
-  }
-  50% {
-    box-shadow:
-      inset -1px -2px 3px rgba(0, 0, 0, 0.35),
-      0 0 20px rgba(125, 244, 232, 0.85);
-  }
 }
 
 .timeline-line {
@@ -113,8 +98,8 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
   background: linear-gradient(
     180deg,
     var(--accent-cyan) 0%,
-    rgba(74, 138, 196, 0.5) 45%,
-    rgba(150, 130, 255, 0.45) 100%
+    rgba(110, 168, 254, 0.5) 45%,
+    rgba(110, 168, 254, 0.4) 100%
   );
   opacity: 0.45;
 }
@@ -188,7 +173,7 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
   height: 4px;
   border-radius: 50%;
   background: radial-gradient(circle at 32% 28%, #fff, var(--accent-cyan));
-  box-shadow: 0 0 6px rgba(125, 244, 232, 0.6);
+  box-shadow: 0 0 6px rgba(110, 168, 254, 0.6);
 }
 
 .timeline-tags {
@@ -198,9 +183,4 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
   margin-top: 0.4rem;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .timeline-dot {
-    animation: none;
-  }
-}
 </style>

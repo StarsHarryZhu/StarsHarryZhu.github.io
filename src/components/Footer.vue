@@ -5,7 +5,7 @@
       <svg width="12" height="12" viewBox="0 0 10 10" fill="none">
         <defs>
           <linearGradient id="footer-star-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#7DF4E8" />
+            <stop offset="0" stop-color="#8FB8FF" />
             <stop offset="0.55" stop-color="#8AB4FF" />
             <stop offset="1" stop-color="#A79BFF" />
           </linearGradient>
@@ -68,33 +68,6 @@ defineProps({
   align-items: center;
   opacity: 0.8;
   line-height: 1;
-  animation:
-    star-spin 26s linear infinite,
-    star-glow 4.5s var(--ease-breathe) infinite alternate;
-  will-change: transform;
-}
-
-@keyframes star-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes star-glow {
-  from {
-    opacity: 0.55;
-    filter: drop-shadow(0 0 2px rgba(125, 244, 232, 0.4));
-  }
-  to {
-    opacity: 0.95;
-    filter: drop-shadow(0 0 7px rgba(167, 155, 255, 0.6));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .footer-dot {
-    animation: none;
-    opacity: 0.8;
-    filter: none;
-  }
+  filter: drop-shadow(0 0 5px rgba(110, 168, 254, 0.4));
 }
 </style>

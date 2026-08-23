@@ -4,7 +4,6 @@
 
     <div class="about-grid">
       <article class="panel about-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
-        <span class="panel-halo" aria-hidden="true"></span>
         <p v-for="(bio, index) in bios" :key="`bio-${index}`" class="about-bio">
           {{ bio }}
         </p>
@@ -30,7 +29,6 @@
       </article>
 
       <aside class="panel about-side reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '220ms' }" aria-label="Focus areas">
-        <span class="panel-halo" style="--panel-halo: var(--halo-violet)" aria-hidden="true"></span>
         <h3 class="side-title">Focus</h3>
         <ul class="side-list">
           <li v-for="(focus, fi) in focusAreas" :key="`focus-${fi}`" class="side-item">
@@ -122,8 +120,7 @@ const socialItems = computed(() =>
   transition:
     transform var(--transition-base),
     color var(--transition-base),
-    border-color var(--transition-base),
-    box-shadow var(--transition-base);
+    border-color var(--transition-base);
 }
 
 .social-btn:hover {
@@ -133,7 +130,7 @@ const socialItems = computed(() =>
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     0 10px 24px -10px rgba(2, 6, 26, 0.85),
-    0 0 20px rgba(125, 244, 232, 0.18);
+    0 0 20px rgba(110, 168, 254, 0.18);
 }
 
 .social-btn:focus-visible {
@@ -173,7 +170,7 @@ const socialItems = computed(() =>
   height: 6px;
   border-radius: 50%;
   background: radial-gradient(circle at 32% 28%, #fff, var(--accent-violet) 60%);
-  box-shadow: 0 0 8px rgba(167, 155, 255, 0.6);
+  box-shadow: 0 0 8px rgba(110, 168, 254, 0.55);
   flex-shrink: 0;
 }
 

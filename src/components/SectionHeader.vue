@@ -38,7 +38,7 @@ const reveal = useScrollReveal({ threshold: 0.1 })
   font-size: clamp(0.85rem, 2vw, 1.05rem);
   letter-spacing: var(--tracking-wider);
   color: var(--accent-cyan);
-  text-shadow: 0 0 18px rgba(125, 244, 232, 0.45);
+  text-shadow: 0 0 18px rgba(110, 168, 254, 0.45);
   user-select: none;
 }
 
@@ -73,24 +73,11 @@ const reveal = useScrollReveal({ threshold: 0.1 })
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(125, 244, 232, 0.75) 18%,
+    rgba(110, 168, 254, 0.75) 18%,
     rgba(138, 180, 255, 0.75) 45%,
     transparent 75%
   );
   background-size: 220% 100%;
-  animation: line-flow 5.5s var(--ease-breathe) infinite;
-  opacity: 0.55;
-}
-
-@keyframes line-flow {
-  from { background-position: 120% 0; }
-  to { background-position: -120% 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sh-line-core {
-    animation: none;
-    background-position: 0 0;
-  }
+  opacity: 0.5;
 }
 </style>

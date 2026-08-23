@@ -3,7 +3,6 @@
     <SectionHeader index="06" title="Contact" />
 
     <div class="panel contact-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
-      <span class="panel-halo" aria-hidden="true"></span>
 
       <header class="contact-head">
         <h3 class="contact-title">Get in Touch</h3>
@@ -18,7 +17,6 @@
           class="contact-btn"
           v-bind="item.tagProps"
           :aria-label="item.ariaLabel || item.name"
-          @pointerdown="onPress"
           @click="item.onClick"
         >
           <img
@@ -47,7 +45,6 @@
 import { computed, useTemplateRef } from 'vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 import { useCopyToast } from '@/composables/useCopyToast'
-import { useParticleField } from '@/composables/useParticleField'
 import { useRipple } from '@/composables/useRipple'
 import { useScrollReveal } from '@/composables/useScrollReveal'
 
@@ -58,9 +55,6 @@ const props = defineProps({
 const root = useTemplateRef('root')
 const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
 const { isModalOpen, modalText, copyText } = useCopyToast()
-
-// Gas-mote burst at the pressed button — the field is mounted by the background.
-const { burst } = useParticleField()
 
 useRipple(() => root.value, { selector: '.contact-btn' })
 
@@ -88,11 +82,6 @@ const resolvedItems = computed(() =>
     }
   }),
 )
-
-function onPress(e) {
-  const rect = e.currentTarget.getBoundingClientRect()
-  burst(rect.left + rect.width / 2, rect.top + rect.height / 2, 10)
-}
 </script>
 
 <style scoped>
@@ -162,8 +151,7 @@ function onPress(e) {
   padding: 0.42rem 0.7rem;
   transition:
     transform var(--transition-base),
-    border-color var(--transition-base),
-    box-shadow var(--transition-base);
+    border-color var(--transition-base);
 }
 
 .contact-btn:hover {
@@ -172,7 +160,7 @@ function onPress(e) {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
     0 12px 30px -12px rgba(2, 6, 26, 0.85),
-    0 0 24px rgba(125, 244, 232, 0.18);
+    0 0 24px rgba(110, 168, 254, 0.18);
 }
 
 .contact-icon {
@@ -207,7 +195,6 @@ function onPress(e) {
   background:
     linear-gradient(150deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03) 55%),
     rgba(35, 35, 36, 0.55);
-  backdrop-filter: blur(18px) saturate(1.6) brightness(1.08);
   color: var(--text-primary);
   text-align: center;
   font-size: var(--text-sm);
@@ -215,8 +202,7 @@ function onPress(e) {
   line-height: 1.35;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    var(--shadow-lift),
-    0 0 22px rgba(103, 158, 254, 0.1);
+    var(--shadow-lift);
 }
 
 .toast-enter-active {
@@ -227,9 +213,8 @@ function onPress(e) {
 
 .toast-leave-active {
   transition:
-    opacity 0.35s var(--ease-aero),
-    transform 0.35s var(--ease-aero),
-    filter 0.35s var(--ease-aero);
+    opacity 0.3s var(--ease-aero),
+    transform 0.3s var(--ease-aero);
 }
 
 .toast-enter-from {
@@ -240,6 +225,5 @@ function onPress(e) {
 .toast-leave-to {
   opacity: 0;
   transform: translateY(6px) scale(0.94);
-  filter: blur(12px);
 }
 </style>

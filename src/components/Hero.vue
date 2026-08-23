@@ -1,95 +1,94 @@
 <template>
   <section id="top" class="hero" aria-label="Introduction">
     <div class="hero-inner">
-      <!-- Copy column -->
+      <!-- Left: copy -->
       <div class="hero-copy">
-        <span class="hero-status reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '60ms' }">
-          <i aria-hidden="true"></i>
-          Portfolio · 2026
+        <span class="hero-kicker reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '40ms' }">
+          <svg width="12" height="12" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="hero-star" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6EA8FE" />
+                <stop offset="0.6" stop-color="#8FB8FF" />
+                <stop offset="1" stop-color="#A9B8E8" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M5 0L6.12 3.37L9.76 3.63L6.87 5.97L7.76 9.56L5 7.68L2.24 9.56L3.13 5.97L0.24 3.63L3.88 3.37L5 0Z"
+              fill="url(#hero-star)"
+            />
+          </svg>
+          <span>Portfolio · 2026</span>
         </span>
 
-        <h1 class="hero-title reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '180ms' }">
+        <h1 class="hero-title reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '150ms' }">
           {{ title }}
         </h1>
 
-        <p class="hero-subtitle reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '320ms' }">
+        <p class="hero-subtitle reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '290ms' }">
           {{ subtitle }}
         </p>
 
-        <p class="hero-bio reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '440ms' }">
+        <p class="hero-bio reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '420ms' }">
           {{ bio }}
         </p>
 
-        <div class="hero-actions reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '580ms' }">
+        <div class="hero-actions reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '540ms' }">
           <a href="#projects" class="btn btn-primary" @click.prevent="scrollTo('#projects')">
             View projects
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 5v14M19 12l-7 7-7-7"></path>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
             </svg>
           </a>
           <a href="#contact" class="btn btn-secondary" @click.prevent="scrollTo('#contact')">
             Get in touch
           </a>
         </div>
-      </div>
 
-      <!-- Avatar orb: a lens of liquid glass with floating chips -->
-      <div class="hero-stage reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '260ms' }">
-        <div
-          class="avatar-orb"
-          :style="{ transform: `translate(${orbX}px, ${orbY}px)` }"
-        >
-          <div class="orb-halo" aria-hidden="true"></div>
-          <div class="orb-ring" aria-hidden="true"></div>
-          <picture class="orb-glass">
-            <source
-              type="image/webp"
-              :srcset="`${avatar} 1x, ${avatar2x} 2x`"
-            />
+        <div class="hero-meta reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '660ms' }">
+          <picture class="avatar-ring">
+            <source type="image/webp" :srcset="`${avatar} 1x, ${avatar2x} 2x`" />
             <img
-              class="orb-img"
+              class="avatar-img"
               :src="avatarFallback"
               :alt="altText"
-              width="160"
-              height="160"
+              width="36"
+              height="36"
               loading="eager"
             />
           </picture>
-          <span class="orb-shine" aria-hidden="true"></span>
+          <span class="hero-meta-name">{{ name }}</span>
+          <span class="hero-meta-sep" aria-hidden="true">·</span>
+          <span class="hero-meta-note">{{ meta }}</span>
         </div>
+      </div>
 
-        <!-- Floating skill chips drifting around the orb -->
-        <span
-          v-for="chip in chips"
-          :key="chip.label"
-          class="float-chip"
-          :class="chip.className"
-          :style="chip.style"
-          aria-hidden="true"
-        >
-          {{ chip.label }}
-        </span>
+      <!-- Right: static showcase card (纯装饰，无动画) -->
+      <div class="hero-visual reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '300ms' }" aria-hidden="true">
+        <div class="hv-card">
+          <div class="hv-glow"></div>
+          <div class="hv-orbit"></div>
+          <div class="hv-core">
+            <picture>
+              <source type="image/webp" :srcset="`${avatar} 1x, ${avatar2x} 2x`" />
+              <img :src="avatarFallback" alt="" width="128" height="128" />
+            </picture>
+          </div>
+          <div class="hv-cap">@starsharryzhu</div>
+        </div>
       </div>
     </div>
 
     <!-- Scroll cue -->
-    <a
-      href="#about"
-      class="hero-scroll-cue"
-      @click.prevent="scrollTo('#about')"
-      aria-label="Scroll to About"
-    >
+    <a href="#about" class="hero-scroll-cue" @click.prevent="scrollTo('#about')" aria-label="Scroll to About">
       <span class="cue-line"></span>
     </a>
   </section>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useParallax } from '@/composables/useParallax'
 import { useScrollReveal } from '@/composables/useScrollReveal'
 
-const props = defineProps({
+defineProps({
   avatar: { type: String, required: true },
   avatar2x: { type: String, required: true },
   avatarFallback: { type: String, required: true },
@@ -97,38 +96,11 @@ const props = defineProps({
   title: { type: String, required: true },
   subtitle: { type: String, required: true },
   bio: { type: String, default: '' },
+  name: { type: String, default: '' },
+  meta: { type: String, default: '' },
 })
 
-// Shared normalized pointer in [-1, 1] — orb and chips drift slightly
-// toward the cursor (liquid response).
-const { mouseX, mouseY } = useParallax()
-
 const reveal = useScrollReveal({ threshold: 0.05 })
-
-const orbX = computed(() => mouseX.value * -10)
-const orbY = computed(() => mouseY.value * -10)
-
-// Floating chips around the orb — plain style objects computed from the
-// shared pointer so the template binds values, not refs.
-const CHIP_DEFS = [
-  { label: 'C++', depth: 10, style: { '--chip-x': '104%', '--chip-y': '-6%', '--chip-dur': '6.4s', '--chip-delay': '-1.2s' } },
-  { label: 'Python', depth: 16, style: { '--chip-x': '-26%', '--chip-y': '4%', '--chip-dur': '7.1s', '--chip-delay': '-3.4s' } },
-  { label: 'YOLO', depth: 8, style: { '--chip-x': '112%', '--chip-y': '44%', '--chip-dur': '5.8s', '--chip-delay': '-2.1s' } },
-  { label: 'TensorRT', depth: 14, style: { '--chip-x': '-18%', '--chip-y': '58%', '--chip-dur': '6.9s', '--chip-delay': '-0.6s' } },
-  { label: 'SwiftUI', depth: 12, style: { '--chip-x': '42%', '--chip-y': '-24%', '--chip-dur': '7.6s', '--chip-delay': '-4.2s' } },
-  { label: 'Vue 3', depth: 18, style: { '--chip-x': '-40%', '--chip-y': '86%', '--chip-dur': '6.1s', '--chip-delay': '-2.8s' } },
-]
-
-const chips = computed(() =>
-  CHIP_DEFS.map((def, i) => ({
-    label: def.label,
-    className: `float-chip--${i % 3}`,
-    style: {
-      ...def.style,
-      transform: `translate(${mouseX.value * -def.depth}px, ${mouseY.value * -def.depth}px)`,
-    },
-  })),
-)
 
 function scrollTo(selector) {
   const el = document.querySelector(selector)
@@ -142,294 +114,213 @@ function scrollTo(selector) {
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 100svh;
-  padding: calc(var(--nav-height) + 1.5rem) var(--shell-pad) 4rem;
+  min-height: calc(100svh - var(--nav-height));
+  padding: calc(var(--nav-height) + 2rem) var(--shell-pad) 4rem;
   scroll-margin-top: var(--nav-height);
 }
 
 .hero-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   align-items: center;
-  gap: clamp(2rem, 6vw, 5rem);
+  gap: clamp(2.5rem, 6vw, 5rem);
   width: 100%;
   max-width: var(--content-width);
 }
 
-/* ===== Copy ===== */
+/* ===== Copy column ===== */
 
 .hero-copy {
   display: grid;
-  gap: 1.1rem;
+  gap: 1rem;
   justify-items: start;
+  min-width: 0;
 }
 
-.hero-status {
+.hero-kicker {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.36rem 0.95rem;
+  gap: 0.45rem;
+  padding: 0.32rem 0.8rem;
   border-radius: var(--radius-full);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: linear-gradient(150deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04) 60%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--border-l2);
+  background: rgba(255, 255, 255, 0.04);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
-.hero-status i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 32% 30%, #fff, var(--accent-cyan));
-  box-shadow: 0 0 9px rgba(125, 244, 232, 0.75);
-  animation: status-breathe 2.6s var(--ease-breathe) infinite;
-}
-
-@keyframes status-breathe {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
+  color: var(--text-tertiary);
 }
 
 .hero-title {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(3.2rem, 9vw, 6rem);
-  line-height: 1.02;
+  font-size: clamp(2.7rem, 6.5vw, 4.4rem);
+  line-height: 1.06;
   letter-spacing: var(--tracking-tight);
-  background: linear-gradient(
-    100deg,
-    #FFFFFF 0%,
-    var(--accent-sky) 38%,
-    var(--accent-cyan) 62%,
-    var(--accent-violet) 85%,
-    #FFFFFF 100%
-  );
-  background-size: 220% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 4px 30px rgba(74, 138, 196, 0.28));
-  animation: title-flow 12s var(--ease-breathe) infinite alternate;
-}
-
-@keyframes title-flow {
-  from { background-position: 0% 50%; }
-  to { background-position: 100% 50%; }
+  color: var(--text-primary);
+  max-width: 14ch;
 }
 
 .hero-subtitle {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
-  letter-spacing: var(--tracking-wide);
-  color: var(--accent-cyan);
-  text-shadow: 0 0 24px rgba(125, 244, 232, 0.3);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: var(--accent-sky);
 }
 
 .hero-bio {
   margin: 0;
   max-width: 46ch;
   color: var(--text-secondary);
-  font-size: clamp(0.95rem, 1.8vw, 1.05rem);
-  line-height: 1.75;
+  font-size: clamp(0.94rem, 1.6vw, 1rem);
+  line-height: 1.72;
   text-wrap: pretty;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 0.4rem;
+  gap: 0.7rem;
+  margin-top: 0.5rem;
 }
 
-/* ===== Avatar orb: a lens of liquid glass ===== */
+/* ===== Meta row ===== */
 
-.hero-stage {
-  position: relative;
-  justify-self: center;
-  width: clamp(260px, 30vw, 360px);
-  aspect-ratio: 1;
-  will-change: transform;
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.6rem;
+  padding: 0.35rem 0.7rem 0.35rem 0.4rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-l1);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
 }
 
-.avatar-orb {
-  position: absolute;
-  inset: 12%;
+.avatar-ring {
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  will-change: transform;
-  transition: transform 0.15s linear;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--accent-blue-soft), var(--accent-violet));
+  flex-shrink: 0;
 }
 
-.orb-halo {
-  position: absolute;
-  inset: -22%;
-  z-index: -1;
-  border-radius: 50%;
-  background: radial-gradient(var(--halo-cyan), var(--halo-sky) 42%, transparent 70%);
-  filter: blur(28px);
-  opacity: 0.5;
-  animation: halo-breathe 8s var(--ease-breathe) infinite alternate;
-}
-
-.orb-ring {
-  position: absolute;
-  inset: -5%;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    var(--accent-cyan) 0deg,
-    var(--accent-sky) 90deg,
-    var(--accent-violet) 180deg,
-    var(--accent-blue-soft) 270deg,
-    var(--accent-cyan) 360deg
-  );
-  filter: blur(6px);
-  opacity: 0.5;
-  animation: ring-spin 16s linear infinite;
-  mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
-}
-
-@keyframes ring-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.orb-glass {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  padding: 7px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.08) 40%, rgba(255, 255, 255, 0.28) 100%);
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.25),
-    0 22px 60px -16px rgba(2, 6, 26, 0.9),
-    0 0 44px -8px rgba(125, 244, 232, 0.35);
-}
-
-.orb-img {
+.avatar-img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
-  transition: transform var(--transition-base);
+  display: block;
 }
 
-.orb-shine {
+.hero-meta-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.hero-meta-sep {
+  color: var(--text-tertiary);
+}
+
+.hero-meta-note {
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+/* ===== Visual column: static card, zero animation ===== */
+
+.hero-visual {
+  min-width: 0;
+}
+
+.hv-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  max-width: 380px;
+  margin-inline: auto;
+  border-radius: var(--radius-panel);
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-float);
+  overflow: hidden;
+}
+
+/* Static gradient glow (no animation) */
+.hv-glow {
   position: absolute;
-  top: 6%;
-  left: 10%;
-  width: 38%;
-  height: 24%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.75), transparent 70%);
-  filter: blur(2px);
-  pointer-events: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .avatar-orb:hover .orb-img {
-    transform: scale(1.04);
-  }
-}
-
-/* ===== Floating skill chips (HarmonyOS 气态 floating × 毛玻璃) ===== */
-
-.float-chip {
-  position: absolute;
-  left: var(--chip-x);
-  top: var(--chip-y);
-  padding: 0.46rem 0.98rem;
-  border-radius: var(--radius-full);
-  border: 1px solid rgba(255, 255, 255, 0.26);
+  inset: -20%;
   background:
-    linear-gradient(
-      160deg,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0.05) 42%,
-      rgba(255, 255, 255, 0.02) 100%
-    ),
-    rgba(35, 35, 36, 0.22);
-  backdrop-filter:
-    blur(18px)
-    saturate(1.7)
-    brightness(1.08);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
-    0 12px 32px -10px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+    radial-gradient(52% 46% at 30% 26%, rgba(77, 124, 254, 0.25) 0%, transparent 70%),
+    radial-gradient(40% 36% at 74% 66%, rgba(110, 168, 254, 0.14) 0%, transparent 70%);
+}
+
+/* Static concentric orbit rings */
+.hv-orbit {
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hv-orbit::before {
+  content: '';
+  position: absolute;
+  inset: -16%;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.06);
+}
+
+.hv-core {
+  position: relative;
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  padding: 5px;
+  background: linear-gradient(135deg, var(--accent-blue-soft), var(--accent-violet));
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.6);
+}
+
+.hv-core img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hv-cap {
+  position: absolute;
+  bottom: 1.1rem;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  letter-spacing: 0.03em;
-  color: var(--text-primary);
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-tertiary);
   white-space: nowrap;
-  animation: chip-float var(--chip-dur, 6.5s) var(--ease-breathe) var(--chip-delay, 0s) infinite alternate;
-  will-change: transform;
-  pointer-events: none;
-}
-
-/* Frosted-glass top light: a bright catch-light falling from the top edge */
-.float-chip::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.22) 0%,
-      rgba(255, 255, 255, 0.05) 45%,
-      transparent 75%
-    ),
-    radial-gradient(
-      90% 80% at 22% -18%,
-      rgba(255, 255, 255, 0.24),
-      transparent 62%
-    );
-}
-
-/* Frosted-glass refraction tint — colored light pooling at the bottom edge */
-.float-chip::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: radial-gradient(
-    85% 60% at 50% 122%,
-    rgba(74, 138, 196, 0.3),
-    transparent 68%
-  );
-}
-
-@keyframes chip-float {
-  from { translate: 0 -9px; }
-  to { translate: 0 9px; }
 }
 
 /* ===== Scroll cue ===== */
 
 .hero-scroll-cue {
   position: absolute;
-  bottom: 1.6rem;
+  bottom: 1.4rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
   padding: 0.5rem;
   border-radius: var(--radius-full);
-  opacity: 0.7;
+  opacity: 0.6;
   transition: opacity var(--transition-base);
 }
 
@@ -439,10 +330,9 @@ function scrollTo(selector) {
 
 .cue-line {
   width: 2px;
-  height: 34px;
+  height: 32px;
   border-radius: var(--radius-full);
-  background: linear-gradient(180deg, var(--accent-cyan), transparent);
-  box-shadow: 0 0 10px rgba(125, 244, 232, 0.5);
+  background: linear-gradient(180deg, var(--accent-blue-soft), transparent);
   animation: cue-drip 2.2s var(--ease-aero) infinite;
   transform-origin: top center;
 }
@@ -450,7 +340,7 @@ function scrollTo(selector) {
 @keyframes cue-drip {
   0% { transform: scaleY(0.3); opacity: 0.2; }
   40% { transform: scaleY(1); opacity: 1; }
-  100% { transform: scaleY(0.3) translateY(8px); opacity: 0.2; }
+  100% { transform: scaleY(0.3) translateY(6px); opacity: 0.2; }
 }
 
 /* ===== Responsive ===== */
@@ -460,7 +350,7 @@ function scrollTo(selector) {
     grid-template-columns: 1fr;
     text-align: center;
     justify-items: center;
-    gap: 2.5rem;
+    gap: 2.2rem;
   }
 
   .hero-copy {
@@ -468,35 +358,30 @@ function scrollTo(selector) {
   }
 
   .hero-bio {
-    max-width: 56ch;
+    max-width: 54ch;
+  }
+
+  .hero-title {
+    max-width: none;
   }
 
   .hero-actions {
     justify-content: center;
   }
 
-  .hero-stage {
+  .hero-visual {
     order: -1;
-    width: clamp(220px, 52vw, 300px);
+    width: min(300px, 78vw);
   }
 
-  .float-chip {
-    display: none;
+  .hero-meta {
+    justify-content: center;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-title,
-  .hero-status i,
-  .orb-ring,
-  .orb-halo,
-  .float-chip,
   .cue-line {
     animation: none;
-  }
-  .avatar-orb,
-  .float-chip {
-    transition: none;
   }
 }
 </style>

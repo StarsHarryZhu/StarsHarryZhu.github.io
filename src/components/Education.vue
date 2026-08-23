@@ -3,7 +3,6 @@
     <SectionHeader index="05" title="Education" />
 
     <div class="panel education-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '120ms' }">
-      <span class="panel-halo" style="--panel-halo: var(--halo-violet)" aria-hidden="true"></span>
 
       <div
         v-for="(item, index) in items"
@@ -62,27 +61,11 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
   background: linear-gradient(
     180deg,
     var(--accent-violet) 0%,
-    rgba(150, 130, 255, 0.2) 100%
+    rgba(110, 168, 254, 0.2) 100%
   );
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    0 0 14px rgba(167, 155, 255, 0.32);
-  animation: signal-breathe 3.4s var(--ease-breathe) infinite;
-}
-
-@keyframes signal-breathe {
-  0%, 100% {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.35),
-      0 0 9px rgba(167, 155, 255, 0.18);
-    opacity: 0.84;
-  }
-  50% {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.35),
-      0 0 24px rgba(167, 155, 255, 0.48);
-    opacity: 1;
-  }
+    0 0 14px rgba(110, 168, 254, 0.3);
 }
 
 .edu-copy {
@@ -121,10 +104,4 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
   font-size: var(--text-xs);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .edu-signal {
-    animation: none;
-    opacity: 0.9;
-  }
-}
 </style>

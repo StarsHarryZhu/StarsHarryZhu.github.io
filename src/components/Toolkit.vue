@@ -3,7 +3,6 @@
     <SectionHeader index="04" title="Toolkit" />
 
     <div class="panel toolkit-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
-      <span class="panel-halo" style="--panel-halo: var(--halo-sky)" aria-hidden="true"></span>
 
       <div
         v-for="(category, ci) in categories"
@@ -106,8 +105,7 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -6% 0px' })
     opacity 0.45s var(--ease-aero),
     transform 0.55s var(--ease-spring),
     color var(--transition-base),
-    border-color var(--transition-base),
-    box-shadow var(--transition-base);
+    border-color var(--transition-base);
 }
 
 .toolkit-panel.is-visible .skill-chip {
