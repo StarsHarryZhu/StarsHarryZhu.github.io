@@ -48,6 +48,17 @@ export const skillCategories = [
 
 export const projects = [
   {
+    name: 'browser-use',
+    intro: 'A DeepSeek Harness browser-automation plugin that gives the agent a Codex-style shared browser: 12 browser_* model tools drive a real Chrome instance (isolated profile, CDP inputs, a11y observation), with human and agent sharing the live view in the dsh-web Browser tab.',
+    tags: ['DeepSeek Harness', 'Cordis Plugin', 'CDP', 'Chrome'],
+  },
+  {
+    name: 'simple-dock',
+    intro: 'A DeepSeek Harness plugin that injects an interactive stats dock into the composer bottom bar, replacing the official stats line with four expandable panels — performance, briefing, token details, and estimated cost — frosted glass that follows the system theme, and a toggle that restores the official DSH bar. Costs are computed locally by completion time, never from an external price table.',
+    url: 'https://github.com/StarsHarryZhu/simple-dock',
+    tags: ['DeepSeek Harness', 'Cordis Plugin', 'React', 'Cost Estimator'],
+  },
+  {
     name: 'Echoes',
     intro: 'An iOS emotion-journaling app that captures front-camera photos and records inferred emotions with a fine-tuned MobileNetV2 model.',
     tags: ['Swift', 'SwiftUI', 'MobileNetV2'],
