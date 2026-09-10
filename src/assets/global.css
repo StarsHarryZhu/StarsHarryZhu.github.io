@@ -319,20 +319,6 @@ a {
   }
 }
 
-/* ===== Perf tier (mobile / touch) ===== */
-
-@media (max-width: 767px), (hover: none) and (pointer: coarse) {
-  .cursor-glow {
-    display: none;
-  }
-  .timeline-dot,
-  .education-signal,
-  .footer-dot,
-  .hero-scroll-cue {
-    animation: none !important;
-  }
-}
-
 /* ===== Print ===== */
 
 @media print {

@@ -1,18 +1,18 @@
 <template>
-  <div class="aero-sky" aria-hidden="true">
-    <!-- 静态近黑渐变 + 一缕顶部冷光 —— 零动画、零 canvas、零模糊 -->
-    <div class="as-base"></div>
-    <!-- 少量静态微光点（一次绘制） -->
-    <div class="as-stars"></div>
+  <div class="backdrop" aria-hidden="true">
+    <!-- Static near-black gradient with a single cool wash at the top.
+         No animation, no canvas, no blur — painted once. -->
+    <div class="bd-base"></div>
+    <div class="bd-stars"></div>
   </div>
 </template>
 
 <script setup>
-// 纯静态背景：不再挂载粒子 canvas（流畅优先）
+// Purely decorative static backdrop.
 </script>
 
 <style scoped>
-.aero-sky {
+.backdrop {
   position: fixed;
   inset: 0;
   z-index: var(--z-bg);
@@ -20,14 +20,14 @@
   overflow: hidden;
 }
 
-.as-base {
+.bd-base {
   position: absolute;
   inset: 0;
   background: var(--page-bg);
 }
 
 /* Static micro-stars: painted once, never animated */
-.as-stars {
+.bd-stars {
   position: absolute;
   inset: 0;
   opacity: 0.5;

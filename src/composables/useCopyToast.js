@@ -22,7 +22,7 @@ export function useCopyToast() {
     }, duration)
   }
 
-  async function copyText(value, successText = 'Copied to clipboard.') {
+  async function copyText(value, successText = 'Copied to clipboard.', errorText = 'Unable to copy.') {
     if (!value) return
     try {
       if (navigator?.clipboard?.writeText) {
@@ -40,7 +40,7 @@ export function useCopyToast() {
       }
       showToast(successText)
     } catch {
-      showToast('Unable to copy.')
+      showToast(errorText)
     }
   }
 

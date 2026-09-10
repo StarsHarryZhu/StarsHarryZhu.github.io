@@ -1,12 +1,12 @@
 <template>
   <section ref="root" id="contact" class="contact-section" aria-label="Contact links">
-    <SectionHeader index="06" title="Contact" />
+    <SectionHeader index="06" :title="t('section.contact')" />
 
     <div class="panel contact-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
 
       <header class="contact-head">
-        <h3 class="contact-title">Get in Touch</h3>
-        <p class="contact-sub">Open to internships &amp; collaborations</p>
+        <h3 class="contact-title">{{ t('contact.title') }}</h3>
+        <p class="contact-sub">{{ t('contact.subtitle') }}</p>
       </header>
 
       <div class="contacts-row">
@@ -16,7 +16,7 @@
           :key="`contact-${index}`"
           class="contact-btn"
           v-bind="item.tagProps"
-          :aria-label="item.ariaLabel || item.name"
+          :aria-label="item.ariaLabel"
           @click="item.onClick"
         >
           <img
@@ -26,7 +26,7 @@
             width="96"
             height="96"
           />
-          <span>{{ item.name }}</span>
+          <span>{{ pick(item.name) }}</span>
         </component>
       </div>
     </div>
@@ -44,6 +44,7 @@
 <script setup>
 import { computed, useTemplateRef } from 'vue'
 import SectionHeader from '@/components/SectionHeader.vue'
+import { useI18n } from '@/i18n/index.js'
 import { useCopyToast } from '@/composables/useCopyToast'
 import { useRipple } from '@/composables/useRipple'
 import { useScrollReveal } from '@/composables/useScrollReveal'
@@ -53,6 +54,7 @@ const props = defineProps({
 })
 
 const root = useTemplateRef('root')
+const { t, pick } = useI18n()
 const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
 const { isModalOpen, modalText, copyText } = useCopyToast()
 
@@ -65,8 +67,9 @@ const resolvedItems = computed(() =>
         ...item,
         tag: 'button',
         tagProps: { type: 'button' },
-        ariaLabel: `Copy ${item.name} address to clipboard`,
-        onClick: () => copyText(item.copyValue, item.copySuccessText),
+        ariaLabel: t('a11y.copyEmail'),
+        // Resolve the toast text at click time so it follows the locale
+        onClick: () => copyText(item.copyValue, t('contact.copied'), t('contact.copyFailed')),
       }
     }
     return {
@@ -77,7 +80,7 @@ const resolvedItems = computed(() =>
         target: '_blank',
         rel: 'noreferrer noopener',
       },
-      ariaLabel: `Visit ${item.name} profile`,
+      ariaLabel: `${pick(item.name)} · ${t('a11y.openProfile')}`,
       onClick: undefined,
     }
   }),

@@ -27,25 +27,32 @@
           :class="{ 'is-active': active === link.id }"
           @click="scrollTo(`#${link.id}`)"
         >
-          {{ link.label }}
+          {{ t(link.key) }}
         </a>
       </div>
 
-      <a href="#contact" class="btn btn-primary tn-cta" @click="scrollTo('#contact')">
-        Contact
-      </a>
+      <div class="tn-actions">
+        <LanguageToggle />
+        <a href="#contact" class="btn btn-primary tn-cta" @click="scrollTo('#contact')">
+          {{ t('nav.contact') }}
+        </a>
+      </div>
     </div>
   </nav>
 </template>
 
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import LanguageToggle from '@/components/LanguageToggle.vue'
+import { useI18n } from '@/i18n/index.js'
+
+const { t } = useI18n()
 
 const links = [
-  { id: 'about', label: 'About' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'toolkit', label: 'Toolkit' },
+  { id: 'about', key: 'nav.about' },
+  { id: 'experience', key: 'nav.experience' },
+  { id: 'projects', key: 'nav.projects' },
+  { id: 'toolkit', key: 'nav.toolkit' },
 ]
 
 const active = ref('')
@@ -103,13 +110,13 @@ onBeforeUnmount(() => {
   border-bottom: 1px solid var(--border-l1);
 }
 
-/* Single nav element keeps blur cheap; everything under it is opaque
-   cards so scrolling is smooth. */
+/* The only backdrop-filter left in the site: one fixed bar, cheap to
+   composite. Everything under it is opaque cards. */
 
 .tn-inner {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
   width: 100%;
   max-width: var(--content-width);
   height: var(--nav-height);
@@ -162,21 +169,29 @@ onBeforeUnmount(() => {
   color: var(--accent-cyan);
 }
 
-/* ===== CTA ===== */
+/* ===== Right actions ===== */
+
+.tn-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
 
 .tn-cta {
   padding: 8px 16px;
   font-size: 13.5px;
+  white-space: nowrap;
 }
 
 /* ===== Responsive ===== */
 
-@media (max-width: 720px) {
+@media (max-width: 860px) {
   .tn-links {
     display: none;
   }
   .tn-inner {
     gap: 1rem;
+    justify-content: space-between;
   }
 }
 </style>

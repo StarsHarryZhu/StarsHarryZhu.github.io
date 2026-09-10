@@ -1,6 +1,6 @@
 <template>
   <section id="education" class="education-section" aria-label="Education">
-    <SectionHeader index="05" title="Education" />
+    <SectionHeader index="05" :title="t('section.education')" />
 
     <div class="panel education-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '120ms' }">
 
@@ -11,11 +11,11 @@
       >
         <div class="edu-signal" aria-hidden="true"></div>
         <div class="edu-copy">
-          <span class="edu-period">{{ item.period }}</span>
+          <span class="edu-period">{{ pick(item.period) }}</span>
           <h3 class="edu-institution">{{ item.institution }}</h3>
-          <p class="edu-degree">{{ item.degree }}</p>
+          <p class="edu-degree">{{ pick(item.degree) }}</p>
         </div>
-        <p v-if="item.location" class="edu-location">{{ item.location }}</p>
+        <p v-if="item.location" class="edu-location">{{ pick(item.location) }}</p>
       </div>
     </div>
   </section>
@@ -23,11 +23,14 @@
 
 <script setup>
 import SectionHeader from '@/components/SectionHeader.vue'
+import { useI18n } from '@/i18n/index.js'
 import { useScrollReveal } from '@/composables/useScrollReveal'
 
 defineProps({
   items: { type: Array, required: true },
 })
+
+const { t, pick } = useI18n()
 
 const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
 </script>

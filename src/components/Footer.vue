@@ -1,13 +1,13 @@
 <template>
   <footer class="footer" role="contentinfo">
-    <p class="footer-side footer-left">{{ items[0] || '' }}</p>
+    <p class="footer-side footer-left">starfield</p>
     <p class="footer-dot" aria-hidden="true">
       <svg width="12" height="12" viewBox="0 0 10 10" fill="none">
         <defs>
           <linearGradient id="footer-star-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#8FB8FF" />
-            <stop offset="0.55" stop-color="#8AB4FF" />
-            <stop offset="1" stop-color="#A79BFF" />
+            <stop offset="0" stop-color="#6EA8FE" />
+            <stop offset="0.55" stop-color="#8FB8FF" />
+            <stop offset="1" stop-color="#A9B8E8" />
           </linearGradient>
         </defs>
         <path
@@ -16,15 +16,14 @@
         />
       </svg>
     </p>
-    <p v-if="items[1]" class="footer-side footer-right">{{ items[1] }}</p>
-    <p v-else class="footer-side footer-right">HarmonyOS Aero · Liquid Glass</p>
+    <p class="footer-side footer-right">{{ t('footer.note') }}</p>
   </footer>
 </template>
 
 <script setup>
-defineProps({
-  items: { type: Array, required: true },
-})
+import { useI18n } from '@/i18n/index.js'
+
+const { t } = useI18n()
 </script>
 
 <style scoped>

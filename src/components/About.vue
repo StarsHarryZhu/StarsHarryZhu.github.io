@@ -1,27 +1,27 @@
 <template>
   <section id="about" class="about-section" aria-label="About">
-    <SectionHeader index="01" title="About" />
+    <SectionHeader index="01" :title="t('section.about')" />
 
     <div class="about-grid">
       <article class="panel about-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
         <p v-for="(bio, index) in bios" :key="`bio-${index}`" class="about-bio">
-          {{ bio }}
+          {{ pick(bio) }}
         </p>
 
         <div class="about-socials">
           <a
             v-for="item in socialItems"
-            :key="item.name"
+            :key="item.key"
             :href="item.url"
             target="_blank"
             rel="noreferrer noopener"
             class="social-btn"
-            :aria-label="`Visit ${item.name} profile`"
+            :aria-label="`Visit ${pick(item.name)} profile`"
           >
-            <svg v-if="item.iconName === 'github'" width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <svg v-if="item.key === 'github'" width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
             </svg>
-            <svg v-else-if="item.iconName === 'linkedin'" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <svg v-else-if="item.key === 'linkedin'" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"></path>
             </svg>
           </a>
@@ -29,15 +29,15 @@
       </article>
 
       <aside class="panel about-side reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '220ms' }" aria-label="Focus areas">
-        <h3 class="side-title">Focus</h3>
+        <h3 class="side-title">{{ t('about.focus') }}</h3>
         <ul class="side-list">
           <li v-for="(focus, fi) in focusAreas" :key="`focus-${fi}`" class="side-item">
             <span class="side-dot" aria-hidden="true"></span>
-            {{ focus }}
+            {{ pick(focus) }}
           </li>
         </ul>
         <p class="side-note">
-          {{ note }}
+          {{ pick(note) }}
         </p>
       </aside>
     </div>
@@ -47,22 +47,21 @@
 <script setup>
 import { computed } from 'vue'
 import SectionHeader from '@/components/SectionHeader.vue'
+import { useI18n } from '@/i18n/index.js'
 import { useScrollReveal } from '@/composables/useScrollReveal'
 
 const props = defineProps({
   bios: { type: Array, required: true },
   contacts: { type: Array, default: () => [] },
   focusAreas: { type: Array, default: () => [] },
-  note: { type: String, default: '' },
+  note: { type: [String, Object], default: '' },
 })
+
+const { t, pick } = useI18n()
 
 const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
 
-const socialItems = computed(() =>
-  props.contacts
-    .filter((c) => c.type === 'link')
-    .map((c) => ({ ...c, iconName: c.name.toLowerCase() })),
-)
+const socialItems = computed(() => props.contacts.filter((c) => c.type === 'link'))
 </script>
 
 <style scoped>

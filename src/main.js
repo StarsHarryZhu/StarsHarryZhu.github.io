@@ -7,5 +7,10 @@ import '@/assets/global.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/index.js'
+import { initI18n } from '@/i18n/index.js'
+
+// Sync <html lang> and the document title with the initial locale before
+// the first paint so screen readers and crawlers see the right language.
+initI18n()
 
 createApp(App).use(router).mount('#app')

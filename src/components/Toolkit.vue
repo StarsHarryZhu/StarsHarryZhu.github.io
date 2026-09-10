@@ -1,24 +1,23 @@
 <template>
   <section id="toolkit" class="toolkit-section" aria-label="Skills">
-    <SectionHeader index="04" title="Toolkit" />
+    <SectionHeader index="04" :title="t('section.toolkit')" />
 
     <div class="panel toolkit-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
 
       <div
-        v-for="(category, ci) in categories"
-        :key="`cat-${ci}`"
+        v-for="(group, gi) in groups"
+        :key="group.id"
         class="skill-group"
-        :class="`skill-group--${ACCENTS[ci % ACCENTS.length]}`"
       >
-        <h3 class="skill-label">{{ category.name }}</h3>
+        <h3 class="skill-label">{{ pick(group.name) }}</h3>
         <ul class="skills-list">
           <li
-            v-for="(skill, si) in category.skills"
-            :key="`skill-${ci}-${si}`"
+            v-for="(skill, si) in group.skills"
+            :key="`skill-${gi}-${si}`"
             class="skill-chip"
             :style="{ transitionDelay: `${si * 35}ms` }"
           >
-            {{ skill.name }}
+            {{ skill }}
           </li>
         </ul>
       </div>
@@ -28,13 +27,14 @@
 
 <script setup>
 import SectionHeader from '@/components/SectionHeader.vue'
+import { useI18n } from '@/i18n/index.js'
 import { useScrollReveal } from '@/composables/useScrollReveal'
 
 defineProps({
-  categories: { type: Array, required: true },
+  groups: { type: Array, required: true },
 })
 
-const ACCENTS = ['cyan', 'sky', 'violet']
+const { t, pick } = useI18n()
 
 const reveal = useScrollReveal({ rootMargin: '0px 0px -6% 0px' })
 </script>
@@ -52,14 +52,11 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -6% 0px' })
 }
 
 .skill-group {
+  --group-accent: var(--accent-blue-soft);
   display: grid;
   gap: 0.55rem;
   padding-top: 0.15rem;
 }
-
-.skill-group--cyan { --group-accent: var(--accent-cyan); }
-.skill-group--sky { --group-accent: var(--accent-sky); }
-.skill-group--violet { --group-accent: var(--accent-violet); }
 
 .skill-label {
   margin: 0;

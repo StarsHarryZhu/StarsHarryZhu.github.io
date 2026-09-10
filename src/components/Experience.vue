@@ -1,13 +1,13 @@
 <template>
   <section id="experience" class="experience-section" aria-label="Experience">
-    <SectionHeader index="02" title="Experience" />
+    <SectionHeader index="02" :title="t('section.experience')" />
 
     <div class="panel experience-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
 
       <div class="timeline-track">
         <div
           v-for="(entry, index) in items"
-          :key="`timeline-${index}`"
+          :key="entry.id"
           class="timeline-entry"
         >
           <div class="timeline-marker" aria-hidden="true">
@@ -17,14 +17,14 @@
 
           <article class="timeline-item">
             <div class="timeline-head">
-              <span class="timeline-period">{{ entry.period }}</span>
-              <span v-if="entry.location" class="timeline-location">{{ entry.location }}</span>
+              <span class="timeline-period">{{ pick(entry.period) }}</span>
+              <span v-if="entry.location" class="timeline-location">{{ pick(entry.location) }}</span>
             </div>
-            <h3 class="timeline-title">{{ entry.title }}</h3>
-            <p v-if="entry.subtitle" class="timeline-subtitle">{{ entry.subtitle }}</p>
+            <h3 class="timeline-title">{{ pick(entry.title) }}</h3>
+            <p v-if="entry.subtitle" class="timeline-subtitle">{{ pick(entry.subtitle) }}</p>
             <ul v-if="entry.highlights && entry.highlights.length" class="timeline-highlights">
               <li v-for="(highlight, hi) in entry.highlights" :key="`highlight-${hi}`">
-                {{ highlight }}
+                {{ pick(highlight) }}
               </li>
             </ul>
             <div v-if="entry.tags && entry.tags.length" class="timeline-tags">
@@ -39,11 +39,14 @@
 
 <script setup>
 import SectionHeader from '@/components/SectionHeader.vue'
+import { useI18n } from '@/i18n/index.js'
 import { useScrollReveal } from '@/composables/useScrollReveal'
 
 defineProps({
   items: { type: Array, required: true },
 })
+
+const { t, pick } = useI18n()
 
 const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
 </script>

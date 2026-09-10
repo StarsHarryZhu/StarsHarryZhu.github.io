@@ -17,7 +17,7 @@
               fill="url(#hero-star)"
             />
           </svg>
-          <span>Portfolio · 2026</span>
+          <span>{{ t('hero.kicker') }}</span>
         </span>
 
         <h1 class="hero-title reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '150ms' }">
@@ -25,22 +25,22 @@
         </h1>
 
         <p class="hero-subtitle reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '290ms' }">
-          {{ subtitle }}
+          {{ pick(subtitle) }}
         </p>
 
         <p class="hero-bio reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '420ms' }">
-          {{ bio }}
+          {{ pick(bio) }}
         </p>
 
         <div class="hero-actions reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '540ms' }">
           <a href="#projects" class="btn btn-primary" @click.prevent="scrollTo('#projects')">
-            View projects
+            {{ t('hero.ctaProjects') }}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6"></path>
             </svg>
           </a>
           <a href="#contact" class="btn btn-secondary" @click.prevent="scrollTo('#contact')">
-            Get in touch
+            {{ t('hero.ctaContact') }}
           </a>
         </div>
 
@@ -58,7 +58,7 @@
           </picture>
           <span class="hero-meta-name">{{ name }}</span>
           <span class="hero-meta-sep" aria-hidden="true">·</span>
-          <span class="hero-meta-note">{{ meta }}</span>
+          <span class="hero-meta-note">{{ pick(meta) }}</span>
         </div>
       </div>
 
@@ -86,7 +86,10 @@
 </template>
 
 <script setup>
+import { useI18n } from '@/i18n/index.js'
 import { useScrollReveal } from '@/composables/useScrollReveal'
+
+const { t, pick } = useI18n()
 
 defineProps({
   avatar: { type: String, required: true },
@@ -94,10 +97,11 @@ defineProps({
   avatarFallback: { type: String, required: true },
   altText: { type: String, default: 'Portrait of Harry Zhu' },
   title: { type: String, required: true },
-  subtitle: { type: String, required: true },
-  bio: { type: String, default: '' },
+  /** Bilingual prose: `{ en, zh }` */
+  subtitle: { type: [String, Object], required: true },
+  bio: { type: [String, Object], default: '' },
   name: { type: String, default: '' },
-  meta: { type: String, default: '' },
+  meta: { type: [String, Object], default: '' },
 })
 
 const reveal = useScrollReveal({ threshold: 0.05 })

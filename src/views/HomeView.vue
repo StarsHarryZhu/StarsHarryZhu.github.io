@@ -1,7 +1,7 @@
 <template>
-  <AeroSky />
+  <Backdrop />
 
-  <GlassNav />
+  <TopNav />
 
   <main id="content" class="page-shell" tabindex="-1">
     <a href="#content" class="skip-link" @click.prevent="skipToContent">Skip to content</a>
@@ -21,8 +21,8 @@
       <About
         :bios="profile.bios"
         :contacts="contacts"
-        :focus-areas="focusAreas"
-        :note="aboutNote"
+        :focus-areas="profile.focus"
+        :note="profile.note"
       />
 
       <Experience :items="timeline" />
@@ -30,47 +30,33 @@
       <Projects :items="projects" />
 
       <div class="split">
-        <Toolkit :categories="skillCategories" />
+        <Toolkit :groups="skillGroups" />
         <Education :items="education" />
       </div>
 
       <Contact :items="contacts" />
 
-      <Footer :items="footerItems" />
+      <Footer />
     </div>
   </main>
 </template>
 
 <script setup>
-import {
-  profile,
-  skillCategories,
-  projects,
-  timeline,
-  education,
-  contacts,
-  footerItems,
-  avatarImageSet,
-} from '@/data/site-data.js'
+import { profile, contacts, education, avatarImageSet } from '@/data/site-data.js'
+import { projects } from '@/data/projects.js'
+import { timeline } from '@/data/experience.js'
+import { skillGroups } from '@/data/skills.js'
 
 import About from '@/components/About.vue'
-import AeroSky from '@/components/AeroSky.vue'
+import Backdrop from '@/components/Backdrop.vue'
 import Contact from '@/components/Contact.vue'
 import Education from '@/components/Education.vue'
 import Experience from '@/components/Experience.vue'
 import Footer from '@/components/Footer.vue'
-import GlassNav from '@/components/GlassNav.vue'
 import Hero from '@/components/Hero.vue'
 import Projects from '@/components/Projects.vue'
 import Toolkit from '@/components/Toolkit.vue'
-
-const focusAreas = [
-  'Computer Vision',
-  'Robotics & Control',
-  'Systems Programming',
-]
-
-const aboutNote = 'Currently building vision-guided robotic systems — from YOLO detection to TensorRT-accelerated real-time control loops.'
+import TopNav from '@/components/TopNav.vue'
 
 function skipToContent() {
   document.getElementById('content')?.focus()

@@ -5,153 +5,84 @@ import gmailIcon from '@/assets/Gmail.png'
 import githubIconWhite from '@/assets/GitHub_Invertocat_White.svg'
 import linkedinIcon from '@/assets/LinkedIn.svg'
 
+/**
+ * Profile, contacts and education (bilingual).
+ *
+ * Prose fields are `{ en, zh }` objects; organization names and handles
+ * stay language-neutral. Projects / experience / skills live in their own
+ * modules: projects.js, experience.js, skills.js.
+ */
+
 export const profile = {
   title: 'Starfield',
-  subtitle: 'Computer Vision · Robotics · Systems',
   name: 'Harry Zhu',
-  meta: 'CS @ Stony Brook University',
+  subtitle: {
+    en: 'Computer Vision · Robotics · Agent Tooling',
+    zh: '计算机视觉 · 机器人 · Agent 工具链',
+  },
+  meta: {
+    en: 'CS @ Stony Brook University',
+    zh: '计算机科学 @ Stony Brook University',
+  },
   bios: [
-    'Computer Science student at Stony Brook University, building practical computer-vision and robotics systems.',
-    'Recently deployed a vision-guided robotic-grasping pipeline with YOLO, TensorRT, and Intel RealSense.',
+    {
+      en: 'Computer Science student at Stony Brook University, building practical computer-vision and robotics systems.',
+      zh: 'Stony Brook University 计算机科学在读，专注可落地的计算机视觉与机器人系统。',
+    },
+    {
+      en: 'Recently deployed a vision-guided robotic-grasping pipeline with YOLO, TensorRT and Intel RealSense.',
+      zh: '近期完成视觉引导机器人抓取链路：YOLO 检测、TensorRT 加速与 Intel RealSense 深度感知。',
+    },
+    {
+      en: 'Now building DeepSeek Harness plugins — agent browser automation and a composer stats dock.',
+      zh: '目前在开发 DeepSeek Harness 插件：agent 浏览器自动化与输入框统计坞。',
+    },
   ],
+  focus: [
+    { en: 'Computer Vision', zh: '计算机视觉' },
+    { en: 'Robotics & Control', zh: '机器人与控制' },
+    { en: 'Agent Tooling', zh: 'Agent 工具链' },
+  ],
+  note: {
+    en: 'Currently shipping DeepSeek Harness plugins and vision-guided robotic systems — from YOLO detection to TensorRT-accelerated control loops.',
+    zh: '当前在做 DeepSeek Harness 插件与视觉引导机器人系统 —— 从 YOLO 检测到 TensorRT 加速的实时控制回路。',
+  },
 }
-
-export const skillCategories = [
-  {
-    name: 'Core Languages',
-    skills: [
-      { name: 'C/C++' },
-      { name: 'Python' },
-      { name: 'Java' },
-      { name: 'Swift/SwiftUI' },
-    ],
-  },
-  {
-    name: 'Computer Vision & Robotics',
-    skills: [
-      { name: 'YOLO' },
-      { name: 'TensorRT' },
-      { name: 'Intel RealSense' },
-      { name: 'Kalman Filtering' },
-    ],
-  },
-  {
-    name: 'Web & Tooling',
-    skills: [
-      { name: 'HTML/CSS/JS' },
-      { name: 'Vue 3' },
-      { name: 'Git' },
-      { name: 'CMake' },
-    ],
-  },
-]
-
-export const projects = [
-  {
-    name: 'browser-use',
-    intro: 'A DeepSeek Harness browser-automation plugin that gives the agent a Codex-style shared browser: 12 browser_* model tools drive a real Chrome instance (isolated profile, CDP inputs, a11y observation), with human and agent sharing the live view in the dsh-web Browser tab.',
-    tags: ['DeepSeek Harness', 'Cordis Plugin', 'CDP', 'Chrome'],
-  },
-  {
-    name: 'simple-dock',
-    intro: 'A DeepSeek Harness plugin that injects an interactive stats dock into the composer bottom bar, replacing the official stats line with four expandable panels — performance, briefing, token details, and estimated cost — frosted glass that follows the system theme, and a toggle that restores the official DSH bar. Costs are computed locally by completion time, never from an external price table.',
-    url: 'https://github.com/StarsHarryZhu/simple-dock',
-    tags: ['DeepSeek Harness', 'Cordis Plugin', 'React', 'Cost Estimator'],
-  },
-  {
-    name: 'Echoes',
-    intro: 'An iOS emotion-journaling app that captures front-camera photos and records inferred emotions with a fine-tuned MobileNetV2 model.',
-    tags: ['Swift', 'SwiftUI', 'MobileNetV2'],
-  },
-  {
-    name: 'Personal Website',
-    intro: 'This personal portfolio, built with Vue 3, Vite, and a CSS-only starfield interface.',
-    url: 'https://github.com/StarsHarryZhu/StarsHarryZhu.github.io',
-    tags: ['Vue 3', 'Vite', 'CSS'],
-  },
-  {
-    name: 'VEX Control Libs',
-    intro: 'Reusable C++11 control libraries for VEX robots, including PID control, button debouncing, and distance calculation.',
-    tags: ['C++11', 'STL', 'Robotics'],
-  },
-  {
-    name: 'Digit OCR',
-    intro: 'Handwritten digit recognition using MLP and CNN models.',
-    url: 'https://github.com/StarsHarryZhu/Digit_OCR',
-    tags: ['C++', 'CMake', 'CNN', 'MLP'],
-  },
-]
 
 export const contacts = [
   {
+    key: 'email',
     type: 'copy',
-    name: 'Email',
+    name: { en: 'Email', zh: '邮箱' },
     icon: gmailIcon,
     copyValue: 'starfield.zhu@gmail.com',
-    copySuccessText: 'Email address copied.',
   },
   {
+    key: 'linkedin',
     type: 'link',
-    name: 'LinkedIn',
+    name: { en: 'LinkedIn', zh: 'LinkedIn' },
     icon: linkedinIcon,
     url: 'https://www.linkedin.com/in/huanyi-zhu-518703385/',
   },
   {
+    key: 'github',
     type: 'link',
-    name: 'GitHub',
+    name: { en: 'GitHub', zh: 'GitHub' },
     icon: githubIconWhite,
     url: 'https://github.com/StarsHarryZhu',
-  },
-]
-
-export const timeline = [
-  {
-    period: 'May 2026 — Jul 2026',
-    title: 'Computer Vision Intern',
-    subtitle: 'Ningbo University · Computer Vision Team',
-    location: 'Ningbo, Zhejiang',
-    highlights: [
-      'Trained YOLO26l and YOLOv8n object-detection models for bird nests, bird-repellent devices, and beakers.',
-      'Optimized inference on an NVIDIA RTX 2080 Ti through a .pt → .onnx → TensorRT deployment pipeline.',
-      'Integrated an Intel RealSense D435i, Kalman-filtered target tracking, a Reaman robotic arm, and custom control algorithms to demonstrate vision-guided grasping.',
-    ],
-    tags: ['YOLO26l', 'YOLOv8n', 'TensorRT', 'RealSense D435i', 'Kalman Filter', 'Robotics'],
-  },
-  {
-    period: 'Dec 2025 — Jan 2026',
-    title: 'C++ Instructor & VEX IQ Coach',
-    subtitle: 'Ningbo HZ Club',
-    location: 'Ningbo, Zhejiang',
-    highlights: [
-      'Taught C++ fundamentals and introductory programming concepts.',
-      'Coached students on VEX IQ robot operation and competition preparation.',
-    ],
-    tags: ['C++', 'VEX IQ', 'Teaching'],
-  },
-  {
-    period: 'Jun 2023 — Apr 2025',
-    title: 'Founder & Leader, School Robotics Team',
-    subtitle: 'Ningbo Xiaoshi High School',
-    location: 'Ningbo, Zhejiang',
-    highlights: [
-      'Founded a school VEX robotics competition team and led its members to a first-place national ranking in China.',
-      'Developed reusable C++ chassis-control code supporting multiple robot configurations.',
-    ],
-    tags: ['C++', 'VEX Robotics', 'Leadership'],
   },
 ]
 
 export const education = [
   {
     institution: 'Stony Brook University',
-    degree: 'B.S. in Computer Science · Minor in Mathematics',
-    period: 'Aug 2025 — May 2029',
-    location: 'Stony Brook, New York',
+    degree: {
+      en: 'B.S. in Computer Science · Minor in Mathematics',
+      zh: '计算机科学学士 · 数学辅修',
+    },
+    period: { en: 'Aug 2025 — May 2029', zh: '2025.08 — 2029.05' },
+    location: { en: 'Stony Brook, New York', zh: '纽约州石溪' },
   },
-]
-
-export const footerItems = [
-  'starfield',
 ]
 
 export const avatarImageSet = {
