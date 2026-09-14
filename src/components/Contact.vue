@@ -1,23 +1,21 @@
 <template>
-  <section ref="root" id="contact" class="contact-section" aria-label="Contact links">
+  <section id="contact" class="contact-section" aria-label="Contact links">
     <SectionHeader index="06" :title="t('section.contact')" />
 
-    <div class="panel contact-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
-
+    <div class="glass contact-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
       <header class="contact-head">
         <h3 class="contact-title">{{ t('contact.title') }}</h3>
         <p class="contact-sub">{{ t('contact.subtitle') }}</p>
       </header>
 
       <div class="contacts-row">
-        <component
-          :is="item.tag"
-          v-for="(item, index) in resolvedItems"
-          :key="`contact-${index}`"
-          class="contact-btn"
-          v-bind="item.tagProps"
-          :aria-label="item.ariaLabel"
-          @click="item.onClick"
+        <a
+          v-for="item in items"
+          :key="item.key"
+          class="contact-link"
+          :href="item.url"
+          :target="item.external ? '_blank' : undefined"
+          :rel="item.external ? 'noreferrer noopener' : undefined"
         >
           <img
             :src="item.icon"
@@ -26,76 +24,31 @@
             width="96"
             height="96"
           />
-          <span>{{ pick(item.name) }}</span>
-        </component>
+          <span class="contact-label">{{ pick(item.name) }}</span>
+        </a>
       </div>
     </div>
-
-    <Teleport to="body">
-      <Transition name="toast">
-        <div v-if="isModalOpen" class="toast" role="status" aria-live="polite">
-          <div class="toast-card">{{ modalText }}</div>
-        </div>
-      </Transition>
-    </Teleport>
   </section>
 </template>
 
 <script setup>
-import { computed, useTemplateRef } from 'vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 import { useI18n } from '@/i18n/index.js'
-import { useCopyToast } from '@/composables/useCopyToast'
-import { useRipple } from '@/composables/useRipple'
 import { useScrollReveal } from '@/composables/useScrollReveal'
 
-const props = defineProps({
+defineProps({
   items: { type: Array, required: true },
 })
 
-const root = useTemplateRef('root')
 const { t, pick } = useI18n()
 const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
-const { isModalOpen, modalText, copyText } = useCopyToast()
-
-useRipple(() => root.value, { selector: '.contact-btn' })
-
-const resolvedItems = computed(() =>
-  props.items.map((item) => {
-    if (item.type === 'copy') {
-      return {
-        ...item,
-        tag: 'button',
-        tagProps: { type: 'button' },
-        ariaLabel: t('a11y.copyEmail'),
-        // Resolve the toast text at click time so it follows the locale
-        onClick: () => copyText(item.copyValue, t('contact.copied'), t('contact.copyFailed')),
-      }
-    }
-    return {
-      ...item,
-      tag: 'a',
-      tagProps: {
-        href: item.url,
-        target: '_blank',
-        rel: 'noreferrer noopener',
-      },
-      ariaLabel: `${pick(item.name)} · ${t('a11y.openProfile')}`,
-      onClick: undefined,
-    }
-  }),
-)
 </script>
 
 <style scoped>
-.contact-section {
-  scroll-margin-top: calc(var(--nav-height) + 1rem);
-}
-
 .contact-panel {
   display: grid;
   gap: 1.2rem;
-  padding: clamp(1.4rem, 3vw, 2.2rem);
+  padding: clamp(1.5rem, 3vw, 2.2rem);
   margin-top: 1.1rem;
 }
 
@@ -119,114 +72,57 @@ const resolvedItems = computed(() =>
   font-size: var(--text-sm);
 }
 
-/* ===== Buttons ===== */
+/* ===== 联系方式：玻璃行 ===== */
 
 .contacts-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.8rem;
 }
 
-.contact-btn {
-  --ripple-color: var(--accent-cyan);
-  width: 100%;
-  min-height: 3.2rem;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  background:
-    radial-gradient(120% 140% at 20% -30%, rgba(255, 255, 255, 0.16), transparent 55%),
-    linear-gradient(150deg, rgba(255, 255, 255, 0.07), transparent 55%),
-    rgba(35, 35, 36, 0.2);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    0 8px 26px -12px rgba(2, 6, 26, 0.8);
-  color: var(--text-primary);
-  font: inherit;
-  font-size: var(--text-sm);
-  font-weight: 500;
-  appearance: none;
-  cursor: pointer;
-  text-decoration: none;
+.contact-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.56rem;
-  padding: 0.42rem 0.7rem;
+  gap: 0.55rem;
+  min-height: 3.1rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02) 60%),
+    rgba(255, 255, 255, 0.03);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: 500;
   transition:
     transform var(--transition-base),
-    border-color var(--transition-base);
+    border-color var(--transition-base),
+    background var(--transition-base);
 }
 
-.contact-btn:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.36);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 12px 30px -12px rgba(2, 6, 26, 0.85),
-    0 0 24px rgba(110, 168, 254, 0.18);
+.contact-link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.34);
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04) 60%),
+    rgba(255, 255, 255, 0.05);
 }
 
 .contact-icon {
-  width: 1.48rem;
-  height: 1.48rem;
-  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
   border-radius: var(--radius-sm);
-  flex-shrink: 0;
   object-fit: cover;
   object-position: center;
+  flex-shrink: 0;
 }
 
-/* ===== Toast: liquid glass, spring in · gaseous blur-dissolve out ===== */
-
-.toast {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 50px;
-  z-index: var(--z-toast);
-  display: flex;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.toast-card {
-  min-width: min(360px, calc(100vw - 2rem));
-  max-width: calc(100vw - 2rem);
-  padding: 0.62rem 0.98rem;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background:
-    linear-gradient(150deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03) 55%),
-    rgba(35, 35, 36, 0.55);
-  color: var(--text-primary);
-  text-align: center;
-  font-size: var(--text-sm);
-  font-weight: 500;
-  line-height: 1.35;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    var(--shadow-lift);
-}
-
-.toast-enter-active {
-  transition:
-    opacity 0.18s var(--ease-aero),
-    transform 0.38s var(--ease-spring);
-}
-
-.toast-leave-active {
-  transition:
-    opacity 0.3s var(--ease-aero),
-    transform 0.3s var(--ease-aero);
-}
-
-.toast-enter-from {
-  opacity: 0;
-  transform: translateY(18px) scale(0.92);
-}
-
-.toast-leave-to {
-  opacity: 0;
-  transform: translateY(6px) scale(0.94);
+.contact-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

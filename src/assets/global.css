@@ -1,12 +1,16 @@
 @import './tokens.css';
 
 /* ============================================================
- * Global Material System — v3 主流产品风
- * 目标：流畅第一。无 backdrop-filter、无 blur 入场、无
- * box-shadow 动画；只用 opacity/transform 的廉价过渡。
+ * Global Material System — v4 液态玻璃 × 气态动效
+ *
+ * 性能红线（改动前先读）：
+ *   · backdrop-filter 只出现在 .glass 上，全站 ≤7 个实例
+ *   · 禁止实时 filter: blur（唯一例外：.reveal--vapor 的 Hero 一次性凝结）
+ *   · 禁止 box-shadow / filter 过渡动画；动画只用 transform / opacity
+ *   · 禁止 canvas 粒子；所有发光都是预渲染径向渐变
  * ============================================================ */
 
-/* ===== Global Resets ===== */
+/* ===== Resets ===== */
 
 *,
 *::before,
@@ -22,7 +26,7 @@ html,
 body,
 #app {
   min-height: 100%;
-  background-color: var(--bg-0);
+  background-color: var(--space-0);
 }
 
 body {
@@ -58,13 +62,13 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent-blue-soft);
+  outline: 2px solid var(--accent-cyan);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
 ::selection {
-  background: rgba(110, 168, 254, 0.25);
+  background: rgba(125, 244, 232, 0.22);
   color: var(--text-primary);
 }
 
@@ -75,29 +79,37 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-1);
+  background: var(--space-1);
 }
 
 ::-webkit-scrollbar-thumb {
   background: hsla(0, 0%, 100%, 0.18);
   border-radius: var(--radius-full);
-  border: 2px solid var(--bg-1);
+  border: 2px solid var(--space-1);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsla(0, 0%, 100%, 0.3);
 }
 
-/* ===== Panel: opaque modern card =====
-   Solid dark surface + 1px hairline + subtle top sheen. Hover lifts
-   with transform only — no shadow animation, no blur, no repaint. */
+/* ===== Liquid glass panel =====
+   specular 顶部高光（静态）+ 虹彩边缘（静态）+ 毛玻璃体。
+   流光由 .glass--sheen 提供，仅用于重点面板。 */
 
-.panel {
+/* ===== Liquid glass panel =====
+   纯霜面玻璃：分层渐变 + specular 顶部高光 + 虹彩边缘 + 深阴影。
+   刻意不用 backdrop-filter —— 玻璃后面有持续移动的气态光斑，
+   实时采样会让每个玻璃面板每帧重新模糊背景（Retina 下成倍放大）。 */
+
+.glass {
   position: relative;
-  border-radius: var(--radius-panel);
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
-  box-shadow: var(--shadow-float);
+  border-radius: var(--glass-radius);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  box-shadow:
+    var(--glass-specular),
+    var(--glass-iris),
+    var(--glass-shadow);
   contain: paint;
   transition:
     transform var(--transition-base),
@@ -105,83 +117,84 @@ a {
     background var(--transition-base);
 }
 
-/* Subtle static top sheen (painted once, never animates) */
-.panel::before {
+
+/* 顶部 specular 光带（一次绘制，不参与动画） */
+.glass::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.045) 0%,
-    transparent 18%
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.03) 20%,
+      transparent 44%
+    ),
+    radial-gradient(
+      120% 70% at 16% -14%,
+      rgba(255, 255, 255, 0.18),
+      transparent 58%
+    );
 }
 
-.panel::after {
-  display: none;
-}
-
-.panel:hover {
+.glass:hover {
   transform: translateY(-2px);
-  border-color: var(--card-border-hover);
-  background: var(--card-bg-hover);
+  border-color: var(--glass-border-hover);
+  background: var(--glass-bg-hover);
 }
 
-/* ===== Entrance Reveal (opacity/translate only — zero repaint) ===== */
+
+/* ===== Gaseous entrance（气态动效） =====
+   面板：上浮 + 淡入 + 轻微缩放（无模糊，成本低）
+   .reveal--vapor：额外一次性模糊凝结，仅用于 Hero 的少量元素 */
 
 .reveal {
   opacity: 0;
-  transform: translateY(var(--enter-y));
+  transform: translateY(var(--enter-y)) scale(0.985);
   transition:
-    transform 0.6s var(--ease-aero) var(--reveal-delay, 0ms),
-    opacity 0.45s var(--ease-aero) var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
+    opacity 0.7s var(--ease-aero) var(--reveal-delay, 0ms),
+    transform 0.9s var(--ease-aero) var(--reveal-delay, 0ms);
 }
 
 .reveal.is-visible {
   opacity: 1;
-  transform: translateY(0);
-  will-change: auto;
+  transform: translateY(0) scale(1);
 }
 
-/* ===== Shared Utilities ===== */
+.reveal--vapor {
+  filter: blur(12px);
+  transition:
+    opacity 0.8s var(--ease-aero) var(--reveal-delay, 0ms),
+    transform 1s var(--ease-aero) var(--reveal-delay, 0ms),
+    filter 0.9s var(--ease-aero) var(--reveal-delay, 0ms);
+}
 
-/* Tag chip — neutral chip, blue text */
+.reveal--vapor.is-visible {
+  filter: blur(0);
+}
+
+/* ===== Shared primitives ===== */
+
+/* 玻璃药丸标签 */
 .tag-pill {
   display: inline-flex;
   align-items: center;
-  padding: 0.14rem 0.6rem;
+  padding: 0.16rem 0.6rem;
   border-radius: var(--radius-full);
-  border: 1px solid var(--border-l2);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--pill-accent, var(--accent-blue-soft));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--accent-cyan);
   font-family: var(--font-mono);
   font-size: var(--text-2xs);
   line-height: 1.6;
   letter-spacing: 0.02em;
   white-space: nowrap;
-  transition: border-color var(--transition-base);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
-.tag-pill:hover {
-  border-color: var(--border-l3);
-}
-
-/* Mono index label pinned to the top-right of a card */
-.card-index {
-  position: absolute;
-  top: 1.05rem;
-  right: 1.2rem;
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wider);
-  color: var(--text-tertiary);
-  user-select: none;
-}
-
-/* Icon tile — solid neutral square, accent glyph */
+/* 玻璃图标方块 */
 .card-icon {
   display: inline-flex;
   align-items: center;
@@ -189,9 +202,12 @@ a {
   width: 42px;
   height: 42px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-l2);
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--tile-accent, var(--accent-blue-soft));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.12), transparent 60%),
+    rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: var(--accent-cyan);
 }
 
 .card-icon svg {
@@ -199,101 +215,7 @@ a {
   height: 22px;
 }
 
-/* ===== Buttons (mainstream: solid primary / outline secondary) ===== */
-
-.btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  border-radius: 10px;
-  box-sizing: border-box;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.2;
-  padding: 11px 20px;
-  text-decoration: none;
-  cursor: pointer;
-  border: 1px solid transparent;
-  appearance: none;
-  transition:
-    transform var(--transition-base),
-    border-color var(--transition-base),
-    background var(--transition-base);
-}
-
-.btn svg {
-  width: 15px;
-  height: 15px;
-}
-
-.btn:active {
-  transform: scale(0.98);
-}
-
-/* Primary — solid accent blue */
-.btn-primary {
-  background: var(--accent-blue);
-  color: #ffffff;
-}
-
-.btn-primary:hover {
-  transform: translateY(-1px);
-  background: var(--accent-blue-soft);
-}
-
-/* Secondary — neutral surface with border */
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
-  border-color: var(--border-l2);
-}
-
-.btn-secondary:hover {
-  transform: translateY(-1px);
-  border-color: var(--border-l3);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* ===== Ripple (kept minimal — one-off, cheap) ===== */
-
-.ripple-host {
-  position: relative;
-  overflow: hidden;
-}
-
-.ripple-host:active {
-  transform: scale(0.98);
-}
-
-.ripple-el {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  margin: -7px 0 0 -7px;
-  border-radius: 50%;
-  border: 1.5px solid var(--ripple-color, rgba(110, 168, 254, 0.7));
-  opacity: 0;
-  transform: scale(0.15);
-  pointer-events: none;
-  animation: ripple-expand 600ms ease-out forwards;
-  will-change: transform, opacity;
-}
-
-@keyframes ripple-expand {
-  from {
-    opacity: 0.85;
-    transform: scale(0.15);
-  }
-  to {
-    opacity: 0;
-    transform: scale(2.2);
-  }
-}
-
-/* ===== Reduced Motion ===== */
+/* ===== Reduced motion ===== */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -304,17 +226,23 @@ a {
     transition-duration: 0.01ms !important;
   }
 
-  .reveal {
+  .reveal,
+  .reveal--vapor {
     opacity: 1;
     transform: none;
+    filter: none;
     transition: none;
   }
 
-  .panel:hover {
+  .glass:hover {
     transform: none;
   }
+}
 
-  .ripple-host:active {
+/* ===== Mobile / low-power tier：保留玻璃，削减光效 ===== */
+
+@media (max-width: 767px), (hover: none) and (pointer: coarse) {
+  .glass:hover {
     transform: none;
   }
 }
@@ -322,14 +250,16 @@ a {
 /* ===== Print ===== */
 
 @media print {
-  .panel {
+  .glass {
     background: #fff !important;
     border: 1px solid #ccc !important;
     box-shadow: none !important;
+    backdrop-filter: none !important;
     color: #222 !important;
     contain: none;
   }
-  .panel::before {
+
+  .glass::before {
     display: none;
   }
 }

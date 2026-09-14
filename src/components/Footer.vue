@@ -1,72 +1,28 @@
 <template>
   <footer class="footer" role="contentinfo">
-    <p class="footer-side footer-left">starfield</p>
-    <p class="footer-dot" aria-hidden="true">
-      <svg width="12" height="12" viewBox="0 0 10 10" fill="none">
-        <defs>
-          <linearGradient id="footer-star-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#6EA8FE" />
-            <stop offset="0.55" stop-color="#8FB8FF" />
-            <stop offset="1" stop-color="#A9B8E8" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M5 0L6.12 3.37L9.76 3.63L6.87 5.97L7.76 9.56L5 7.68L2.24 9.56L3.13 5.97L0.24 3.63L3.88 3.37L5 0Z"
-          fill="url(#footer-star-grad)"
-        />
-      </svg>
-    </p>
-    <p class="footer-side footer-right">{{ t('footer.note') }}</p>
+    <p class="footer-brand">starfield</p>
   </footer>
 </template>
 
 <script setup>
-import { useI18n } from '@/i18n/index.js'
-
-const { t } = useI18n()
+// 纯静态页脚：只留品牌字样（语言切换在顶栏）
 </script>
 
 <style scoped>
 .footer {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: center;
-  column-gap: 0.6rem;
+  display: flex;
+  justify-content: center;
   width: 100%;
-  padding-top: clamp(1rem, 2.4vw, 1.4rem);
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.18) 50%,
-    transparent 100%
-  );
-  background-size: 100% 1px;
-  background-repeat: no-repeat;
-  background-position: top;
+  padding: clamp(2rem, 6vh, 3.5rem) 0 clamp(1.5rem, 4vh, 2.5rem);
+  margin-top: clamp(2rem, 6vh, 4rem);
+  border-top: 1px solid var(--border-l1);
 }
 
-.footer-side {
+.footer-brand {
   margin: 0;
-  color: var(--text-tertiary);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.footer-left { text-align: right; }
-.footer-right { text-align: left; }
-
-/* ===== Star: slow celestial rotation + breathing glow ===== */
-
-.footer-dot {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  opacity: 0.8;
-  line-height: 1;
-  filter: drop-shadow(0 0 5px rgba(110, 168, 254, 0.4));
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-tertiary);
 }
 </style>

@@ -2,18 +2,13 @@
  * UI chrome strings (zh/en).
  * Content prose lives in src/data/* with per-field { en, zh } objects —
  * this table is only for interface labels, buttons and status words.
+ *
+ * 规则：不留未使用的键（改完文案跑一次死键审计）。
  */
 
 export const messages = {
   en: {
     'meta.title': 'starfield — Harry Zhu',
-
-    // Navigation
-    'nav.about': 'About',
-    'nav.experience': 'Experience',
-    'nav.projects': 'Projects',
-    'nav.toolkit': 'Toolkit',
-    'nav.contact': 'Contact',
 
     // Section titles
     'section.about': 'About',
@@ -23,10 +18,11 @@ export const messages = {
     'section.education': 'Education',
     'section.contact': 'Contact',
 
+    // Top bar
+    'topbar.status': 'Open to internships',
+
     // Hero
     'hero.kicker': 'Portfolio · 2026',
-    'hero.ctaProjects': 'View projects',
-    'hero.ctaContact': 'Get in touch',
 
     // About
     'about.focus': 'Focus',
@@ -35,7 +31,7 @@ export const messages = {
     'projects.featured': 'Featured work',
     'projects.more': 'More work',
     'projects.caseStudy': 'Case study',
-    'projects.collapse': 'Collapse',
+    'projects.close': 'Close',
     'projects.stack': 'Stack',
     'projects.highlights': 'Highlights',
     'projects.note': 'Note',
@@ -50,30 +46,13 @@ export const messages = {
     // Contact
     'contact.title': 'Get in Touch',
     'contact.subtitle': 'Open to internships & collaborations',
-    'contact.copied': 'Email address copied.',
-    'contact.copyFailed': 'Unable to copy.',
-
-    // Footer
-    'footer.note': 'Built with Vue 3 · Vite',
 
     // Language toggle
     'lang.label': 'Language',
-
-    // Accessibility labels
-    'a11y.copyEmail': 'Copy email address to clipboard',
-    'a11y.openProfile': 'Open profile',
-    'a11y.scrollToSection': 'Scroll to section',
   },
 
   zh: {
     'meta.title': 'starfield — Harry Zhu',
-
-    // Navigation
-    'nav.about': '关于',
-    'nav.experience': '经历',
-    'nav.projects': '项目',
-    'nav.toolkit': '技能',
-    'nav.contact': '联系',
 
     // Section titles
     'section.about': '关于',
@@ -83,10 +62,11 @@ export const messages = {
     'section.education': '教育',
     'section.contact': '联系',
 
+    // Top bar
+    'topbar.status': '开放实习机会',
+
     // Hero
     'hero.kicker': '作品集 · 2026',
-    'hero.ctaProjects': '查看项目',
-    'hero.ctaContact': '联系我',
 
     // About
     'about.focus': '关注方向',
@@ -95,7 +75,7 @@ export const messages = {
     'projects.featured': '重点作品',
     'projects.more': '其他作品',
     'projects.caseStudy': '案例详情',
-    'projects.collapse': '收起',
+    'projects.close': '关闭',
     'projects.stack': '技术栈',
     'projects.highlights': '亮点',
     'projects.note': '说明',
@@ -110,18 +90,8 @@ export const messages = {
     // Contact
     'contact.title': '联系方式',
     'contact.subtitle': '欢迎实习与合作机会',
-    'contact.copied': '邮箱地址已复制。',
-    'contact.copyFailed': '复制失败。',
-
-    // Footer
-    'footer.note': '使用 Vue 3 · Vite 构建',
 
     // Language toggle
     'lang.label': '语言',
-
-    // Accessibility labels
-    'a11y.copyEmail': '复制邮箱地址到剪贴板',
-    'a11y.openProfile': '打开主页',
-    'a11y.scrollToSection': '滚动到该分区',
   },
 }

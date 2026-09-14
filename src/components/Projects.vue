@@ -12,6 +12,7 @@
           :index="String(pi + 1).padStart(2, '0')"
           featured
           :style="{ '--reveal-delay': `${120 + pi * 110}ms` }"
+          @open="onOpen"
         />
       </div>
     </div>
@@ -25,15 +26,20 @@
           :item="project"
           :index="String(featuredProjects.length + pi + 1).padStart(2, '0')"
           :style="{ '--reveal-delay': `${120 + pi * 90}ms` }"
+          @open="onOpen"
         />
       </div>
     </div>
+
+    <!-- 案例详情：悬浮窗口（不拉长卡片） -->
+    <ProjectCaseModal :project="active" :trigger="triggerEl" @close="closeCase" />
   </section>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import ProjectCard from '@/components/ProjectCard.vue'
+import ProjectCaseModal from '@/components/ProjectCaseModal.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 import { useI18n } from '@/i18n/index.js'
 
@@ -43,15 +49,24 @@ const props = defineProps({
 
 const { t } = useI18n()
 
+// 当前打开案例窗口的项目；null = 关闭（同时记住触发按钮，关闭后归还焦点）
+const active = ref(null)
+const triggerEl = ref(null)
+
+function onOpen({ project, trigger }) {
+  triggerEl.value = trigger
+  active.value = project
+}
+
+function closeCase() {
+  active.value = null
+}
+
 const featuredProjects = computed(() => props.items.filter((p) => p.featured))
 const otherProjects = computed(() => props.items.filter((p) => !p.featured))
 </script>
 
 <style scoped>
-.projects-section {
-  scroll-margin-top: calc(var(--nav-height) + 1rem);
-}
-
 .projects-tier + .projects-tier {
   margin-top: 1.8rem;
 }

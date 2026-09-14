@@ -64,7 +64,7 @@ const OPTIONS = [
 }
 
 .lt-btn:focus-visible {
-  outline: 2px solid var(--accent-blue-soft);
+  outline: 2px solid var(--accent-blue);
   outline-offset: 1px;
 }
 </style>

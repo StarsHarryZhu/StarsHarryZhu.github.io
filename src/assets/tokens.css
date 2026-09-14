@@ -1,6 +1,13 @@
 /* ============================================================
- * Design Tokens — v3.1（清理版）
- * 仅保留被实际引用的 token；删除全部死 token。
+ * Design Tokens — v4 · 深色星野（气态动效 × 液态玻璃）
+ *
+ *   · 底色：深空渐变（#0B1226 → #04060D），青/蓝/紫极光叠加
+ *   · 玻璃：液态玻璃（specular 顶部高光 + 虹彩边缘 + 缓慢流光）
+ *   · 动效：气态动效 —— 面板上浮淡入；Hero 一次性模糊凝结
+ *   · 性能：所有发光都是「预渲染径向渐变」，动画只用
+ *     transform / opacity；禁用实时 filter: blur 与 shadow 动画
+ *
+ * 规则：不留未被引用的 token（每次改样式后跑死 token 审计）。
  * ============================================================ */
 
 @font-face {
@@ -30,39 +37,60 @@
 :root {
   color-scheme: dark;
 
-  /* ===== Background ===== */
-  --bg-0: #0A0C10;
-  --bg-1: #0E1116;
+  /* ===== Deep space ===== */
+  --space-0: #04060D;
+  --space-1: #070B17;
   --page-bg:
-    radial-gradient(90% 60% at 50% -8%, rgba(76, 94, 140, 0.16) 0%, transparent 62%),
-    linear-gradient(180deg, #0E1116 0%, #0A0C10 100%);
+    linear-gradient(
+      168deg,
+      #0B1226 0%,
+      #0C1130 24%,
+      #101540 46%,
+      #0A1638 70%,
+      #061024 88%,
+      #04060D 100%
+    );
 
-  /* ===== Accent: single confident blue ===== */
-  --accent-blue:      #4D7CFE;   /* primary — buttons, links */
-  --accent-blue-soft: #6EA8FE;   /* hover / gradient end */
-  --accent-sky:       #8FB8FF;   /* text accent */
-  --accent-cyan:      #6EA8FE;   /* alias */
-  --accent-violet:    #A9B8E8;   /* alias — cool grey-blue */
+  /* ===== Aurora layers (预模糊径向渐变，非实时模糊) ===== */
+  --aurora-cyan: rgba(80, 226, 214, 0.45);
+  --aurora-blue: rgba(90, 150, 255, 0.48);
+  --aurora-violet: rgba(150, 130, 255, 0.42);
 
-  /* ===== Cards: fully opaque, 1px border, hover lift ===== */
-  --card-bg:       #12151C;
-  --card-bg-hover: #161A22;
-  --card-border:       rgba(255, 255, 255, 0.09);
-  --card-border-hover: rgba(255, 255, 255, 0.18);
-
-  /* ===== Borders ===== */
-  --border-l1: rgba(255, 255, 255, 0.06);
-  --border-l2: rgba(255, 255, 255, 0.1);
-  --border-l3: rgba(255, 255, 255, 0.14);
-
-  /* ===== Light / Shadow ===== */
-  --shadow-float: 0 12px 32px -12px rgba(0, 0, 0, 0.6);
-  --shadow-lift:  0 18px 42px -14px rgba(0, 0, 0, 0.7);
+  /* ===== Accents (star family) ===== */
+  --accent-cyan:   #7DF4E8;
+  --accent-blue:   #8AB4FF;
+  --accent-violet: #A79BFF;
 
   /* ===== Text ===== */
-  --text-primary:   #F2F4F8;
-  --text-secondary: #A6AEBE;
-  --text-tertiary:  #778091;
+  --text-primary:   #EAF1FF;
+  --text-secondary: #A9B8DE;
+  --text-tertiary:  #7E8DB4;
+
+  /* ===== Liquid glass ===== */
+  --glass-bg:
+    linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.16) 0%,
+      rgba(255, 255, 255, 0.04) 45%,
+      rgba(90, 150, 255, 0.12) 100%
+    );
+  --glass-bg-hover:
+    linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.19) 0%,
+      rgba(255, 255, 255, 0.06) 45%,
+      rgba(90, 150, 255, 0.15) 100%
+    );
+  --glass-radius:     24px;
+  --glass-border:       rgba(255, 255, 255, 0.18);
+  --glass-border-hover: rgba(255, 255, 255, 0.32);
+  --glass-specular: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  --glass-iris:     inset 0 -24px 44px -28px rgba(90, 150, 255, 0.35);
+  --glass-shadow:   0 12px 30px -16px rgba(2, 6, 26, 0.8);
+
+  /* ===== Borders / shadows ===== */
+  --border-l1: rgba(255, 255, 255, 0.07);
+  --border-l2: rgba(255, 255, 255, 0.12);
 
   /* ===== Typography ===== */
   --font-display: 'HarmonyOS Sans', 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
@@ -82,32 +110,26 @@
 
   /* ===== Spacing ===== */
   --space-1: 4px;
-  --space-2: 8px;
-  --space-4: 16px;
   --panel-pad: clamp(1.5rem, 3vw, 2.4rem);
   --section-gap: clamp(3.5rem, 9vh, 6rem);
 
   /* ===== Radii ===== */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-panel: 16px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
   --radius-full: 100px;
 
-  /* ===== Motion (opacity/transform only — GPU cheap) ===== */
-  --ease-aero:   cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-spring: cubic-bezier(0.3, 1.25, 0.4, 1);
+  /* ===== Motion — 气态动效 ===== */
+  --ease-aero:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-breathe: cubic-bezier(0.45, 0, 0.55, 1);
+  --enter-y: 24px;
 
-  --enter-y: 16px;
-
-  --transition-base: 180ms cubic-bezier(0.2, 0.8, 0.3, 1);
+  --transition-base: 200ms var(--ease-aero);
 
   /* ===== Layout / z ===== */
-  --shell-pad: clamp(1rem, 3vw, 2rem);
-  --content-width: min(1120px, 100%);
-  --nav-height: 60px;
+  --shell-pad: clamp(1.25rem, 4vw, 3rem);
+  --content-width: min(1040px, 100%);
   --z-bg: 0;
   --z-panel: 2;
-  --z-nav: 60;
-  --z-skip: 100;
-  --z-toast: 1200;
+  --z-nav: 40;
+  --z-modal: 100;
 }

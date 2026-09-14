@@ -4,9 +4,7 @@
       <span class="sh-index">{{ index }}</span>
       <h2 class="sh-title">{{ title }}</h2>
     </div>
-    <div class="sh-line" aria-hidden="true">
-      <span class="sh-line-core"></span>
-    </div>
+    <div class="sh-line" aria-hidden="true"></div>
   </div>
 </template>
 
@@ -38,7 +36,7 @@ const reveal = useScrollReveal({ threshold: 0.1 })
   font-size: clamp(0.85rem, 2vw, 1.05rem);
   letter-spacing: var(--tracking-wider);
   color: var(--accent-cyan);
-  text-shadow: 0 0 18px rgba(110, 168, 254, 0.45);
+  text-shadow: 0 0 18px rgba(125, 244, 232, 0.45);
   user-select: none;
 }
 
@@ -52,32 +50,18 @@ const reveal = useScrollReveal({ threshold: 0.1 })
   color: var(--text-primary);
 }
 
-/* Liquid hairline: a bright line of glass that condenses in */
+/* 静止发丝线：玻璃边缘的冷光 */
 .sh-line {
   position: relative;
   height: 1px;
   border-radius: var(--radius-full);
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.16),
-    rgba(255, 255, 255, 0.05) 60%,
+    rgba(125, 244, 232, 0.5) 0%,
+    rgba(138, 180, 255, 0.35) 34%,
+    rgba(255, 255, 255, 0.06) 68%,
     transparent 100%
   );
-  overflow: hidden;
-}
-
-.sh-line-core {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(110, 168, 254, 0.75) 18%,
-    rgba(138, 180, 255, 0.75) 45%,
-    transparent 75%
-  );
-  background-size: 220% 100%;
-  opacity: 0.5;
+  opacity: 0.8;
 }
 </style>

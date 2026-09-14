@@ -6,20 +6,74 @@
  *
  * Content rules:
  * - Every claim comes from `projects/*.md` (DSH plugins), `doc/main.tex`
- *   (resume) or the repository itself. No invented dates or metrics.
- * - `period` is only set where the resume records one.
+ *   (resume), the repository itself, or the user directly. No invented
+ *   dates or metrics.
+ * - `period` is set only where a source records one (resume or user).
  * - `links` only lists URLs that actually exist (browser-use has no public
  *   repository yet, so it carries no link).
- * - `featured` marks the two DeepSeek Harness plugins, rendered as the
- *   wide tier of the Projects section.
+ * - `featured` marks the two wide-tier cards at the top of the Projects
+ *   section (currently Digit OCR and Echoes).
  * - Prose is kept tight: it ships in two languages.
  */
 
 export const projects = [
   {
+    id: 'digit-ocr',
+    name: 'Digit OCR',
+    featured: true,
+    status: null,
+    period: { en: 'Nov 2025 — Dec 2025', zh: '2025.11 — 2025.12' },
+    tagline: {
+      en: 'Handwritten digit recognition with MLP and CNN models, built in C++ with CMake.',
+      zh: '用 MLP 与 CNN 做手写数字识别，C++ 与 CMake 实现。',
+    },
+    stack: ['C++', 'CMake', 'CNN', 'MLP'],
+    highlights: [
+      {
+        en: 'Implemented both a multi-layer perceptron and a convolutional network for digit classification.',
+        zh: '同时实现多层感知机与卷积网络两种数字分类模型。',
+      },
+      {
+        en: 'CMake project layout with C++ training and inference code.',
+        zh: 'CMake 工程结构，C++ 训练与推理代码。',
+      },
+    ],
+    note: null,
+    links: [{ label: 'GitHub', url: 'https://github.com/StarsHarryZhu/Digit_OCR' }],
+    install: null,
+  },
+
+  {
+    id: 'echoes',
+    name: 'Echoes',
+    featured: true,
+    status: 'in-progress',
+    period: { en: 'Oct 2024 — Present', zh: '2024.10 — 至今' },
+    tagline: {
+      en: 'An iOS emotion-journaling app: front-camera photos feed a fine-tuned MobileNetV2 model that infers and records emotions.',
+      zh: 'iOS 情绪日记应用：前置摄像头照片经微调 MobileNetV2 推断并记录情绪。',
+    },
+    stack: ['Swift', 'SwiftUI', 'MobileNetV2'],
+    highlights: [
+      {
+        en: 'Fine-tuned MobileNetV2 for on-device facial-expression inference.',
+        zh: '微调 MobileNetV2 做端侧表情推断。',
+      },
+      {
+        en: 'Capture flow feeding a journal of inferred emotions over time.',
+        zh: '拍照流程按时间累积推断出的情绪记录。',
+      },
+    ],
+    note: null,
+    links: [],
+    install: null,
+  },
+
+
+  {
     id: 'simple-dock',
     name: 'simple-dock',
-    featured: true,
+    featured: false,
     status: 'published',
     period: null,
     tagline: {
@@ -57,10 +111,11 @@ export const projects = [
     install: 'dsh plugin --profile web add simple-dock',
   },
 
+
   {
     id: 'browser-use',
     name: 'browser-use',
-    featured: true,
+    featured: false,
     status: 'paused',
     period: null,
     tagline: {
@@ -94,31 +149,6 @@ export const projects = [
     install: null,
   },
 
-  {
-    id: 'echoes',
-    name: 'Echoes',
-    featured: false,
-    status: 'in-progress',
-    period: { en: 'Oct 2024 — Present', zh: '2024.10 — 至今' },
-    tagline: {
-      en: 'An iOS emotion-journaling app: front-camera photos feed a fine-tuned MobileNetV2 model that infers and records emotions.',
-      zh: 'iOS 情绪日记应用：前置摄像头照片经微调 MobileNetV2 推断并记录情绪。',
-    },
-    stack: ['Swift', 'SwiftUI', 'MobileNetV2'],
-    highlights: [
-      {
-        en: 'Fine-tuned MobileNetV2 for on-device facial-expression inference.',
-        zh: '微调 MobileNetV2 做端侧表情推断。',
-      },
-      {
-        en: 'Capture flow feeding a journal of inferred emotions over time.',
-        zh: '拍照流程按时间累积推断出的情绪记录。',
-      },
-    ],
-    note: null,
-    links: [],
-    install: null,
-  },
 
   {
     id: 'personal-website',
@@ -150,6 +180,7 @@ export const projects = [
     install: null,
   },
 
+
   {
     id: 'vex-control-libs',
     name: 'VEX Control Libs',
@@ -173,32 +204,6 @@ export const projects = [
     ],
     note: null,
     links: [],
-    install: null,
-  },
-
-  {
-    id: 'digit-ocr',
-    name: 'Digit OCR',
-    featured: false,
-    status: null,
-    period: null,
-    tagline: {
-      en: 'Handwritten digit recognition with MLP and CNN models, built in C++ with CMake.',
-      zh: '用 MLP 与 CNN 做手写数字识别，C++ 与 CMake 实现。',
-    },
-    stack: ['C++', 'CMake', 'CNN', 'MLP'],
-    highlights: [
-      {
-        en: 'Implemented both a multi-layer perceptron and a convolutional network for digit classification.',
-        zh: '同时实现多层感知机与卷积网络两种数字分类模型。',
-      },
-      {
-        en: 'CMake project layout with C++ training and inference code.',
-        zh: 'CMake 工程结构，C++ 训练与推理代码。',
-      },
-    ],
-    note: null,
-    links: [{ label: 'GitHub', url: 'https://github.com/StarsHarryZhu/Digit_OCR' }],
     install: null,
   },
 ]

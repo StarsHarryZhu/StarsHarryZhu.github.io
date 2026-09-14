@@ -1,11 +1,8 @@
 <template>
   <Backdrop />
+  <TopBar />
 
-  <TopNav />
-
-  <main id="content" class="page-shell" tabindex="-1">
-    <a href="#content" class="skip-link" @click.prevent="skipToContent">Skip to content</a>
-
+  <main class="page-shell">
     <Hero
       :avatar="avatarImageSet.webp"
       :avatar2x="avatarImageSet.webp2x"
@@ -15,6 +12,7 @@
       :bio="profile.bios[0]"
       :name="profile.name"
       :meta="profile.meta"
+      :focus="profile.focus"
     />
 
     <div class="sections">
@@ -56,11 +54,7 @@ import Footer from '@/components/Footer.vue'
 import Hero from '@/components/Hero.vue'
 import Projects from '@/components/Projects.vue'
 import Toolkit from '@/components/Toolkit.vue'
-import TopNav from '@/components/TopNav.vue'
-
-function skipToContent() {
-  document.getElementById('content')?.focus()
-}
+import TopBar from '@/components/TopBar.vue'
 </script>
 
 <style scoped>
@@ -80,26 +74,32 @@ function skipToContent() {
   width: 100%;
 }
 
-/* Sections stack with generous air between them */
+/* 分区之间留出呼吸感 */
 .sections {
   display: grid;
   gap: var(--section-gap);
   width: 100%;
-  padding-top: 2rem;
+  padding-top: clamp(1rem, 4vh, 2.5rem);
 }
 
-/* Skip rendering off-screen sections (content-visibility) — biggest
-   single win for scroll perf on long pages. contain-intrinsic-BLOCK-
-   size reserves only height (a width fallback would overflow mobile). */
+/* 视口外分区跳过渲染（已无 backdrop-filter，可安全启用）。
+   占位高度按各分区实测值分档 —— 单一常量会让总高度先涨后缩、滚动条跳动；
+   分档后首次进入即接近真实高度（`auto` 关键字会记住真实值）。 */
 .sections > * {
   content-visibility: auto;
-  contain-intrinsic-block-size: auto 720px;
 }
 
-/* Toolkit + Education side-by-side on wide screens */
+.sections > *:nth-child(1) { contain-intrinsic-block-size: auto 430px; }
+.sections > *:nth-child(2) { contain-intrinsic-block-size: auto 780px; }
+.sections > *:nth-child(3) { contain-intrinsic-block-size: auto 1400px; }
+.sections > *:nth-child(4) { contain-intrinsic-block-size: auto 450px; }
+.sections > *:nth-child(5) { contain-intrinsic-block-size: auto 290px; }
+.sections > *:nth-child(6) { contain-intrinsic-block-size: auto 120px; }
+
+/* 技能 + 教育：宽屏并排，窄屏堆叠 */
 .split {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
   gap: 16px;
   align-items: start;
 }
@@ -110,32 +110,6 @@ function skipToContent() {
   }
 }
 
-/* ===== Skip link ===== */
-
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: 0;
-  z-index: var(--z-skip);
-  padding: var(--space-2) var(--space-4);
-  background: var(--bg-1);
-  color: var(--text-primary);
-  border: 1px solid var(--border-l2);
-  border-radius: 0 0 var(--radius-md) 0;
-  text-decoration: none;
-  font-size: var(--text-xs);
-  font-weight: 600;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-/* ===== Reduced Motion ===== */
-
-@media (prefers-reduced-motion: reduce) {
-}
-
 /* ===== Print ===== */
 
 @media print {
@@ -144,14 +118,10 @@ function skipToContent() {
     padding: 1rem;
   }
   .sections {
-    grid-template-columns: 1fr;
-    gap: 0.9rem;
+    gap: 1rem;
   }
   .split {
     grid-template-columns: 1fr;
-  }
-  .skip-link {
-    display: none;
   }
 }
 </style>

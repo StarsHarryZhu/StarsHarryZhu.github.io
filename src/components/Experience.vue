@@ -2,7 +2,7 @@
   <section id="experience" class="experience-section" aria-label="Experience">
     <SectionHeader index="02" :title="t('section.experience')" />
 
-    <div class="panel experience-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
+    <div class="glass experience-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
 
       <div class="timeline-track">
         <div
@@ -53,7 +53,6 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
 
 <style scoped>
 .experience-section {
-  scroll-margin-top: calc(var(--nav-height) + 1rem);
 }
 
 .experience-panel {

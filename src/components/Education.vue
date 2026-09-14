@@ -2,7 +2,7 @@
   <section id="education" class="education-section" aria-label="Education">
     <SectionHeader index="05" :title="t('section.education')" />
 
-    <div class="panel education-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '120ms' }">
+    <div class="glass education-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '120ms' }">
 
       <div
         v-for="(item, index) in items"
@@ -37,7 +37,6 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -8% 0px' })
 
 <style scoped>
 .education-section {
-  scroll-margin-top: calc(var(--nav-height) + 1rem);
 }
 
 .education-panel {

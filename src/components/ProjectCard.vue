@@ -1,7 +1,7 @@
 <template>
   <article
-    class="panel project-card reveal"
-    :class="{ 'project-card--featured': featured, 'project-open': open }"
+    class="glass project-card reveal"
+    :class="{ 'project-card--featured': featured }"
     :ref="reveal.observe"
   >
     <header class="project-head">
@@ -21,20 +21,18 @@
     <h3 class="project-title">{{ item.name }}</h3>
     <p class="project-tagline">{{ pick(item.tagline) }}</p>
 
-    <ul v-if="!featured" class="project-stack">
+    <ul class="project-stack">
       <li v-for="tech in item.stack" :key="tech" class="tag-pill">{{ tech }}</li>
     </ul>
 
     <button
       type="button"
-      class="case-toggle"
-      :aria-expanded="open"
-      :aria-controls="caseId"
-      @click="open = !open"
+      class="case-open"
+      aria-haspopup="dialog"
+      @click="emit('open', { project: item, trigger: $event.currentTarget })"
     >
-      <span>{{ open ? t('projects.collapse') : t('projects.caseStudy') }}</span>
+      <span>{{ t('projects.caseStudy') }}</span>
       <svg
-        class="case-chevron"
         width="14"
         height="14"
         viewBox="0 0 24 24"
@@ -45,38 +43,30 @@
         stroke-linejoin="round"
         aria-hidden="true"
       >
-        <path d="m6 9 6 6 6-6"></path>
+        <path d="M7 17 17 7M9 7h8v8"></path>
       </svg>
     </button>
-
-    <div :id="caseId">
-      <ProjectDetails :project="item" :open="open" />
-    </div>
   </article>
 </template>
 
 <script setup>
-import { computed, ref, useTemplateRef } from 'vue'
-import ProjectDetails from '@/components/ProjectDetails.vue'
+import { useTemplateRef } from 'vue'
 import StatusBadge from '@/components/StatusBadge.vue'
 import { useI18n } from '@/i18n/index.js'
-import { useRipple } from '@/composables/useRipple'
 import { useScrollReveal } from '@/composables/useScrollReveal'
 
-const props = defineProps({
+defineProps({
   item: { type: Object, required: true },
   index: { type: String, default: '' },
   featured: { type: Boolean, default: false },
 })
 
-const { t, pick } = useI18n()
+const emit = defineEmits(['open'])
 
-const open = ref(false)
-const caseId = computed(() => `case-${props.item.id}`)
+const { t, pick } = useI18n()
 
 const root = useTemplateRef('root')
 const reveal = useScrollReveal({ rootMargin: '0px 0px -6% 0px' })
-useRipple(() => root.value, { selector: '.project-card' })
 </script>
 
 <style scoped>
@@ -159,20 +149,20 @@ useRipple(() => root.value, { selector: '.project-card' })
   gap: 0.38rem;
 }
 
-/* ===== Disclosure ===== */
+/* ===== 打开案例窗口的按钮 ===== */
 
-.case-toggle {
+.case-open {
   appearance: none;
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  margin-top: 0.35rem;
+  margin-top: 0.7rem;
   padding: 0.42rem 0.85rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-l2);
   background: rgba(255, 255, 255, 0.04);
-  color: var(--accent-sky);
+  color: var(--accent-cyan);
   font: inherit;
   font-size: var(--text-sm);
   font-weight: 600;
@@ -182,27 +172,13 @@ useRipple(() => root.value, { selector: '.project-card' })
     background var(--transition-base);
 }
 
-.case-toggle:hover {
-  border-color: var(--card-border-hover);
+.case-open:hover {
+  border-color: rgba(255, 255, 255, 0.32);
   background: rgba(255, 255, 255, 0.07);
 }
 
-.case-toggle:focus-visible {
-  outline: 2px solid var(--accent-blue-soft);
+.case-open:focus-visible {
+  outline: 2px solid var(--accent-cyan);
   outline-offset: 2px;
-}
-
-.case-chevron {
-  transition: transform var(--transition-base);
-}
-
-.project-open .case-chevron {
-  transform: rotate(180deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .case-chevron {
-    transition: none;
-  }
 }
 </style>

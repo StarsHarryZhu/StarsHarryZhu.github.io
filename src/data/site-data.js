@@ -52,21 +52,21 @@ export const profile = {
 export const contacts = [
   {
     key: 'email',
-    type: 'copy',
+    external: false,
     name: { en: 'Email', zh: '邮箱' },
     icon: gmailIcon,
-    copyValue: 'starfield.zhu@gmail.com',
+    url: 'mailto:starfield.zhu@gmail.com',
   },
   {
     key: 'linkedin',
-    type: 'link',
+    external: true,
     name: { en: 'LinkedIn', zh: 'LinkedIn' },
     icon: linkedinIcon,
     url: 'https://www.linkedin.com/in/huanyi-zhu-518703385/',
   },
   {
     key: 'github',
-    type: 'link',
+    external: true,
     name: { en: 'GitHub', zh: 'GitHub' },
     icon: githubIconWhite,
     url: 'https://github.com/StarsHarryZhu',

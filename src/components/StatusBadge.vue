@@ -42,12 +42,12 @@ const { t } = useI18n()
 /* Published — accent blue */
 .status-badge--published {
   border-color: rgba(110, 168, 254, 0.4);
-  color: var(--accent-sky);
+  color: var(--accent-blue);
   background: rgba(110, 168, 254, 0.08);
 }
 
 .status-badge--published .sb-dot {
-  background: var(--accent-blue-soft);
+  background: var(--accent-blue);
 }
 
 /* In progress — neutral, filled dot */

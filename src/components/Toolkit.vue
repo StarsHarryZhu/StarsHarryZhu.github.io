@@ -2,7 +2,7 @@
   <section id="toolkit" class="toolkit-section" aria-label="Skills">
     <SectionHeader index="04" :title="t('section.toolkit')" />
 
-    <div class="panel toolkit-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
+    <div class="glass toolkit-panel reveal" :ref="reveal.observe" :style="{ '--reveal-delay': '100ms' }">
 
       <div
         v-for="(group, gi) in groups"
@@ -41,7 +41,6 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -6% 0px' })
 
 <style scoped>
 .toolkit-section {
-  scroll-margin-top: calc(var(--nav-height) + 1rem);
 }
 
 .toolkit-panel {
@@ -52,7 +51,7 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -6% 0px' })
 }
 
 .skill-group {
-  --group-accent: var(--accent-blue-soft);
+  --group-accent: var(--accent-blue);
   display: grid;
   gap: 0.55rem;
   padding-top: 0.15rem;
@@ -100,7 +99,7 @@ const reveal = useScrollReveal({ rootMargin: '0px 0px -6% 0px' })
   transform: translateY(12px);
   transition:
     opacity 0.45s var(--ease-aero),
-    transform 0.55s var(--ease-spring),
+    transform 0.55s var(--ease-aero),
     color var(--transition-base),
     border-color var(--transition-base);
 }
