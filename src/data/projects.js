@@ -74,7 +74,7 @@ export const projects = [
     id: 'simple-dock',
     name: 'simple-dock',
     featured: false,
-    status: 'published',
+    status: 'deprecated',
     period: null,
     tagline: {
       en: 'An interactive stats dock for the DeepSeek Harness composer: performance, briefing, token details and cost estimation, all computed locally.',
@@ -104,8 +104,8 @@ export const projects = [
       },
     ],
     note: {
-      en: 'v1.0.0 — build and smoke tests green, verified end-to-end in a real browser.',
-      zh: 'v1.0.0 —— 构建与 smoke 测试全绿，真实浏览器端到端验收通过。',
+      en: 'Deprecated (2026-09-21) — no longer maintained and unmounted from the DSH profile; v1.0.0 was the last verified build.',
+      zh: '已弃用（2026-09-21）—— 停止维护，并已从 DSH profile 取消挂载；v1.0.0 为最后一个验收通过的版本。',
     },
     links: [{ label: 'GitHub', url: 'https://github.com/StarsHarryZhu/simple-dock' }],
     install: 'dsh plugin --profile web add simple-dock',

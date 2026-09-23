@@ -1,5 +1,7 @@
 # simple-dock — DeepSeek Harness 底栏统计坞插件
 
+> **⚠️ 已弃用（2026-09-21）** —— 停止维护：已从本机 DSH web profile 取消挂载（`~/.dsh/profiles/web/cordis.patch.yml` 的挂载行与 `node_modules` 软链接均已移除，重启 DSH 后不再加载）。源码与文档保留，供参考或自行恢复。
+
 在 DeepSeek Harness（DSH）的对话输入框底栏注入一个交互式统计坞，替换官方 stats 行：**性能 / 简报 / Token 明细 / 预估成本** 四个可展开面板，磨砂玻璃风格跟随系统深浅色；关闭开关即还原 DSH 官方底栏。全程本地计算、**不拉取任何外部价格表**。
 
 ## 技术栈
@@ -17,6 +19,7 @@
 
 ## 当前状态
 
+- **已弃用（2026-09-21）**：停止维护，并从本机 DSH web profile 取消挂载（挂载行与软链接已移除）；不再更新与修复。
 - v1.0.0 完成：构建 + smoke（价格边界/中英字典键一致/按步成本管线）全绿；真实浏览器端到端验收通过（中文文案、开关往返、设置行）。
 - 已发布到 GitHub：`StarsHarryZhu/simple-dock`（bundle 化后支持 `dsh plugin --profile web add` 一行安装；npm 发布待 2FA 验证器就绪）。
 - 已安装运行于本机 DSH web profile；源码位置：`my_plugins/simple-dock/`（workspace：`/Users/starfield/Documents/deepseek-harness/my_plugins/simple-dock`）。

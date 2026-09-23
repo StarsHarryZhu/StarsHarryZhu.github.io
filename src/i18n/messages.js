@@ -42,6 +42,7 @@ export const messages = {
     'status.published': 'Published',
     'status.in-progress': 'In progress',
     'status.paused': 'Paused',
+    'status.deprecated': 'Deprecated',
 
     // Contact
     'contact.title': 'Get in Touch',
@@ -86,6 +87,7 @@ export const messages = {
     'status.published': '已发布',
     'status.in-progress': '进行中',
     'status.paused': '已暂停',
+    'status.deprecated': '已弃用',
 
     // Contact
     'contact.title': '联系方式',

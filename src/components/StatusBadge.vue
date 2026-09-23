@@ -9,7 +9,7 @@
 import { useI18n } from '@/i18n/index.js'
 
 defineProps({
-  /** 'published' | 'in-progress' | 'paused' | null */
+  /** 'published' | 'in-progress' | 'paused' | 'deprecated' | null */
   status: { type: String, default: null },
 })
 
@@ -64,5 +64,15 @@ const { t } = useI18n()
 .status-badge--paused .sb-dot {
   background: transparent;
   border: 1px solid var(--text-tertiary);
+}
+/* Deprecated — muted, solid dot (terminal state) */
+.status-badge--deprecated {
+  border-color: var(--border-l2);
+  color: var(--text-tertiary);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.status-badge--deprecated .sb-dot {
+  background: var(--text-tertiary);
 }
 </style>
