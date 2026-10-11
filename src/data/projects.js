@@ -12,7 +12,7 @@
  * - `links` only lists URLs that actually exist (browser-use has no public
  *   repository yet, so it carries no link).
  * - `featured` marks the two wide-tier cards at the top of the Projects
- *   section (currently Digit OCR and Echoes).
+ *   section (currently Digit OCR and ANY).
  * - Prose is kept tight: it ships in two languages.
  */
 
@@ -44,9 +44,46 @@ export const projects = [
   },
 
   {
+    id: 'any',
+    name: 'ANY',
+    featured: true,
+    status: 'in-progress',
+    period: { en: 'Sep 2026 — Present', zh: '2026.09 — 至今' },
+    tagline: {
+      en: 'A terminal multi-turn LLM chat REPL that converges the Anthropic Messages and OpenAI Responses APIs behind one protocol seam — written almost entirely by an LLM in conversation.',
+      zh: '终端里的多轮 LLM 对话 REPL：把 Anthropic Messages 与 OpenAI Responses 两套 API 收敛到同一个协议接缝之后 —— 几乎全部由 LLM 在对话中写成。',
+    },
+    stack: ['Python 3.14', 'Anthropic Messages API', 'OpenAI Responses API', 'rich', 'questionary'],
+    highlights: [
+      {
+        en: 'The control loop imports no SDK and contains no provider branch: envelope differences (Anthropic wraps assistant/user messages and echoes thinking blocks back; OpenAI uses bare items) are absorbed inside the two wrappers.',
+        zh: '控制循环不 import 任何 SDK、也没有 provider 分支：信封差异（Anthropic 包 assistant/user 消息并回带 thinking 块，OpenAI 用裸 item）全部由两个 wrapper 吸收。',
+      },
+      {
+        en: 'Streaming multi-turn chat in the terminal: the reply renders as it arrives, then is swapped for the finished Markdown — tool turns included.',
+        zh: '终端流式多轮对话：回答边生成边渲染，结束后换成完整 Markdown，工具回合也走同一条循环。',
+      },
+      {
+        en: 'Named sessions with atomic writes, saved every turn; resuming replays the history to the terminal through the wrapper, never by the loop.',
+        zh: '具名会话原子写入、每轮自动保存；续档时经 wrapper 把历史重放到终端，循环层不读任何厂商块。',
+      },
+      {
+        en: 'Config over code: the three pluggable slots, the tool table and the startup tool presets are all JSON — a missing or broken file falls back per slot and never takes startup down.',
+        zh: '配置优先：三个可插拔槽位、工具表与启动工具预置都是 JSON —— 文件缺失或损坏按槽位各自兜底，不会拖垮启动。',
+      },
+    ],
+    note: {
+      en: 'v0.1.0 (tagged 2026-10-11). The messages path is verified end-to-end against a third-party Anthropic-compatible endpoint, tool turn included; the responses path is written but has never run against a live endpoint. No tests, no LICENSE — the interface can change at any time.',
+      zh: 'v0.1.0（2026-10-11 打 tag）。messages 路径已对一个第三方 Anthropic 兼容端点端到端实测（含工具回合）；responses 路径写完但从未跑过真实端点。没有测试、没有 LICENSE —— 接口随时会变。',
+    },
+    links: [{ label: 'GitHub', url: 'https://github.com/StarsHarryZhu/ANY' }],
+    install: null,
+  },
+
+  {
     id: 'echoes',
     name: 'Echoes',
-    featured: true,
+    featured: false,
     status: 'in-progress',
     period: { en: 'Oct 2024 — Present', zh: '2024.10 — 至今' },
     tagline: {

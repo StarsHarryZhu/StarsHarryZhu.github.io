@@ -91,7 +91,7 @@ import TopBar from '@/components/TopBar.vue'
 
 .sections > *:nth-child(1) { contain-intrinsic-block-size: auto 430px; }
 .sections > *:nth-child(2) { contain-intrinsic-block-size: auto 780px; }
-.sections > *:nth-child(3) { contain-intrinsic-block-size: auto 1400px; }
+.sections > *:nth-child(3) { contain-intrinsic-block-size: auto 1800px; }
 .sections > *:nth-child(4) { contain-intrinsic-block-size: auto 450px; }
 .sections > *:nth-child(5) { contain-intrinsic-block-size: auto 290px; }
 .sections > *:nth-child(6) { contain-intrinsic-block-size: auto 120px; }
