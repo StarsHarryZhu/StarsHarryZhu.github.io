@@ -4,8 +4,8 @@
   "description": "Harry Zhu — personal portfolio. Interests in games, systems, and SOC hardwares.",
   "start_url": "./",
   "display": "standalone",
-  "theme_color": "#071B17",
-  "background_color": "#071B17",
+  "theme_color": "#03050C",
+  "background_color": "#03050C",
   "icons": [
     {
       "src": "./icon-192.png",

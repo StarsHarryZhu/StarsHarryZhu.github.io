@@ -1,0 +1,154 @@
+/* ============================================================
+ * Design tokens — v5 · Nebula (liquid glass × gaseous motion)
+ *
+ *   · Ground: deep-space gradient with a denser, more saturated nebula.
+ *   · Nebula palette: one set of colours shared by the sky, the gas layer
+ *     (read at runtime by effects/gas), the glass rims and the pointer light.
+ *   · Glass: two materials — `.glass` (optical, never samples the backdrop)
+ *     and `.lens-glass` (real backdrop blur, small fixed surfaces only).
+ *   · Motion: light and vapour answer actions; nothing loops on a large layer.
+ *
+ * Rule: no token survives once nothing reads it.
+ * ============================================================ */
+
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('../assets/fonts/HarmonyOS_Sans_Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('../assets/fonts/HarmonyOS_Sans_Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('../assets/fonts/HarmonyOS_Sans_Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* ===== Deep space ===== */
+  --void-0: #03050C;
+  --void-1: #070B18;
+  --page-bg:
+    linear-gradient(
+      168deg,
+      #0A1028 0%,
+      #0D0F36 24%,
+      #150F48 47%,
+      #0C1742 70%,
+      #060E28 88%,
+      #03050C 100%
+    );
+
+  /* ===== Nebula palette (hex only: effects/gas parses these) ===== */
+  --nebula-cyan:    #4FEBDD;
+  --nebula-blue:    #5B7CFF;
+  --nebula-violet:  #9468FF;
+  --nebula-magenta: #CF6BFF;
+
+  /* ===== Accents (text and small marks) ===== */
+  --accent-cyan:   #7DF4E8;
+  --accent-blue:   #8AB4FF;
+  --accent-violet: #B4A5FF;
+
+  /* ===== Text ===== */
+  --text-primary:   #EEF3FF;
+  --text-secondary: #AEBBE0;
+  --text-tertiary:  #8191BC;
+
+  /* ===== Lines ===== */
+  --line-1: rgba(255, 255, 255, 0.07);
+  --line-2: rgba(255, 255, 255, 0.13);
+
+  /* ===== Liquid glass (shared by .glass and .lens-glass) ===== */
+  --glass-radius: 26px;
+  --glass-body:
+    linear-gradient(
+      158deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.035) 42%,
+      rgba(91, 124, 255, 0.07) 100%
+    ),
+    rgba(9, 12, 30, 0.34);
+  /* static specular: a bright lip along the top edge, a soft bloom top-left */
+  --glass-specular:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09) 0%, transparent 26%),
+    radial-gradient(120% 70% at 14% -12%, rgba(255, 255, 255, 0.14), transparent 58%);
+  /* refractive rim: lit from the top-left, a coloured bounce bottom-right */
+  --glass-rim:
+    linear-gradient(
+      138deg,
+      rgba(255, 255, 255, 0.62) 0%,
+      rgba(255, 255, 255, 0.12) 30%,
+      rgba(79, 235, 221, 0.10) 55%,
+      rgba(255, 255, 255, 0.06) 70%,
+      rgba(148, 104, 255, 0.55) 100%
+    );
+  --glass-rim-width: 1.5px;
+  /* thickness: inner lens band, top lip, bottom bounce */
+  --glass-depth:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+    inset 0 18px 30px -26px rgba(255, 255, 255, 0.45),
+    inset 0 -26px 40px -30px rgba(148, 104, 255, 0.45);
+  /* chromatic dispersion along the inner edge */
+  --glass-dispersion:
+    inset 1px 1px 0 -0.5px rgba(79, 235, 221, 0.32),
+    inset -1px -1px 0 -0.5px rgba(207, 107, 255, 0.34);
+  --glass-drop: 0 26px 60px -32px rgba(2, 4, 18, 0.92);
+  --glass-light-size: 460px;
+
+  /* ===== Typography ===== */
+  --font-display: 'HarmonyOS Sans', 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-body: 'HarmonyOS Sans', 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-mono: 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-2xs: 0.68rem;
+  --text-xs: 0.74rem;
+  --text-sm: 0.85rem;
+  --text-base: 0.97rem;
+
+  --leading-base: 1.72;
+
+  --tracking-tight: -0.025em;
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.14em;
+
+  /* ===== Spacing ===== */
+  --panel-pad: clamp(1.5rem, 3vw, 2.4rem);
+  --section-gap: clamp(3.5rem, 9vh, 6rem);
+  --shell-pad: clamp(1.25rem, 4vw, 3rem);
+  --content-width: min(1040px, 100%);
+
+  /* ===== Radii ===== */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-full: 999px;
+
+  /* ===== Motion ===== */
+  --ease-aero:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-breathe: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-vapor:   cubic-bezier(0.16, 1, 0.3, 1);
+  --enter-y: 26px;
+  --transition-base: 220ms var(--ease-aero);
+
+  /* ===== Layers ===== */
+  --z-sky: 0;
+  --z-gas: 1;
+  --z-page: 2;
+  --z-bar: 40;
+  --z-scrim: 90;
+  --z-gas-raised: 95;
+  --z-modal: 100;
+}

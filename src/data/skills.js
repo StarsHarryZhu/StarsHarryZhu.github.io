@@ -8,7 +8,7 @@ export const skillGroups = [
   {
     id: 'languages',
     name: { en: 'Languages', zh: '编程语言' },
-    skills: ['C/C++', 'Python', 'Java', 'Swift'],
+    skills: ['C/C++', 'Python', 'TypeScript', 'Java', 'Swift'],
   },
   {
     id: 'vision-robotics',

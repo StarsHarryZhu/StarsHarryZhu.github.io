@@ -1,0 +1,50 @@
+/* ============================================================
+ * Gaseous motion — the CSS half.
+ *
+ * An element condenses into place once, when it first scrolls into view
+ * (composables/useCondense adds .is-condensed). The gas layer
+ * (effects/gas) adds the vapour around it; this file moves the element.
+ *
+ *   .condense         panels and headers: rise, fade and settle.
+ *   .condense--vapor  the few hero elements: also sharpen from a blur.
+ *                     The only blur transition on the page — one-shot.
+ *
+ * Panels never blur on entry: a blur transition on a large panel while the
+ * page scrolls costs frames, and the gas puff already carries the vapour.
+ * ============================================================ */
+
+.condense {
+  opacity: 0;
+  transform: translateY(var(--enter-y)) scale(0.985);
+}
+
+.condense.is-condensed {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.75s var(--ease-vapor) var(--condense-delay, 0ms),
+    transform 0.95s var(--ease-vapor) var(--condense-delay, 0ms),
+    translate var(--transition-base);
+}
+
+.condense--vapor {
+  filter: blur(12px);
+}
+
+.condense--vapor.is-condensed {
+  filter: none;
+  transition:
+    opacity 0.85s var(--ease-vapor) var(--condense-delay, 0ms),
+    transform 1s var(--ease-vapor) var(--condense-delay, 0ms),
+    filter 0.95s var(--ease-vapor) var(--condense-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .condense,
+  .condense--vapor {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}

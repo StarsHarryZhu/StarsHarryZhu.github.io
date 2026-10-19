@@ -81,6 +81,43 @@ export const projects = [
   },
 
   {
+    id: 'dsh-intelligent-ui',
+    name: 'dsh-intelligent-ui',
+    featured: false,
+    status: 'published',
+    period: { en: 'Oct 2026 — Present', zh: '2026.10 — 至今' },
+    tagline: {
+      en: 'A DeepSeek Harness plugin that turns replies into interactive cards: the model writes a small interface program, the chat renders it natively, and every control recomputes in the browser without another model call.',
+      zh: 'DeepSeek Harness 插件：把回复变成可交互卡片 —— 模型写一段小的界面程序，对话渲染成原生卡片，调节控件时所有数字在浏览器内重算、不再调用模型。',
+    },
+    stack: ['DeepSeek Harness', 'Cordis', 'TypeScript', 'React', 'Vitest'],
+    highlights: [
+      {
+        en: 'The model never writes HTML or JavaScript: its program is checked against a fixed 27-component catalog — layout, text, data, math and controls, plus a button and a player — and stored with the tool result.',
+        zh: '模型不写任何 HTML 或 JavaScript：程序按固定的 27 组件目录校验（布局、文本、数据、数学、控件，外加 button 与 player），并与工具结果一起存档。',
+      },
+      {
+        en: 'Registers exactly one tool, ui_render, and one skill that teaches the model when a card beats prose; uninstalling it leaves every earlier session opening as before.',
+        zh: '只注册一个工具 ui_render 与一个技能，教模型判断何时该用卡片；卸载后历史会话照常打开。',
+      },
+      {
+        en: 'A browser-side calculus engine covers integrals with infinite bounds, derivatives, limits, sums and products, roots and Taylor polynomials; a value that cannot be computed reliably shows “—”, never a guess.',
+        zh: '浏览器内的微积分引擎支持含 ±∞ 边界的定积分、导数、极限、求和与连乘、区间求根与泰勒多项式；无法可靠求值的量显示「—」，绝不给猜测值。',
+      },
+      {
+        en: 'A player animates a card — code traced line by line, an algorithm’s passes, a point moving along a curve — at 0.5×–2×, entirely in the browser and sending nothing to the model.',
+        zh: 'player 以 0.5×–2× 播放卡片动画 —— 逐行执行的代码、算法的每一轮、沿曲线移动的点 —— 全部在浏览器内完成，不向模型发送任何内容。',
+      },
+    ],
+    note: {
+      en: 'v0.1.2 (tagged 2026-10-16), MIT licensed, 14 test files with 288 cases. Needs DeepSeek Harness >= 0.2.1-alpha.1 (below 0.3.0) in the web UI; the desktop app is below that version, so the plugin does not install there yet.',
+      zh: 'v0.1.2（2026-10-16 打 tag），MIT 许可，14 个测试文件 / 288 个用例。需要 DeepSeek Harness >= 0.2.1-alpha.1（低于 0.3.0）的网页版；桌面版低于该版本，暂不安装或启用。',
+    },
+    links: [{ label: 'GitHub', url: 'https://github.com/StarsHarryZhu/dsh-intelligent-UI' }],
+    install: 'Settings → Plugins → Add plugin → https://github.com/StarsHarryZhu/dsh-intelligent-UI',
+  },
+
+  {
     id: 'echoes',
     name: 'Echoes',
     featured: false,

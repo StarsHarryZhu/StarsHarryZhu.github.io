@@ -64,15 +64,11 @@ export function setLocale(next) {
   syncDocument(next)
 }
 
-export function toggleLocale() {
-  setLocale(locale.value === 'en' ? 'zh' : 'en')
-}
-
 /** Called once from main.js so <html lang> matches the initial locale. */
 export function initI18n() {
   syncDocument(locale.value)
 }
 
 export function useI18n() {
-  return { locale, t, pick, setLocale, toggleLocale }
+  return { locale, t, pick, setLocale }
 }

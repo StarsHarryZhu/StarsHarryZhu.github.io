@@ -1,0 +1,106 @@
+<script setup>
+import SectionHeader from '@/components/ui/SectionHeader.vue'
+import { useI18n } from '@/i18n/index.js'
+import { useCondense } from '@/composables/useCondense.js'
+
+defineProps({
+  items: { type: Array, required: true },
+})
+
+const { t, pick } = useI18n()
+
+const condense = useCondense({ rootMargin: '0px 0px -8% 0px', vapor: true })
+</script>
+
+<template>
+  <section id="education" aria-label="Education">
+    <SectionHeader index="05" :title="t('section.education')" />
+
+    <div class="glass condense education-panel" :ref="condense.observe" :style="{ '--condense-delay': '120ms' }">
+
+      <div
+        v-for="(item, index) in items"
+        :key="`education-${index}`"
+        class="edu-item"
+      >
+        <div class="edu-signal" aria-hidden="true"></div>
+        <div class="edu-copy">
+          <span class="edu-period">{{ pick(item.period) }}</span>
+          <h3 class="edu-institution">{{ item.institution }}</h3>
+          <p class="edu-degree">{{ pick(item.degree) }}</p>
+        </div>
+        <p v-if="item.location" class="edu-location">{{ pick(item.location) }}</p>
+      </div>
+    </div>
+  </section>
+</template>
+
+<style scoped>
+.education-panel {
+  display: grid;
+  gap: 0.9rem;
+  padding: clamp(1.3rem, 3vw, 2rem);
+  margin-top: 1.1rem;
+}
+
+.edu-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  padding: 1.1rem 0.2rem;
+  border-top: 1px solid var(--line-1);
+}
+
+.edu-signal {
+  width: 4px;
+  height: 46px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    180deg,
+    var(--accent-violet) 0%,
+    rgba(91, 124, 255, 0.2) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 0 14px rgba(148, 104, 255, 0.4);
+}
+
+.edu-copy {
+  min-width: 0;
+}
+
+.edu-period {
+  display: block;
+  margin-bottom: 0.22rem;
+  color: var(--accent-violet);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.edu-institution {
+  margin: 0;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+
+.edu-degree {
+  margin: 0.2rem 0 0;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.edu-location {
+  margin: 0;
+  grid-column: 2;
+  color: var(--text-tertiary);
+  font-size: var(--text-xs);
+}
+
+</style>
