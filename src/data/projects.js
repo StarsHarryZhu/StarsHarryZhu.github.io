@@ -121,8 +121,8 @@ export const projects = [
     id: 'echoes',
     name: 'Echoes',
     featured: false,
-    status: 'in-progress',
-    period: { en: 'Oct 2024 — Present', zh: '2024.10 — 至今' },
+    status: 'paused',
+    period: { en: 'Oct 2024 — May 2026', zh: '2024.10 — 2026.05' },
     tagline: {
       en: 'An iOS emotion-journaling app: front-camera photos feed a fine-tuned MobileNetV2 model that infers and records emotions.',
       zh: 'iOS 情绪日记应用：前置摄像头照片经微调 MobileNetV2 推断并记录情绪。',
