@@ -21,7 +21,8 @@ sitemap).
 must stay private.
 
 **Colours match the page.** The manifest's `theme_color` and `background_color`
-follow the deep-space background of the site and `theme-color` in `index.html`.
+follow the near-black background of the site (`--bg`) and `theme-color` in
+`index.html`.
 
 **Keep the sitemap honest.** Update `lastmod` when the page content changes.
 

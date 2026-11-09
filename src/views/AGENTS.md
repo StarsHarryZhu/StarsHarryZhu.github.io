@@ -2,35 +2,34 @@
 
 ## 1. Role
 
-The page layout. `HomeView.vue` places the sky, the gas canvas, the top-bar
-capsule, the hero, and the sections in order, passes each its slice of `src/data`,
-mounts the pointer light once for the whole page, and lets new text condense in
-after a language switch.
+The page layout. `HomeView.vue` places the sidebar beside the content column,
+passes each section its slice of `src/data`, owns the list of section ids and the
+scroll spy that drives the nav, and fades new text in after a language switch.
 
 ## 2. Constraints
 
-**Section order is fixed**: hero, 01 About, 02 Experience, 03 Projects, 04 Toolkit
-beside 05 Education, 06 Contact, footer.
+**Section order is fixed** and written once, in `SECTIONS`: About, Experience,
+Projects, Toolkit, Education, Contact; the footer closes the column.
 
 **A thin composition surface.** Layout and wiring only; section markup and logic
 live in the components.
 
-**Off-screen sections skip rendering** with `content-visibility: auto`, and each
-gets a measured placeholder height so the scrollbar does not jump. Re-measure when
-a section's content changes size; the height difference across a full scroll must
-stay under 150 px.
+**Two columns from 1024 px**, a 320 px sidebar and a content column of at most
+640 px; one column below, capped at the content width. A skip link reaches the
+content first by keyboard.
 
 ## 3. Contents
 
 - `AGENTS.md` — this file: what the layout guarantees.
-- `HomeView.vue` — the whole page, section spacing, and placeholder heights.
+- `HomeView.vue` — the whole page: columns, section order and spacing, the scroll
+  spy, and the language fade.
 
 ## 4. Progress
 
 **Done.**
 
-- Placeholder heights re-measured at 1440 px for ten projects (422, 774, 2447,
-  448, 282, 117) on 2026-11-08.
+- v6 two-column layout; the `content-visibility` placeholders were dropped, so no
+  section heights need re-measuring.
 
 **Not done.**
 

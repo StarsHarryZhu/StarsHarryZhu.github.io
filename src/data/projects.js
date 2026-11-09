@@ -231,18 +231,18 @@ export const projects = [
     status: 'published',
     period: { en: 'Nov 2025 — Present', zh: '2025.11 — 至今' },
     tagline: {
-      en: 'This portfolio: a single-page Vue 3 + Vite site in liquid glass, with an event-driven WebGL2 vapour layer and a bilingual data layer.',
-      zh: '本站作品集：Vue 3 + Vite 单页站点，液态玻璃质感，配事件驱动的 WebGL2 气体层与双语数据层。',
+      en: 'This portfolio: a minimal dark single-page site in Vue 3 + Vite, bilingual, with no UI framework.',
+      zh: '本站作品集：极简深色的 Vue 3 + Vite 单页站点，中英双语，不用 UI 框架。',
     },
-    stack: ['Vue 3', 'Vite', 'WebGL2', 'CSS', 'GitHub Actions'],
+    stack: ['Vue 3', 'Vite', 'CSS', 'GitHub Actions'],
     highlights: [
       {
-        en: 'A hand-written stable-fluids solver and light-particle pool in WebGL2: vapour answers clicks, the pointer and the case-study dialog, and the loop stops when idle, leaving zero GPU work.',
-        zh: 'WebGL2 手写 stable-fluids 流体求解器与光粒子池：气体只回应点击、光标和案例窗口，空闲时循环停止，GPU 零开销。',
+        en: 'A sticky sidebar whose section nav follows the reader’s scroll; projects open their details in place, with full keyboard support.',
+        zh: '侧栏固定，分区导航随阅读位置高亮；项目在原地展开详情，完整支持键盘操作。',
       },
       {
-        en: 'Liquid-glass panels with refractive rims, chromatic edges and pointer light, with no backdrop-filter on anything that scrolls; measured at 60 fps while scrolling at 2560 px 2x.',
-        zh: '液态玻璃面板带折射边、色散边与跟随光标的高光，随页面滚动的元素一律不用 backdrop-filter；在 2560 px 2x 下滚动实测 60 fps。',
+        en: 'No canvas, blur or shadows: depth comes from space, hairlines and type, and motion is limited to a short load-in, hover colour and expand/collapse.',
+        zh: '不用 canvas、模糊和阴影：层次只靠留白、发丝线和字体；动效只有加载时的短淡入、悬停变色和展开收起。',
       },
       {
         en: 'Hand-written CSS design tokens and a lightweight in-house i18n layer — no UI framework, no preprocessor.',
@@ -253,7 +253,10 @@ export const projects = [
         zh: '每个文件夹都有一份由脚本检查的 AGENTS.md；每次 push 到 main 由 GitHub Actions 自动部署到 GitHub Pages。',
       },
     ],
-    note: null,
+    note: {
+      en: 'v6 (Nov 2026). The previous version used liquid glass and a hand-written WebGL2 fluid layer; v6 replaced both with this minimal design.',
+      zh: 'v6（2026 年 11 月）。上一版用液态玻璃和手写的 WebGL2 流体层；v6 换成了现在的极简设计。',
+    },
     links: [{ label: 'GitHub', url: 'https://github.com/StarsHarryZhu/StarsHarryZhu.github.io' }],
     install: null,
   },

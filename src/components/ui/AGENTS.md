@@ -2,28 +2,29 @@
 
 ## 1. Role
 
-Small presentational pieces that several sections share. They take a value and draw
-it; they hold no state and call no effect.
+Small presentational pieces that take a value and draw it: the section caption, a
+project's status, and the contact icons. They hold no state.
 
 ## 2. Constraints
 
-**Stateless.** Props in, markup out; no events, no effects, no data imports.
+**Stateless.** Props in, markup out; no events, no data imports.
 
-**Shared look only.** A piece belongs here when at least two sections use it;
-otherwise it stays in its section.
+**Inside the palette.** Status uses the accent for live work and grey for stopped
+work, a ring instead of a dot for unfinished states. Icons are single-colour SVG
+drawn in `currentColor`; copy icon paths from a known source, never retype them.
 
 ## 3. Contents
 
 - `AGENTS.md` — this file: what a shared piece is.
-- `SectionHeader.vue` — the numbered section title with its hairline; condenses once.
-- `StatusBadge.vue` — a project's status pill: published, in progress, paused, or
-  deprecated.
+- `SectionHeader.vue` — the small monospace section caption; sticky on one column.
+- `StatusBadge.vue` — a project's status: published, in progress, paused, or deprecated.
+- `ContactIcon.vue` — the GitHub, LinkedIn, and mail icons, chosen by contact key.
 
 ## 4. Progress
 
 **Done.**
 
-- Both pieces restyled for v5.
+- v6 pieces; contact icons are inline SVG instead of image files.
 
 **Not done.**
 

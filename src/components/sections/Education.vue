@@ -1,106 +1,63 @@
 <script setup>
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import { useI18n } from '@/i18n/index.js'
-import { useCondense } from '@/composables/useCondense.js'
 
 defineProps({
   items: { type: Array, required: true },
 })
 
 const { t, pick } = useI18n()
-
-const condense = useCondense({ rootMargin: '0px 0px -8% 0px', vapor: true })
 </script>
 
 <template>
-  <section id="education" aria-label="Education">
-    <SectionHeader index="05" :title="t('section.education')" />
+  <section id="education" class="section" aria-labelledby="education-title">
+    <SectionHeader id="education-title" :title="t('section.education')" />
 
-    <div class="glass condense education-panel" :ref="condense.observe" :style="{ '--condense-delay': '120ms' }">
-
-      <div
-        v-for="(item, index) in items"
-        :key="`education-${index}`"
-        class="edu-item"
-      >
-        <div class="edu-signal" aria-hidden="true"></div>
-        <div class="edu-copy">
-          <span class="edu-period">{{ pick(item.period) }}</span>
-          <h3 class="edu-institution">{{ item.institution }}</h3>
-          <p class="edu-degree">{{ pick(item.degree) }}</p>
+    <ol class="entries">
+      <li v-for="item in items" :key="item.institution" class="entry">
+        <p class="entry-when mono">{{ pick(item.period) }}</p>
+        <div>
+          <h3 class="entry-title">{{ item.institution }}</h3>
+          <p class="entry-where">
+            {{ pick(item.degree) }}<template v-if="item.location"> · {{ pick(item.location) }}</template>
+          </p>
         </div>
-        <p v-if="item.location" class="edu-location">{{ pick(item.location) }}</p>
-      </div>
-    </div>
+      </li>
+    </ol>
   </section>
 </template>
 
 <style scoped>
-.education-panel {
+.entries {
   display: grid;
-  gap: 0.9rem;
-  padding: clamp(1.3rem, 3vw, 2rem);
-  margin-top: 1.1rem;
-}
-
-.edu-item {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 1rem;
-  align-items: center;
-  padding: 1.1rem 0.2rem;
-  border-top: 1px solid var(--line-1);
-}
-
-.edu-signal {
-  width: 4px;
-  height: 46px;
-  border-radius: var(--radius-full);
-  background: linear-gradient(
-    180deg,
-    var(--accent-violet) 0%,
-    rgba(91, 124, 255, 0.2) 100%
-  );
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    0 0 14px rgba(148, 104, 255, 0.4);
-}
-
-.edu-copy {
-  min-width: 0;
-}
-
-.edu-period {
-  display: block;
-  margin-bottom: 0.22rem;
-  color: var(--accent-violet);
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-}
-
-.edu-institution {
+  gap: 24px;
   margin: 0;
-  color: var(--text-primary);
-  font-family: var(--font-display);
-  font-size: 1.08rem;
-  font-weight: 600;
+  padding: 0;
+  list-style: none;
 }
 
-.edu-degree {
-  margin: 0.2rem 0 0;
-  color: var(--text-secondary);
+/* the same two columns as Experience */
+.entry {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 4px 24px;
+}
+
+.entry-when {
+  padding-top: 3px;
+}
+
+.entry-title {
+  font-size: var(--text-base);
+}
+
+.entry-where {
   font-size: var(--text-sm);
-  line-height: 1.6;
 }
 
-.edu-location {
-  margin: 0;
-  grid-column: 2;
-  color: var(--text-tertiary);
-  font-size: var(--text-xs);
+@media (max-width: 560px) {
+  .entry {
+    grid-template-columns: 1fr;
+  }
 }
-
 </style>

@@ -39,6 +39,8 @@ Prose belongs in `src/data`.
 **Done.**
 
 - English and Chinese, persisted, with `<html lang>` and title kept in sync.
+- v6 keys: sidebar status, nav label, skip link, and footer added; the hero kicker,
+  case-dialog, and stack labels removed.
 
 **Not done.**
 

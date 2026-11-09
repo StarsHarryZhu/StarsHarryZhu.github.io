@@ -1,65 +1,36 @@
 <script setup>
-import { useCondense } from '@/composables/useCondense.js'
-
 defineProps({
-  index: { type: String, required: true },
+  /** id of the heading element, referenced by the section's aria-labelledby */
+  id: { type: String, required: true },
   title: { type: String, required: true },
 })
-
-const condense = useCondense({ threshold: 0.1 })
 </script>
 
 <template>
-  <div :ref="condense.observe" class="section-header condense">
-    <div class="sh-row">
-      <span class="sh-index">{{ index }}</span>
-      <h2 class="sh-title">{{ title }}</h2>
-    </div>
-    <div class="sh-line" aria-hidden="true"></div>
-  </div>
+  <h2 :id="id" class="section-header">{{ title }}</h2>
 </template>
 
 <style scoped>
+/* A small caption above each section; on one column it sticks under the
+   viewport top so the reader always knows where they are. */
 .section-header {
-  display: grid;
-  gap: 0.7rem;
-}
-
-.sh-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.9rem;
-}
-
-.sh-index {
+  margin-bottom: 24px;
   font-family: var(--font-mono);
-  font-size: clamp(0.85rem, 2vw, 1.05rem);
-  letter-spacing: var(--tracking-wider);
-  color: var(--accent-cyan);
-  text-shadow: 0 0 18px rgba(79, 235, 221, 0.5);
-  user-select: none;
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-3);
 }
 
-.sh-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(1.6rem, 4vw, 2.3rem);
-  letter-spacing: var(--tracking-tight);
-  line-height: 1.1;
-  color: var(--text-primary);
-}
-
-/* a hairline of light, like the rim of a glass edge */
-.sh-line {
-  height: 1px;
-  border-radius: var(--radius-full);
-  background: linear-gradient(
-    90deg,
-    rgba(79, 235, 221, 0.55) 0%,
-    rgba(148, 104, 255, 0.4) 34%,
-    rgba(255, 255, 255, 0.06) 68%,
-    transparent 100%
-  );
+@media (max-width: 1023px) {
+  .section-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 16px var(--gutter);
+    background: var(--bg);
+  }
 }
 </style>

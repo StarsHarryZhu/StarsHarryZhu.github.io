@@ -1,12 +1,10 @@
 // HarmonyOS Sans (Latin, self-hosted woff2) is declared via @font-face
 // in styles/tokens.css — bundled by Vite, no runtime network request.
-// Fragment Mono remains for technical labels.
+// Fragment Mono sets dates, labels and stacks.
 import '@fontsource/fragment-mono/latin-400.css'
 
 import '@/styles/tokens.css'
 import '@/styles/base.css'
-import '@/styles/glass.css'
-import '@/styles/motion.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'

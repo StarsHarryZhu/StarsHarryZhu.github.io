@@ -1,5 +1,5 @@
 /* ============================================================
- * Base — resets, document defaults, focus, selection, scrollbar.
+ * Base — resets, document defaults, shared text pieces, motion.
  * ============================================================ */
 
 *,
@@ -10,36 +10,39 @@
 
 html {
   color-scheme: dark;
-  /* the dialog locks body scrolling; a stable gutter keeps the page from shifting */
-  scrollbar-gutter: stable;
+  background: var(--bg);
 }
 
-html,
-body,
-#app {
-  min-height: 100%;
-  background-color: var(--void-0);
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
   margin: 0;
-  overflow-x: hidden;
-  overscroll-behavior-y: none;
-  font-family: var(--font-body);
+  background: var(--bg);
+  font-family: var(--font-sans);
   font-size: var(--text-base);
-  line-height: var(--leading-base);
-  color: var(--text-primary);
+  line-height: var(--leading);
+  color: var(--text-2);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-button,
-a {
-  touch-action: manipulation;
+h1, h2, h3, p, ul {
+  margin: 0;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3 {
+  font-weight: 500;
+  color: var(--text);
   text-wrap: pretty;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
 }
 
 img,
@@ -53,35 +56,74 @@ a {
   text-decoration: none;
 }
 
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: inherit;
+}
+
 :focus-visible {
-  outline: 2px solid var(--accent-cyan);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm);
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
 }
 
 ::selection {
-  background: rgba(125, 244, 232, 0.22);
-  color: var(--text-primary);
+  background: rgba(138, 180, 248, 0.28);
+  color: var(--text);
 }
 
-/* ===== Scrollbar ===== */
+/* ===== Shared text pieces ===== */
 
-::-webkit-scrollbar {
-  width: 8px;
+/* small monospace caption: dates, labels, stacks */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-3);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--void-1);
+/* inline link inside prose and link lists */
+.link {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 4px;
+  transition: color var(--dur) var(--ease), text-decoration-color var(--dur) var(--ease);
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: var(--radius-full);
-  border: 2px solid var(--void-1);
+.link:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+/* a dot-separated run of short items (stack, tags, skills) */
+.dot-list {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.6em;
+}
+
+.dot-list > li + li::before {
+  content: '·';
+  margin-right: 0.6em;
+}
+
+/* ===== Load-in: each block rises once, in order (--i) ===== */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.rise {
+  animation: rise 480ms var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
 }
 
 /* ===== Reduced motion: every transition and animation ends at once ===== */
@@ -91,7 +133,17 @@ a {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== Print: black on white, everything static ===== */
+
+@media print {
+  html,
+  body {
+    background: #fff;
+    color: #000;
   }
 }

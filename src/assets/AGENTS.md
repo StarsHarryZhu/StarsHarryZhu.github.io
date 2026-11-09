@@ -2,8 +2,8 @@
 
 ## 1. Role
 
-Binary files the page imports and Vite fingerprints: the self-hosted fonts, the
-avatar images, and the contact icons. Stylesheets live in `src/styles`, not here.
+Binary files the page imports and Vite fingerprints: the self-hosted fonts and the
+avatar images. Stylesheets live in `src/styles`, not here.
 
 ## 2. Constraints
 
@@ -22,15 +22,14 @@ and 2x with a JPEG fallback.
 - `pig.webp` — the avatar at 1x.
 - `pig@2x.webp` — the avatar at 2x.
 - `pig-fallback.jpg` — the avatar for browsers without WebP.
-- `Gmail.png` — the e-mail contact icon.
-- `LinkedIn.svg` — the LinkedIn contact icon.
-- `GitHub_Invertocat_White.svg` — the GitHub contact icon.
 
 ## 4. Progress
 
 **Done.**
 
 - v5 moved the stylesheets out to `src/styles`; only fonts and images remain.
+- v6 replaced the contact icon files with inline SVG in
+  `src/components/ui/ContactIcon.vue`.
 
 **Not done.**
 

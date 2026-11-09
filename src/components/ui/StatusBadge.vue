@@ -10,70 +10,41 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <span v-if="status" class="status-badge" :class="`status-badge--${status}`">
-    <i class="sb-dot" aria-hidden="true"></i>
+  <span v-if="status" class="status" :class="`status--${status}`">
+    <i class="status-dot" aria-hidden="true"></i>
     {{ t(`status.${status}`) }}
   </span>
 </template>
 
 <style scoped>
-.status-badge {
+/* Inside the palette: live work is accent, stopped work is grey;
+   a ring instead of a dot means not finished (in progress / deprecated). */
+.status {
   display: inline-flex;
   align-items: center;
-  gap: 0.42rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--line-2);
-  background: rgba(255, 255, 255, 0.04);
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  letter-spacing: 0.03em;
-  color: var(--text-secondary);
+  gap: 6px;
   white-space: nowrap;
 }
 
-.sb-dot {
+.status-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  flex-shrink: 0;
+  border: 1.5px solid var(--text-3);
+  background: var(--text-3);
 }
 
-/* Published — accent blue, glowing dot */
-.status-badge--published {
-  border-color: rgba(138, 180, 255, 0.4);
-  color: var(--accent-blue);
-  background: rgba(91, 124, 255, 0.1);
+.status--published .status-dot {
+  border-color: var(--accent);
+  background: var(--accent);
 }
 
-.status-badge--published .sb-dot {
-  background: var(--accent-blue);
-  box-shadow: 0 0 8px rgba(138, 180, 255, 0.8);
-}
-
-/* In progress — neutral, filled dot */
-.status-badge--in-progress .sb-dot {
-  background: var(--text-secondary);
-}
-
-/* Paused — dashed border, hollow dot */
-.status-badge--paused {
-  border-style: dashed;
-  color: var(--text-tertiary);
-}
-
-.status-badge--paused .sb-dot {
+.status--in-progress .status-dot {
+  border-color: var(--accent);
   background: transparent;
-  border: 1px solid var(--text-tertiary);
 }
 
-/* Deprecated — muted, solid dot (terminal state) */
-.status-badge--deprecated {
-  color: var(--text-tertiary);
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.status-badge--deprecated .sb-dot {
-  background: var(--text-tertiary);
+.status--deprecated .status-dot {
+  background: transparent;
 }
 </style>

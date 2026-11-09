@@ -2,40 +2,36 @@
 
 ## 1. Role
 
-Reusable component logic that is not itself a component: how elements condense
-into place when they first scroll in, and how the page answers the pointer with
-light and vapour.
+Reusable component logic that is not itself a component. Today that is one piece:
+the scroll spy that tells the sidebar nav which section the reader is in.
 
 ## 2. Constraints
 
 **One concern per file**, named `useX.js`, exporting one function.
 
-**Clean up.** Observers and listeners are created on mount and removed before
-unmount.
+**Clean up.** Listeners are added on mount and removed before unmount, and a
+pending animation frame is cancelled.
 
-**Batch the pointer.** Pointer work runs at most once per animation frame: read
-every rect first, then write custom properties; never read layout after writing.
-
-**Respect the device.** Under `prefers-reduced-motion` elements appear at once and
-the pointer light is off; on touch only presses answer.
+**Read once per frame.** Scroll and resize schedule at most one measurement per
+animation frame; a measurement only reads layout and sets a ref.
 
 ## 3. Contents
 
 - `AGENTS.md` — this file: what belongs among the composables.
-- `useCondense.js` — IntersectionObserver that adds `.is-condensed` once per element
-  and, with `vapor: true`, asks the gas layer to gather around it.
-- `usePointerLight.js` — mounted once by the page: pointer light inside glass
-  panels, halo pull within 160 px, the gas trail, and press puffs.
+- `useScrollSpy.js` — the current section from a reading line 35% down the
+  viewport, the last section at the page end, and a hold after a nav click that
+  the reader's next scroll input releases.
 
 ## 4. Progress
 
 **Done.**
 
-- Condense with vapour; pointer light, halo pull, trail, and press feedback.
+- v6 scroll spy; the condense observer and the pointer light were removed with
+  the v5 design.
 
 **Not done.**
 
-- Panels mounted after the page (none today) are not picked up by the pointer light.
+- Nothing pending.
 
 **Known defects.**
 

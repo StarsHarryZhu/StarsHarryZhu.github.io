@@ -2,41 +2,36 @@
 
 ## 1. Role
 
-The frame of the page: everything that stays fixed while the content scrolls. From
-back to front: the still deep-space sky, the gas canvas, and the floating top-bar
-capsule; the footer closes the content.
+The frame of the page: the sidebar that introduces Harry and carries the section
+nav, the language switch inside it, and the footer that closes the content column.
 
 ## 2. Constraints
 
-**The sky is still.** Only six tiny stars change opacity. No large layer animates
-on its own: motion on this page answers the reader through the gas layer.
+**The sidebar is sticky only on wide screens** (1024 px and up), where it fills
+the viewport height: identity at the top, contacts and language at the bottom.
+Below that it is the static head of the single column and the nav is hidden.
 
-**Stacking order** comes from the `--z-*` tokens: sky, gas, page, top bar, then the
-dialog's scrim, raised gas, and dialog. Do not hard-code z-index values.
+**The nav is anchors plus a scroll spy.** Links are plain `#id` anchors; the
+current section comes from `useScrollSpy` in `HomeView.vue` and is marked with
+`aria-current` and the accent. A click emits `navigate` so the view can hold the
+target as current while the smooth scroll runs. The line and label move with
+`transform` only.
 
-**The top bar is information, not navigation**: brand (scrolls to top), status
-(hidden below 700 px), language switch. It is a `.lens-glass` capsule with edge
-refraction in Chromium.
-
-**The gas canvas** renders only when the layer can run; it mounts the engine after
-first paint and removes itself when the engine reports no support.
+**The language switch is two text buttons** with `aria-pressed`; it calls
+`setLocale` and does nothing else.
 
 ## 3. Contents
 
-- `AGENTS.md` — this file: what stays on screen and in what order.
-- `Sky.vue` — the fixed deep-space ground with the nebula, stars, and grain.
-- `GasLayer.vue` — the gas canvas; mounts the engine when idle, raised by the dialog.
-- `TopBar.vue` — the floating lens-glass capsule: brand, status, language switch.
-- `LanguageToggle.vue` — EN / Chinese with a sliding glass droplet; switching
-  releases a puff of vapour.
-- `Footer.vue` — the closing brand line.
+- `AGENTS.md` — this file: the frame of the page and its rules.
+- `Sidebar.vue` — avatar, name, role, status, section nav, contact icons, language.
+- `LanguageToggle.vue` — English and Chinese as two text buttons.
+- `Footer.vue` — the closing line: year, name, and how the site is built.
 
 ## 4. Progress
 
 **Done.**
 
-- Capsule top bar with real blur and refraction; still sky; gas canvas behind the
-  glass.
+- v6 sidebar and footer; the top bar, the sky, and the gas canvas were removed.
 
 **Not done.**
 

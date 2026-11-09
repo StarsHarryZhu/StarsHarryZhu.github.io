@@ -1,16 +1,15 @@
 import avatarImage from '@/assets/pig.webp'
 import avatarImage2x from '@/assets/pig@2x.webp'
 import avatarImageFallback from '@/assets/pig-fallback.jpg'
-import gmailIcon from '@/assets/Gmail.png'
-import githubIconWhite from '@/assets/GitHub_Invertocat_White.svg'
-import linkedinIcon from '@/assets/LinkedIn.svg'
 
 /**
  * Profile, contacts and education (bilingual).
  *
  * Prose fields are `{ en, zh }` objects; organization names and handles
- * stay language-neutral. Projects / experience / skills live in their own
- * modules: projects.js, experience.js, skills.js.
+ * stay language-neutral. A contact's `key` picks its icon in
+ * components/ui/ContactIcon.vue; `handle` is the visible address.
+ * Projects / experience / skills live in their own modules: projects.js,
+ * experience.js, skills.js.
  */
 
 export const profile = {
@@ -26,16 +25,8 @@ export const profile = {
   },
   bios: [
     {
-      en: 'Computer Science student at Stony Brook University, building practical computer-vision and robotics systems.',
-      zh: 'Stony Brook University 计算机科学在读，专注可落地的计算机视觉与机器人系统。',
-    },
-    {
-      en: 'In summer 2026, built a vision-guided robotic-grasping demo with YOLO, TensorRT and Intel RealSense.',
-      zh: '2026 年夏天完成视觉引导机器人抓取演示：YOLO 检测、TensorRT 加速与 Intel RealSense 深度感知。',
-    },
-    {
-      en: 'Now building agent tooling for DeepSeek Harness — an assistant that delegates to confined worker agents, and interactive answer cards.',
-      zh: '目前在开发 DeepSeek Harness 的 agent 工具：把活交给受限 worker 子 agent 的助理，以及可交互的回答卡片。',
+      en: 'An interesting person',
+      zh: '一个有趣的人',
     },
   ],
   focus: [
@@ -43,10 +34,6 @@ export const profile = {
     { en: 'Robotics & Control', zh: '机器人与控制' },
     { en: 'Agent Tooling', zh: 'Agent 工具链' },
   ],
-  note: {
-    en: 'Currently shipping DeepSeek Harness plugins — the assistant and its two sub-plugins are on npm, each with its own test suite — after a summer on vision-guided robotic grasping.',
-    zh: '当前在发布 DeepSeek Harness 插件 —— 助理和它的两个子插件已上架 npm，各有独立的测试套件；此前一个夏天在做视觉引导的机器人抓取。',
-  },
 }
 
 export const contacts = [
@@ -54,21 +41,21 @@ export const contacts = [
     key: 'email',
     external: false,
     name: { en: 'Email', zh: '邮箱' },
-    icon: gmailIcon,
+    handle: 'starfield.zhu@gmail.com',
     url: 'mailto:starfield.zhu@gmail.com',
   },
   {
     key: 'linkedin',
     external: true,
     name: { en: 'LinkedIn', zh: 'LinkedIn' },
-    icon: linkedinIcon,
+    handle: 'in/huanyi-zhu-518703385',
     url: 'https://www.linkedin.com/in/huanyi-zhu-518703385/',
   },
   {
     key: 'github',
     external: true,
     name: { en: 'GitHub', zh: 'GitHub' },
-    icon: githubIconWhite,
+    handle: 'github.com/StarsHarryZhu',
     url: 'https://github.com/StarsHarryZhu',
   },
 ]

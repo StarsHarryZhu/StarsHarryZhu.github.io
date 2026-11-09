@@ -10,7 +10,7 @@ export const messages = {
   en: {
     'meta.title': 'starfield — Harry Zhu',
 
-    // Section titles
+    // Section titles (also the sidebar nav)
     'section.about': 'About',
     'section.experience': 'Experience',
     'section.projects': 'Projects',
@@ -18,21 +18,17 @@ export const messages = {
     'section.education': 'Education',
     'section.contact': 'Contact',
 
-    // Top bar
-    'topbar.status': 'Open to internships',
-
-    // Hero
-    'hero.kicker': 'Portfolio · 2026',
+    // Sidebar
+    'profile.status': 'Open to internships',
+    'nav.label': 'On this page',
+    'nav.skip': 'Skip to content',
 
     // About
     'about.focus': 'Focus',
 
     // Projects
-    'projects.featured': 'Featured work',
-    'projects.more': 'More work',
-    'projects.caseStudy': 'Case study',
-    'projects.close': 'Close',
-    'projects.stack': 'Stack',
+    'projects.featured': 'Selected',
+    'projects.more': 'More',
     'projects.highlights': 'Highlights',
     'projects.note': 'Note',
     'projects.install': 'Install',
@@ -45,8 +41,11 @@ export const messages = {
     'status.deprecated': 'Deprecated',
 
     // Contact
-    'contact.title': 'Get in Touch',
+    'contact.title': 'Get in touch',
     'contact.subtitle': 'Open to internships & collaborations',
+
+    // Footer
+    'footer.built': 'Built with Vue + Vite',
 
     // Language toggle
     'lang.label': 'Language',
@@ -55,7 +54,7 @@ export const messages = {
   zh: {
     'meta.title': 'starfield — Harry Zhu',
 
-    // Section titles
+    // Section titles (also the sidebar nav)
     'section.about': '关于',
     'section.experience': '经历',
     'section.projects': '项目',
@@ -63,21 +62,17 @@ export const messages = {
     'section.education': '教育',
     'section.contact': '联系',
 
-    // Top bar
-    'topbar.status': '开放实习机会',
-
-    // Hero
-    'hero.kicker': '作品集 · 2026',
+    // Sidebar
+    'profile.status': '开放实习机会',
+    'nav.label': '页面导航',
+    'nav.skip': '跳到正文',
 
     // About
     'about.focus': '关注方向',
 
     // Projects
-    'projects.featured': '重点作品',
-    'projects.more': '其他作品',
-    'projects.caseStudy': '案例详情',
-    'projects.close': '关闭',
-    'projects.stack': '技术栈',
+    'projects.featured': '精选',
+    'projects.more': '更多',
     'projects.highlights': '亮点',
     'projects.note': '说明',
     'projects.install': '安装',
@@ -90,8 +85,11 @@ export const messages = {
     'status.deprecated': '已弃用',
 
     // Contact
-    'contact.title': '联系方式',
+    'contact.title': '联系我',
     'contact.subtitle': '欢迎实习与合作机会',
+
+    // Footer
+    'footer.built': '用 Vue + Vite 构建',
 
     // Language toggle
     'lang.label': '语言',

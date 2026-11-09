@@ -2,50 +2,44 @@
 
 ## 1. Role
 
-The content of the page, in reading order: the hero, then 01 About, 02 Experience,
-03 Projects, 04 Toolkit, 05 Education, and 06 Contact. Projects owns its cards and
-the case-study dialog that a card opens.
+The content column of the page, in reading order: About, Experience, Projects,
+Toolkit, Education, and Contact. Projects owns its rows and the details each row
+opens in place.
 
 ## 2. Constraints
 
-**Layout and content are fixed.** The order, the two project tiers (featured wide
-cards, then a two-column grid), and the fields shown come from `src/data`; a visual
-change must not move or drop content.
+**Each section is a `<section>`** whose `id` matches its nav entry and whose
+`aria-labelledby` points at its `SectionHeader`. The ids are listed once, in
+`HomeView.vue`.
 
-**Panels are `.glass` and condense with vapour** (`useCondense({ vapor: true })`).
-Hero elements condense with `.condense--vapor`, and only the title calls the gas.
+**Dates sit in a left column** of the same width in Experience, Toolkit, and
+Education, and stack above the text below 560 px.
 
-**The case dialog** keeps `role="dialog"` and `aria-modal`, is titled with the
-project name, takes focus on its container (the focus ring appears only when Tab
-reaches the close button), returns focus to the button that opened it, locks page
-scrolling while open, and closes with its button, Escape, or a click outside. It
-has no hover effect. It is built from two fixed siblings, a scrim and a layer, so
-the gas can rise between them; it condenses out of vapour on open and evaporates
-along the closing gesture.
-
-**Opening a case never changes the card's height.**
+**A project row is a disclosure.** The whole summary (name, period, tagline,
+status, stack) is one button with `aria-expanded` and `aria-controls`; the details
+are a `region` labelled by that button and `inert` while closed. Rows open
+independently. Opening grows the row through `grid-template-rows` from `0fr` to
+`1fr`; the plus turns into a cross with one rotation. `featured` sorts a project
+into Selected, otherwise More, keeping array order.
 
 ## 3. Contents
 
 - `AGENTS.md` — this file: what the sections are and what they must keep.
-- `Hero.vue` — introduction: kicker, avatar ring, title, role, bio, focus, byline.
-- `About.vue` — 01: bios, social links, focus areas, note.
-- `Experience.vue` — 02: the timeline.
-- `Projects.vue` — 03: featured and other projects, and the dialog state.
-- `ProjectCard.vue` — one project card with its case-study button.
-- `ProjectCaseModal.vue` — the case-study dialog: lens glass, focus, scroll lock, vapour.
-- `ProjectDetails.vue` — the dialog body: stack, highlights, note, install, links.
-- `Toolkit.vue` — 04: skill groups; chips rise in once the panel condenses.
-- `Education.vue` — 05: education entries.
-- `Contact.vue` — 06: contact links.
+- `About.vue` — the one-line bio and the focus areas.
+- `Experience.vue` — the roles: period, title, organisation, points, tags.
+- `Projects.vue` — the Selected and More groups of project rows.
+- `ProjectRow.vue` — one project: the summary button and its in-place details.
+- `ProjectDetails.vue` — highlights, note, install command, and links.
+- `Toolkit.vue` — skill groups, one line each.
+- `Education.vue` — education entries.
+- `Contact.vue` — the closing invitation and one line per contact channel.
 
 ## 4. Progress
 
 **Done.**
 
-- Ten projects (three featured), three experience entries, twenty skills.
-- Dialog checks pass: height, roles, title, focus in and out, scroll lock, all three
-  ways to close, and gas raised and lowered.
+- v6: ten projects (three Selected), three experience entries, twenty skills;
+  rows open with mouse, Enter, and Space, and closed details take no focus.
 
 **Not done.**
 

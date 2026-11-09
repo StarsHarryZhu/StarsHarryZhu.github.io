@@ -8,14 +8,17 @@ that introduces Harry and his work as a Computer Science student at Stony Brook
 University: who he is, his experience, his projects, his skills, his education, and
 how to reach him. Every visible string exists in English and Chinese.
 
-The page is read top to bottom: a hero, then six numbered sections (01 About,
-02 Experience, 03 Projects, 04 Toolkit next to 05 Education, 06 Contact), then a
-footer. Projects come in two tiers: featured work as wide cards and the rest in a
-two-column grid. Each card opens its case study in a floating dialog.
+On a wide screen the page is two columns: a fixed sidebar with Harry's name, a
+one-line introduction, a section nav that follows the reader, his contact links,
+and the language switch; and a scrolling column with six sections (About,
+Experience, Projects, Toolkit, Education, Contact) and a footer. On a narrow screen
+the sidebar becomes the head of a single column and the nav is dropped. Projects
+come in two groups, Selected and More; each project is one row that opens its
+details in place.
 
-The visual language is a deep-space nebula with liquid-glass panels and gaseous
-motion, after the "immersive light" design of HarmonyOS: light and vapour answer
-the reader's actions and the page is quiet when nobody acts.
+The visual language is minimal and dark: a near-black ground, three greys for
+text, and one cool accent for links and the current nav item. Depth comes from
+space, hairlines, weight, and brightness alone.
 
 ## 2. Constraints
 
@@ -31,20 +34,18 @@ prose lives in `src/data/` as `{ en, zh }` objects. Every new string is added in
 both languages. Proper nouns (institutions, project names, technologies, link
 labels) stay language-neutral.
 
-**Performance is a hard requirement.** The page must hold about 60 fps while
-scrolling on a 1440 px display at 1x and a 2560 px display at 2x. Animate only
-`transform` and `opacity`. Never animate `scale` on a large layer, never animate a
-full-screen layer, and never put `will-change` on a large static layer. The panels
-that scroll with the page never use `backdrop-filter`. No continuous `filter: blur`.
-At most one canvas: the event-driven gas layer, which must sleep when idle. Each of
-these rules was measured; see the Progress section of `src/AGENTS.md` before
-relaxing one.
+**Minimal by rule.** No shadows, gradients, blur, glass, `backdrop-filter`, or
+canvas. One accent colour, used only for links, the current nav item, and live
+status. Every text colour keeps a contrast of at least 4.5:1 on the background.
 
-**Interaction budget.** The page has four functional interactions and no more:
-scroll-in reveals, the case-study dialog, the language switch in the top bar, and
-outbound links. The top bar carries information, not navigation: no anchor links,
-no hero buttons. Pointer-driven light and vapour are visual feedback, not new
-functions.
+**Quiet motion.** Motion is limited to a one-time load-in, hover colour, the
+nav line, and a project row opening and closing; it animates `transform` and
+`opacity`, except the row's height (`grid-template-rows`). Under
+`prefers-reduced-motion` everything ends at once and scrolling is not smoothed.
+Scrolling holds about 60 fps at 1440 px 1x and 2560 px 2x.
+
+**Interaction budget.** Four functional interactions and no more: the section
+nav, opening a project row, the language switch, and outbound links.
 
 **No dead code.** No unused design token, i18n key, or CSS class survives a change.
 
@@ -85,22 +86,20 @@ bilingual entry to `src/data/projects.js` in the same change; keep both in sync.
 
 **Done.**
 
-- One-page bilingual portfolio with six sections, two project tiers (ten
-  projects), and a case-study dialog with full keyboard and focus handling.
-- v5 visual system (2026-10-19): liquid glass (refractive rims, chromatic edges,
-  pointer light, halo pull; real lens glass with Chromium edge refraction on the
-  top bar and the dialog) and gaseous motion (vapour that condenses around panels
-  and evaporates with light particles when the dialog closes, a pointer trail,
-  press puffs). Layout and content unchanged.
-- Measured at 60 fps steady while scrolling, with and without pointer movement, at
-  1440 px 1x and 2560 px 2x; zero GPU work when idle.
+- One-page bilingual portfolio with six sections and ten projects in two groups,
+  each opening its details in place with full keyboard support.
+- v6 (2026-11-09): minimal dark redesign. A sticky sidebar with a scroll-following
+  section nav replaces the top bar and hero; project rows replace cards and the
+  case dialog; the WebGL gas layer, the liquid glass, and the pointer light are
+  gone.
+- v5 (2026-10-19, superseded): liquid glass and an event-driven WebGL2 gas layer.
 - Workspace format in place: every folder documents itself; `npm run check:agents`.
 - Automatic deployment to GitHub Pages from `main`.
 
 **Not done.**
 
 - `npm run check:agents` does not run in the deployment workflow.
-- No light theme.
+- Dark only; no light theme.
 
 **Known defects.**
 
