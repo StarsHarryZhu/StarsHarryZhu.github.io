@@ -25,7 +25,7 @@ target as current while the smooth scroll runs. The line and label move with
 - `AGENTS.md` — this file: the frame of the page and its rules.
 - `Sidebar.vue` — avatar, name, role, status, section nav, contact icons, language.
 - `LanguageToggle.vue` — English and Chinese as two text buttons.
-- `Footer.vue` — the closing line: year, name, and how the site is built.
+- `Footer.vue` — the closing line, the single word Starfield.
 
 ## 4. Progress
 

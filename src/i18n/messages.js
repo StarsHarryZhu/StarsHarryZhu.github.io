@@ -44,9 +44,6 @@ export const messages = {
     'contact.title': 'Get in touch',
     'contact.subtitle': 'Open to internships & collaborations',
 
-    // Footer
-    'footer.built': 'Built with Vue + Vite',
-
     // Language toggle
     'lang.label': 'Language',
   },
@@ -87,9 +84,6 @@ export const messages = {
     // Contact
     'contact.title': '联系我',
     'contact.subtitle': '欢迎实习与合作机会',
-
-    // Footer
-    'footer.built': '用 Vue + Vite 构建',
 
     // Language toggle
     'lang.label': '语言',
