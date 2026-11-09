@@ -1,11 +1,11 @@
 {
   "name": "starfield — Harry Zhu",
   "short_name": "starfield",
-  "description": "Harry Zhu — personal portfolio. Interests in games, systems, and SOC hardwares.",
+  "description": "Harry Zhu — Computer Science student at Stony Brook University building computer vision, robotics, and LLM agent tooling.",
   "start_url": "./",
   "display": "standalone",
-  "theme_color": "#03050C",
-  "background_color": "#03050C",
+  "theme_color": "#0B0C0E",
+  "background_color": "#0B0C0E",
   "icons": [
     {
       "src": "./icon-192.png",
