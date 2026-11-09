@@ -85,7 +85,7 @@ bilingual entry to `src/data/projects.js` in the same change; keep both in sync.
 
 **Done.**
 
-- One-page bilingual portfolio with six sections, two project tiers (eight
+- One-page bilingual portfolio with six sections, two project tiers (ten
   projects), and a case-study dialog with full keyboard and focus handling.
 - v5 visual system (2026-10-19): liquid glass (refractive rims, chromatic edges,
   pointer light, halo pull; real lens glass with Chromium edge refraction on the

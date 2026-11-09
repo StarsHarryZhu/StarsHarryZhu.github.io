@@ -111,7 +111,7 @@ watch(locale, () => {
 
 .sections > *:nth-child(1) { contain-intrinsic-block-size: auto 422px; }
 .sections > *:nth-child(2) { contain-intrinsic-block-size: auto 774px; }
-.sections > *:nth-child(3) { contain-intrinsic-block-size: auto 1776px; }
+.sections > *:nth-child(3) { contain-intrinsic-block-size: auto 2447px; }
 .sections > *:nth-child(4) { contain-intrinsic-block-size: auto 448px; }
 .sections > *:nth-child(5) { contain-intrinsic-block-size: auto 282px; }
 .sections > *:nth-child(6) { contain-intrinsic-block-size: auto 117px; }

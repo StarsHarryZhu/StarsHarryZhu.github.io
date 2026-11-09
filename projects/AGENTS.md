@@ -35,22 +35,27 @@ its documentation, or Harry. No guessed dates or numbers.
 - `AGENTS.md` — this file: what an intro note is and how it stays in sync.
 - `any_intro.md` — ANY, a terminal multi-turn LLM REPL behind one protocol seam.
 - `browser-use_intro.md` — browser-use, a DeepSeek Harness browser-automation plugin (paused).
+- `digit-ocr_intro.md` — Digit OCR, an MLP and a CNN written from scratch in C++17.
+- `dsh-assistant_intro.md` — dsh-assistant, a parent-and-worker agent with two sub-plugins.
+- `dsh-btw_intro.md` — dsh-btw, side questions in a DeepSeek Harness chat.
 - `dsh-intelligent-ui_intro.md` — dsh-intelligent-ui, interactive answer cards for DeepSeek Harness.
+- `personal-website_intro.md` — this portfolio site.
 - `simple-dock_intro.md` — simple-dock, a DeepSeek Harness composer stats dock (deprecated).
 
 ## 4. Progress
 
 **Done.**
 
-- Notes for the four projects added since the convention began, each matched by an
-  entry in `src/data/projects.js`.
+- Notes for eight of the ten projects, each matched by an entry in
+  `src/data/projects.js`. Test counts in the notes are what each suite reports at
+  its tagged version.
 
 **Not done.**
 
-- Digit OCR, Echoes, Personal Website, and VEX Control Libs predate the convention
-  and have no note here; their case studies rest on their repositories and the
-  resume. Add a note when one of them next changes.
+- Echoes and VEX Control Libs predate the convention and have no note here; their
+  case studies rest on the resume. Add a note when one of them next changes.
 
 **Known defects.**
 
-- None known.
+- Digit OCR's period on the site (Nov–Dec 2025) disagrees with its git history
+  (commits from 2026-04-30 to 2026-05-05); waiting for Harry to confirm the source.

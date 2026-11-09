@@ -31,7 +31,7 @@ highlights agree in both places.
 - `AGENTS.md` — this file: where content lives and the rules it follows.
 - `site-data.js` — the profile (title, subtitle, bios, focus, note, meta), the
   contacts with their icons, education, and the avatar image set.
-- `projects.js` — the eight project case studies; `featured: true` marks the wide
+- `projects.js` — the ten project case studies; `featured: true` marks the wide
   cards of the first tier.
 - `experience.js` — the three timeline entries of the Experience section.
 - `skills.js` — the four skill groups of the Toolkit section.
@@ -40,9 +40,13 @@ highlights agree in both places.
 
 **Done.**
 
-- All prose is bilingual; projects are split into two tiers (Digit OCR and ANY
-  featured; six more in the grid, simple-dock marked deprecated).
-- dsh-intelligent-ui added with its intro note; TypeScript added to the languages.
+- All prose is bilingual; projects are split into two tiers (dsh-assistant,
+  dsh-intelligent-ui and ANY featured; seven more in the grid, simple-dock marked
+  deprecated).
+- 2026-11-08 refresh from the GitHub repositories: dsh-assistant (with its
+  complete-subagent and im-robot sub-plugins) and dsh-btw added; dsh-intelligent-ui
+  brought to v0.1.7; Digit OCR, the Personal Website card, and the profile bios
+  rewritten from their sources. Test counts are what each suite reports at its tag.
 
 **Not done.**
 

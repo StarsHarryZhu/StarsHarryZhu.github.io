@@ -29,8 +29,8 @@ stay under 150 px.
 
 **Done.**
 
-- Placeholder heights re-measured at 1440 px for eight projects (422, 774, 1776,
-  448, 282, 117); a full scroll changes the page height by about 100 px.
+- Placeholder heights re-measured at 1440 px for ten projects (422, 774, 2447,
+  448, 282, 117) on 2026-11-08.
 
 **Not done.**
 

@@ -43,7 +43,7 @@ along the closing gesture.
 
 **Done.**
 
-- Eight projects (two featured), three experience entries, twenty skills.
+- Ten projects (three featured), three experience entries, twenty skills.
 - Dialog checks pass: height, roles, title, focus in and out, scroll lock, all three
   ways to close, and gas raised and lowered.
 

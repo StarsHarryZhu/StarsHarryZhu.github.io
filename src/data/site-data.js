@@ -30,12 +30,12 @@ export const profile = {
       zh: 'Stony Brook University 计算机科学在读，专注可落地的计算机视觉与机器人系统。',
     },
     {
-      en: 'Recently deployed a vision-guided robotic-grasping pipeline with YOLO, TensorRT and Intel RealSense.',
-      zh: '近期完成视觉引导机器人抓取链路：YOLO 检测、TensorRT 加速与 Intel RealSense 深度感知。',
+      en: 'In summer 2026, built a vision-guided robotic-grasping demo with YOLO, TensorRT and Intel RealSense.',
+      zh: '2026 年夏天完成视觉引导机器人抓取演示：YOLO 检测、TensorRT 加速与 Intel RealSense 深度感知。',
     },
     {
-      en: 'Now building DeepSeek Harness plugins — agent browser automation and a composer stats dock.',
-      zh: '目前在开发 DeepSeek Harness 插件：agent 浏览器自动化与输入框统计坞。',
+      en: 'Now building agent tooling for DeepSeek Harness — an assistant that delegates to confined worker agents, and interactive answer cards.',
+      zh: '目前在开发 DeepSeek Harness 的 agent 工具：把活交给受限 worker 子 agent 的助理，以及可交互的回答卡片。',
     },
   ],
   focus: [
@@ -44,8 +44,8 @@ export const profile = {
     { en: 'Agent Tooling', zh: 'Agent 工具链' },
   ],
   note: {
-    en: 'Currently shipping DeepSeek Harness plugins and vision-guided robotic systems — from YOLO detection to TensorRT-accelerated control loops.',
-    zh: '当前在做 DeepSeek Harness 插件与视觉引导机器人系统 —— 从 YOLO 检测到 TensorRT 加速的实时控制回路。',
+    en: 'Currently shipping DeepSeek Harness plugins — the assistant and its two sub-plugins are on npm, each with its own test suite — after a summer on vision-guided robotic grasping.',
+    zh: '当前在发布 DeepSeek Harness 插件 —— 助理和它的两个子插件已上架 npm，各有独立的测试套件；此前一个夏天在做视觉引导的机器人抓取。',
   },
 }
 
