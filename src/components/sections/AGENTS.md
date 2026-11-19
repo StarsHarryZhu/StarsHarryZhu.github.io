@@ -38,7 +38,7 @@ into Selected, otherwise More, keeping array order.
 
 **Done.**
 
-- v6: ten projects (three Selected), three experience entries, twenty skills;
+- v6: eleven projects (three Selected), three experience entries, twenty skills;
   rows open with mouse, Enter, and Space, and closed details take no focus.
 
 **Not done.**

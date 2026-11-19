@@ -35,7 +35,7 @@ highlights agree in both places.
 - `AGENTS.md` — this file: where content lives and the rules it follows.
 - `site-data.js` — the profile (title, subtitle, bios, focus, meta), the
   contacts with their visible handles, education, and the avatar image set.
-- `projects.js` — the ten project case studies; `featured: true` puts a project in
+- `projects.js` — the eleven project case studies; `featured: true` puts a project in
   the Selected group.
 - `experience.js` — the three timeline entries of the Experience section.
 - `skills.js` — the four skill groups of the Toolkit section.
@@ -45,7 +45,9 @@ highlights agree in both places.
 **Done.**
 
 - All prose is bilingual; projects are split into two groups (dsh-assistant,
-  dsh-intelligent-ui and ANY Selected; seven more, simple-dock marked deprecated).
+  dsh-intelligent-ui and ANY Selected; eight more, simple-dock marked deprecated).
+- 2026-11-19: Assembly Simulator added (in progress, v0.1.3) at the head of the
+  More group, from its repository at the tag.
 - 2026-11-09: the Personal Website entry describes the v6 design; contacts carry a
   `handle` instead of an icon import.
 - 2026-11-08 refresh from the GitHub repositories: dsh-assistant (with its

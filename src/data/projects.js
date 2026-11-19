@@ -136,6 +136,46 @@ export const projects = [
   },
 
   {
+    id: 'assembly-simulator',
+    name: 'Assembly Simulator',
+    featured: false,
+    status: 'in-progress',
+    period: { en: 'Nov 2026 — Present', zh: '2026.11 — 至今' },
+    tagline: {
+      en: 'A MIPS assembly IDE for teaching that runs in the browser: write, assemble and step through programs on an engine written from scratch to match MARS 4.5, shipped as one HTML file that also works offline.',
+      zh: '浏览器里的 MIPS 汇编教学 IDE：在自己写的引擎上编写、汇编、单步运行程序，行为对齐 MARS 4.5；构建结果是一个 HTML 文件，离线双击也能用。',
+    },
+    stack: ['TypeScript', 'Vue 3', 'Vite', 'CodeMirror 6', 'Vitest', 'GitHub Actions'],
+    highlights: [
+      {
+        en: 'All 155 basic MARS 4.5 instructions and every pseudo-instruction form, expanded as MARS expands them, plus its directives, all 39 syscalls, exceptions with kernel handlers, and its default memory layout; no MARS code ships in the page.',
+        zh: '覆盖 MARS 4.5 的全部 155 条基本指令和每一种伪指令写法（展开方式与 MARS 相同），以及它的汇编指示、全部 39 个 syscall、异常与内核处理程序和默认内存布局；网页里不含任何 MARS 代码。',
+      },
+      {
+        en: 'Checked against MARS itself: 46 golden results recorded from MARS (machine code, data, output, final registers, errors) and differential runs over about 50k instruction lines and 2,000 random programs. The engine runs about 5 million instructions per second.',
+        zh: '拿 MARS 本身做验收：46 份由 MARS 生成的标准答案（机器码、数据段、输出、最终寄存器、报错），外加约 5 万行指令和 2000 个随机程序的差分测试。引擎每秒约执行 500 万条指令。',
+      },
+      {
+        en: 'Edit and run with no separate assemble step: VS Code-style suggestions and ⌘/Ctrl-click to definitions; step by source line or by real instruction, run in slices of about 12 ms that keep the page responsive, and undo up to 2,000 steps. Registers colour by read and write.',
+        zh: '编辑运行无需单独汇编：仿 VS Code 的自动补全，⌘/Ctrl 点击跳到定义；可按源码行或按真指令单步，运行按约 12 毫秒一段执行、页面不卡，最多撤销 2000 步。寄存器按读写着色。',
+      },
+      {
+        en: 'An instruction-set tab and a disassembler draw each machine word as labelled bit fields; the interface is in Chinese and English, with light and dark themes.',
+        zh: '指令集栏目和反汇编器把每个机器字画成带标注的位域；界面中英双语，可切换浅色和深色主题。',
+      },
+    ],
+    note: {
+      en: 'Started 2026-11-18 and still in progress. v0.1.3 (tagged 2026-11-19), MIT licensed, 11 test files with 174 cases. ARM64 and x86-64 sit behind the same plugin interface but are not implemented yet.',
+      zh: '2026-11-18 开始，仍在进行中。v0.1.3（2026-11-19 打 tag），MIT 许可，11 个测试文件 / 174 个用例。ARM64 与 x86-64 已在同一个插件接口后留好位置，但尚未实现。',
+    },
+    links: [
+      { label: 'GitHub Pages', url: 'https://starsharryzhu.github.io/assembly_simulator/' },
+      { label: 'GitHub', url: 'https://github.com/StarsHarryZhu/assembly_simulator' },
+    ],
+    install: null,
+  },
+
+  {
     id: 'digit-ocr',
     name: 'Digit OCR',
     featured: false,

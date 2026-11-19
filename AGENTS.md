@@ -86,7 +86,7 @@ bilingual entry to `src/data/projects.js` in the same change; keep both in sync.
 
 **Done.**
 
-- One-page bilingual portfolio with six sections and ten projects in two groups,
+- One-page bilingual portfolio with six sections and eleven projects in two groups,
   each opening its details in place with full keyboard support.
 - v6 (2026-11-09): minimal dark redesign. A sticky sidebar with a scroll-following
   section nav replaces the top bar and hero; project rows replace cards and the

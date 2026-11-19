@@ -34,6 +34,7 @@ its documentation, or Harry. No guessed dates or numbers.
 
 - `AGENTS.md` — this file: what an intro note is and how it stays in sync.
 - `any_intro.md` — ANY, a terminal multi-turn LLM REPL behind one protocol seam.
+- `assembly-simulator_intro.md` — Assembly Simulator, a browser MIPS IDE matched to MARS 4.5.
 - `browser-use_intro.md` — browser-use, a DeepSeek Harness browser-automation plugin (paused).
 - `digit-ocr_intro.md` — Digit OCR, an MLP and a CNN written from scratch in C++17.
 - `dsh-assistant_intro.md` — dsh-assistant, a parent-and-worker agent with two sub-plugins.
@@ -46,7 +47,7 @@ its documentation, or Harry. No guessed dates or numbers.
 
 **Done.**
 
-- Notes for eight of the ten projects, each matched by an entry in
+- Notes for nine of the eleven projects, each matched by an entry in
   `src/data/projects.js`. Test counts in the notes are what each suite reports at
   its tagged version.
 
